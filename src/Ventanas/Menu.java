@@ -12,7 +12,7 @@ package Ventanas;
 public class Menu extends javax.swing.JFrame {
 
     /**
-     * Creates new form Menuu
+     * Creates new form Menu
      */
     public Menu() {
         initComponents();
@@ -28,72 +28,117 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblTitulo = new javax.swing.JLabel();
-        btnAdmin = new javax.swing.JButton();
-        btnEmpleado = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        mniCliente = new javax.swing.JMenuItem();
+        mniEmpleado = new javax.swing.JMenuItem();
+        mniReserva = new javax.swing.JMenuItem();
+        mniPuesto = new javax.swing.JMenuItem();
+        mniServicio = new javax.swing.JMenuItem();
+        mniVehiculo = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblTitulo.setFont(new java.awt.Font("Monospaced", 1, 28)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitulo.setText("PARQUEADERO ISTA");
-        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoMenu.jpg"))); // NOI18N
 
-        btnAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/user_admin_gear.png"))); // NOI18N
-        btnAdmin.setText("Administrador");
-        btnAdmin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdminActionPerformed(evt);
+        jMenuBar1.setBackground(new java.awt.Color(204, 255, 0));
+
+        jMenu1.setText("Menú");
+
+        mniCliente.setText("Cliente");
+        mniCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mniClienteMouseClicked(evt);
             }
         });
-        getContentPane().add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 180, 60));
-
-        btnEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/profile.png"))); // NOI18N
-        btnEmpleado.setText("Empleado");
-        btnEmpleado.addActionListener(new java.awt.event.ActionListener() {
+        mniCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEmpleadoActionPerformed(evt);
+                mniClienteActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 180, 60));
+        jMenu1.add(mniCliente);
 
-        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit_1.png"))); // NOI18N
-        btnSalir.setText("Salir           ");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+        mniEmpleado.setText("Empleado");
+        mniEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
+                mniEmpleadoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, 180, 60));
+        jMenu1.add(mniEmpleado);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/10.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 290, -1));
+        mniReserva.setText("Reserva");
+        jMenu1.add(mniReserva);
+
+        mniPuesto.setText("Puesto");
+        jMenu1.add(mniPuesto);
+
+        mniServicio.setText("Uso de Servicio");
+        jMenu1.add(mniServicio);
+
+        mniVehiculo.setText("Vehículo");
+        mniVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniVehiculoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mniVehiculo);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Salir");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-        // TODO add your handling code here:
-        Login_A la = new Login_A();
-        la.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnAdminActionPerformed
-
-    private void btnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoActionPerformed
-        // TODO add your handling code here:
-        Login_E le = new Login_E();
-        le.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnEmpleadoActionPerformed
-
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
+    }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void mniClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniClienteMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_mniClienteMouseClicked
+
+    private void mniEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEmpleadoActionPerformed
+        // TODO add your handling code here:
+        REmpleado re = new REmpleado();
+        re.setVisible(true);
+    }//GEN-LAST:event_mniEmpleadoActionPerformed
+
+    private void mniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClienteActionPerformed
+        // TODO add your handling code here:
+        RCliente rc = new RCliente();
+        rc.setVisible(true);
+    }//GEN-LAST:event_mniClienteActionPerformed
+
+    private void mniVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVehiculoActionPerformed
+        // TODO add your handling code here:
+//        WVehicle ve= new WVehicle();
+//        ve.setVisible(true);
+    }//GEN-LAST:event_mniVehiculoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,8 +167,6 @@ public class Menu extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -134,10 +177,15 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdmin;
-    private javax.swing.JButton btnEmpleado;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem mniCliente;
+    private javax.swing.JMenuItem mniEmpleado;
+    private javax.swing.JMenuItem mniPuesto;
+    private javax.swing.JMenuItem mniReserva;
+    private javax.swing.JMenuItem mniServicio;
+    private javax.swing.JMenuItem mniVehiculo;
     // End of variables declaration//GEN-END:variables
 }
