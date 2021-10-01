@@ -398,12 +398,12 @@ public class REmpleado extends javax.swing.JFrame {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         //        if (!txtBuscar.getText().isEmpty()) {
-            //            Busqueda(txtBuscar.getText());
-            //        }
+        //            Busqueda(txtBuscar.getText());
+        //        }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void lblVerificarCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblVerificarCedulaKeyTyped
-        char validar =  evt.getKeyChar();
+        char validar = evt.getKeyChar();
         if (Character.isLetter(validar) || Validaciones.justNumb(txtCedula.getText())) {
             getToolkit();
             evt.consume();
@@ -438,7 +438,7 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_txtApellidosFocusLost
 
     private void txtCelularFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCelularFocusLost
-       
+
         if (Validaciones.hollow(txtCelular.getText())) {
             lblVerfiCelular.setText("Campo Obligatorio");
         } else {
@@ -474,10 +474,10 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_botonSalirActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
-        char validar =  evt.getKeyChar();
-        if (Character.isLetter(validar) || 
-                Validaciones.justNumb(txtCedula.getText()) ||
-                Validaciones.digVfy(txtCedula.getText())) {
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)
+                || Validaciones.justNumb(txtCedula.getText())
+                || Validaciones.digVfy(txtCedula.getText())) {
             getToolkit();
             evt.consume();
             lblVerificarCedula.setText("No es una cédula");
@@ -503,7 +503,6 @@ public class REmpleado extends javax.swing.JFrame {
 //
 //        });
 //    }
-
     public void mostrarDatos(int seleccionado) {
 
         txtCedula.setText(listaEmpleados.get(seleccionado).getCedula());
@@ -540,7 +539,7 @@ public class REmpleado extends javax.swing.JFrame {
 
         String matriz[][] = new String[listaEmpleados.size()][10];
         for (int i = 0; i < listaEmpleados.size(); i++) {
-            
+
             matriz[i][0] = listaEmpleados.get(i).getId_Emp();
             matriz[i][1] = listaEmpleados.get(i).getCedula();
             matriz[i][2] = listaEmpleados.get(i).getNombres();
@@ -554,7 +553,7 @@ public class REmpleado extends javax.swing.JFrame {
         tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
                 matriz,
                 new String[]{
-                   "ID", "Cédula", "Nombres", "Apellidos", "Cargo", "Fecha N.", "Correo", "Celular", "Genero"
+                    "ID", "Cédula", "Nombres", "Apellidos", "Cargo", "Fecha N.", "Correo", "Celular", "Genero"
                 }
         ));
     }
@@ -587,14 +586,14 @@ public class REmpleado extends javax.swing.JFrame {
             listaEmpleados.get(indexSlct).setCelular(txtCelular.getText());
             limpiar();
             actualizarDatos();
-            
+
             /*
             
-            */
+             */
         }
 
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -119,7 +119,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void mniClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniClienteMouseClicked
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_mniClienteMouseClicked
 
     private void mniEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEmpleadoActionPerformed

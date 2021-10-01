@@ -1,7 +1,7 @@
 package Lógica;
 
 public class Vehiculo {
-    
+
     private final String placa;
     private String modelo;
     private String tipo;
@@ -13,7 +13,6 @@ public class Vehiculo {
         this.tipo = tipo;
         this.cedula = cedula;
     }
-    
 
     public String getModelo() {
         return modelo;
@@ -30,5 +29,5 @@ public class Vehiculo {
     public void setCedula(String cedula) {
         this.cedula = cedula;
     }
-    
+
 }

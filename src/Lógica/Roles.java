@@ -1,8 +1,7 @@
-
 package Lógica;
 
 public class Roles {
-    
+
     private String idRol;
     private String rolNombre;
     private String usuario;
@@ -46,6 +45,5 @@ public class Roles {
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
-    
-    
+
 }

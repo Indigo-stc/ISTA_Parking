@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PgConect {
-    
+
     Connection conex;
     Statement stat;
     ResultSet rSet;
