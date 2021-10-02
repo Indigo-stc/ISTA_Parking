@@ -4,14 +4,10 @@ public class Roles {
 
     private String idRol;
     private String rolNombre;
-    private String usuario;
-    private String contraseña;
 
-    public Roles(String idRol, String rolNombre, String usuario, String contraseña) {
+    public Roles(String idRol, String rolNombre) {
         this.idRol = idRol;
         this.rolNombre = rolNombre;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
     }
 
     public String getIdRol() {
@@ -29,21 +25,5 @@ public class Roles {
     public void setRolNombre(String rolNombre) {
         this.rolNombre = rolNombre;
     }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-
+    
 }
