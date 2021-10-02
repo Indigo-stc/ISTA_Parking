@@ -7,10 +7,14 @@ public class Empleado extends Persona {
 
     private String cargo;
     private final String id_Emp;
+    private String usuario;
+    private String contraseña;
 
-    public Empleado(String cedula, String nombres, String apellidos, Date fechaNacimiento, String celular, String correo, String genero, String cargo) {
+    public Empleado(String cedula, String nombres, String apellidos, String usuario, String contraseña, Date fechaNacimiento, String celular, String correo, String genero, String cargo) {
         super(cedula, nombres, apellidos, fechaNacimiento, celular, correo, genero);
         this.cargo = cargo;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
         this.id_Emp = "Emp-" + UUID.randomUUID().toString().substring(0, 3);
     }
 
@@ -26,4 +30,22 @@ public class Empleado extends Persona {
         return id_Emp;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+    
+    
+    
 }
