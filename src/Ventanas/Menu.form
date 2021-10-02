@@ -14,11 +14,17 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="78" green="4d" red="36" type="rgb"/>
             </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagenes/edit_list.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Men&#xfa;"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mniCliente">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/bullet_white_alt.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cliente"/>
               </Properties>
               <Events>
@@ -28,6 +34,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniEmpleado">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/bullet_white_alt.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Empleado"/>
               </Properties>
               <Events>
@@ -36,21 +45,33 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniReserva">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/bullet_white_alt.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Reserva"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniPuesto">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/bullet_white_alt.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Puesto"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniServicio">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/bullet_white_alt.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Uso de Servicio"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniVehiculo">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/bullet_white_alt.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Veh&#xed;culo"/>
               </Properties>
               <Events>

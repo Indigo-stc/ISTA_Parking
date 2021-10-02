@@ -77,8 +77,10 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(54, 77, 114));
 
         jMenu1.setBackground(new java.awt.Color(54, 77, 120));
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_list.png"))); // NOI18N
         jMenu1.setText("Menú");
 
+        mniCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniCliente.setText("Cliente");
         mniCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -92,6 +94,7 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu1.add(mniCliente);
 
+        mniEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniEmpleado.setText("Empleado");
         mniEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,15 +103,19 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu1.add(mniEmpleado);
 
+        mniReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniReserva.setText("Reserva");
         jMenu1.add(mniReserva);
 
+        mniPuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniPuesto.setText("Puesto");
         jMenu1.add(mniPuesto);
 
+        mniServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniServicio.setText("Uso de Servicio");
         jMenu1.add(mniServicio);
 
+        mniVehiculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniVehiculo.setText("Vehículo");
         mniVehiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
