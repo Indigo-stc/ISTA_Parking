@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,5 +62,99 @@ public class PgConect {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+    
+    
+    public boolean insRol(String idRol, String rolnombre, String usuario, String contraseña) {
+        String nquery = "INSERT TO rol("
+                + "idrol, rolnombre, usuario, contraseña)"
+                + "VALUES ('"+ idRol +"', '"+ rolnombre +"', '"+ usuario +"', '"+ contraseña +"');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT rol");
+            return false;
+        }
+    }
+    
+    /*
+    txtCedula.getText(), txtNombres.getText(),
+                    txtApellidos.getText(), fecha.getDate(), txtCelular.getText(),
+                    txtCorreo.getText(), genero, comboCargo.getSelectedItem().toString()
+    */
+    
+    public boolean insPer(String cedula, String nombres, String apellidos,
+            Date f_nac, String celular, String correo, String genero) {
+        String nquery = "INSERT TO personas ("
+                + "cedula, nombre, apellido, fechanac, celular, correo, genero)"
+                + "VALUES ('"+ cedula +"', '"+ nombres +"', '"+ apellidos +"', "
+                + "'"+ f_nac +"', '"+ celular +"', '"+ correo +"', '"+ genero +"');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT persona");
+            return false;
+        }
+    }
+    
+    public boolean insEmp(String id_Emp, String cedula, String rol) {
+        String nquery = "INSERT TO empleados ("
+                + "idempleado, idrol, idperson)"
+                + "VALUES ('"+ id_Emp +"', '"+ rol +"', '"+ cedula +"');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT empleado");
+            return false;
+        }
+    }
+    
+    public boolean insCli(String idCli, String cedula) {
+        String nquery = "INSERT TO clientes ("
+                + "idcliente, idpersona)"
+                + "VALUES ('"+ idCli +"', '"+ cedula +"');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT cliente");
+            return false;
+        }
+    }
+    
+    public boolean insVehi(String placa, String modelo, String tipo) {
+        String nquery = "INSERT TO vehiculos ("
+                + "placa, modelo, tipo)"
+                + "VALUES ('"+ placa +"', '"+ modelo +"', '"+ tipo +"');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT vehiculo");
+            return false;
+        }
+    }
+    
+    public boolean perVeh(String idClie, String placa) {
+        String nquery = "INSERT TO due_v("
+                + "idcliente, placa)"
+                + "VALUES ('"+ idClie +"', '"+ placa +"');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT perVeh");
+            return false;
+        }
+    }
+    
+    public String rol(String rol) throws SQLException {
+        String query = "SELECT idrol"
+                + "FROM roles"
+                + "WHERE rol = '"+ rol +"'";
+        if (query(query) == null) {
+            System.out.println("no hay datos");
+            return null;
+        } else {
+            return query(query).getString("idrol");
+        }
+        
     }
 }

@@ -7,6 +7,7 @@ package Ventanas;
 
 import Lógica.Cliente;
 import Validaciones.Validaciones;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -314,7 +315,7 @@ public class RCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Celular incorrecto");
         } else {
             Cliente registroCliente = new Cliente(txtCedula.getText(),
-                    txtNombres.getText(), txtApellidos.getText(), fechaNa.getDate(),
+                    txtNombres.getText(), txtApellidos.getText(), (Date) fechaNa.getDate(),
                     txtCelular.getText(),
                     txtCorreo.getText(), genero);
             listaClientes.add(registroCliente);
@@ -602,7 +603,7 @@ public class RCliente extends javax.swing.JFrame {
             listaClientes.get(indexSlct).setCedula(txtCedula.getText());
             listaClientes.get(indexSlct).setNombres(txtNombres.getText());
             listaClientes.get(indexSlct).setApellidos(txtApellidos.getText());
-            listaClientes.get(indexSlct).setFechaNacimiento(fechaNa.getDate());
+            listaClientes.get(indexSlct).setFechaNacimiento((Date) fechaNa.getDate());
             listaClientes.get(indexSlct).setCelular(txtCelular.getText());
             listaClientes.get(indexSlct).setCorreo(txtCorreo.getText());
             limpiar();

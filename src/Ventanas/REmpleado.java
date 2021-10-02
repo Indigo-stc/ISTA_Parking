@@ -5,9 +5,14 @@
  */
 package Ventanas;
 
+import ConexionPG.PgConect;
 import Lógica.Empleado;
 import Validaciones.Validaciones;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -348,10 +353,21 @@ public class REmpleado extends javax.swing.JFrame {
                 || txtCelular.getText() == null || " ".equals(this.fecha.getDate())) {
             JOptionPane.showMessageDialog(null, "Faltan campos por llenar");
         } else {
-            Empleado registroEmpleado = new Empleado(txtCedula.getText(), txtNombres.getText(),
-                    txtApellidos.getText(), fecha.getDate(), txtCelular.getText(),
+            Empleado emp = new Empleado(txtCedula.getText(), txtNombres.getText(),
+                    txtApellidos.getText(), (Date) fecha.getDate(), txtCelular.getText(),
                     txtCorreo.getText(), genero, comboCargo.getSelectedItem().toString());
-            listaEmpleados.add(registroEmpleado);
+            PgConect conect = new PgConect(); 
+            try {
+                conect.insPer(emp.getCedula(), emp.getNombres(),
+                        emp.getApellidos(), emp.getFechaNacimiento(), emp.getCelular(),
+                        emp.getCorreo(), emp.getGenero());
+                conect.insEmp(emp.getId_Emp(), conect.rol(emp.getCargo()), emp.getCedula());
+                listaEmpleados.add(emp);
+            } catch (SQLException ex) {
+                Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
         }
         actualizarDatos();
         limpiar();
@@ -581,7 +597,7 @@ public class REmpleado extends javax.swing.JFrame {
             listaEmpleados.get(indexSlct).setCedula(txtCedula.getText());
             listaEmpleados.get(indexSlct).setNombres(txtNombres.getText());
             listaEmpleados.get(indexSlct).setApellidos(txtApellidos.getText());
-            listaEmpleados.get(indexSlct).setFechaNacimiento(fecha.getDate());
+            listaEmpleados.get(indexSlct).setFechaNacimiento((Date) fecha.getDate());
             listaEmpleados.get(indexSlct).setCorreo(txtCorreo.getText());
             listaEmpleados.get(indexSlct).setCelular(txtCelular.getText());
             limpiar();
