@@ -143,6 +143,7 @@ public class Ingreso extends javax.swing.JFrame {
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

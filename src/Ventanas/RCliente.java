@@ -7,6 +7,7 @@ package Ventanas;
 
 import Lógica.Cliente;
 import Validaciones.Validaciones;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -314,11 +315,11 @@ public class RCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Celular incorrecto");
         } else {
             Cliente registroCliente = new Cliente(txtCedula.getText(),
-                    txtNombres.getText(), txtApellidos.getText(), fechaNa.getDate(),
+                    txtNombres.getText(), txtApellidos.getText(), (Date) fechaNa.getDate(),
                     txtCelular.getText(),
                     txtCorreo.getText(), genero);
             listaClientes.add(registroCliente);
-            
+
             /* for DB
             ArrayList<Cliente> temp = Base.sGCedCli(
                     Base.park, 
@@ -329,7 +330,7 @@ public class RCliente extends javax.swing.JFrame {
             }
             actualizarDatos();
             limpiarTxt();
-            */
+             */
         }
         actualizarDatos();
         limpiar();
@@ -361,7 +362,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_botonLimpiarActionPerformed
 
     private void lblvrfCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblvrfCedulaKeyTyped
-        char validar =  evt.getKeyChar();
+        char validar = evt.getKeyChar();
         if (Character.isLetter(validar) || Validaciones.justNumb(txtCedula.getText())) {
             getToolkit();
             evt.consume();
@@ -427,10 +428,10 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_botonSalirActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
-        char validar =  evt.getKeyChar();
-        if (Character.isLetter(validar) || 
-                Validaciones.justNumb(txtCedula.getText()) ||
-                Validaciones.digVfy(txtCedula.getText())) {
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)
+                || Validaciones.justNumb(txtCedula.getText())
+                || Validaciones.digVfy(txtCedula.getText())) {
             getToolkit();
             evt.consume();
             lblvrfCedula.setText("No es una cédula");
@@ -440,9 +441,9 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCedulaKeyTyped
 
     private void txtCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelularKeyTyped
-        char validar =  evt.getKeyChar();
-        if (Character.isLetter(validar) || 
-                Validaciones.justNumb(txtCedula.getText())) {
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)
+                || Validaciones.justNumb(txtCedula.getText())) {
             getToolkit();
             evt.consume();
             lblvrfCedula.setText("Deben ser 10 digitos");
@@ -483,12 +484,11 @@ public class RCliente extends javax.swing.JFrame {
                     Base.park, txt_Apellido1.getText(), genero);
             bsqactuaL(temp);
         }
-        */
+         */
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     public void mostrarDatos(int seleccionado) {
 
-        
         txtCedula.setText(listaClientes.get(seleccionado).getCedula());
         txtCedula.setEditable(false);
         txtNombres.setText(listaClientes.get(seleccionado).getNombres());
@@ -507,7 +507,7 @@ public class RCliente extends javax.swing.JFrame {
             }
         }
     }
-    
+
     public void limpiarTbl() {
         String matriz[][] = new String[listaClientes.size()][9];
 
@@ -532,7 +532,6 @@ public class RCliente extends javax.swing.JFrame {
 
     public void limpiar() {
 
-        
         txtCedula.setText(null);
         txtNombres.setText(null);
         txtApellidos.setText(null);
@@ -580,7 +579,7 @@ public class RCliente extends javax.swing.JFrame {
             }
 
         }
-        
+
         /*
         int index = tbl_Cliente.getSelectedRow();
         String cedula = clients.get(index).getCedula();
@@ -593,28 +592,27 @@ public class RCliente extends javax.swing.JFrame {
             clients.add(temp.get(i));
         }
         actualizarClients();
-        */
+         */
     }
 
     public void modificar() {
 
         int indexSlct = tablaClientes.getSelectedRow();
         if (indexSlct != -1) {
-            
+
             listaClientes.get(indexSlct).setCedula(txtCedula.getText());
             listaClientes.get(indexSlct).setNombres(txtNombres.getText());
             listaClientes.get(indexSlct).setApellidos(txtApellidos.getText());
-            listaClientes.get(indexSlct).setFechaNacimiento(fechaNa.getDate());
+            listaClientes.get(indexSlct).setFechaNacimiento((Date) fechaNa.getDate());
             listaClientes.get(indexSlct).setCelular(txtCelular.getText());
             listaClientes.get(indexSlct).setCorreo(txtCorreo.getText());
             limpiar();
             actualizarDatos();
 
         }
-        
-        
+
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

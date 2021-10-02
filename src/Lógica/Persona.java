@@ -1,8 +1,9 @@
 package Lógica;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Persona {
+
     private String cedula;
     private String nombres;
     private String apellidos;
