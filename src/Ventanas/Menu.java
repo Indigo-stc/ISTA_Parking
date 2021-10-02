@@ -57,9 +57,9 @@ public class Menu extends javax.swing.JFrame {
                 .addContainerGap(87, Short.MAX_VALUE))
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(54, 77, 114));
+        jMenuBar1.setBackground(new java.awt.Color(45, 54, 73));
 
-        jMenu1.setBackground(new java.awt.Color(54, 77, 120));
+        jMenu1.setBackground(new java.awt.Color(45, 54, 73));
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_list.png"))); // NOI18N
         jMenu1.setText("Menú");
 
@@ -92,6 +92,11 @@ public class Menu extends javax.swing.JFrame {
 
         mniPuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniPuesto.setText("Puesto");
+        mniPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniPuestoActionPerformed(evt);
+            }
+        });
         jMenu1.add(mniPuesto);
 
         mniServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
@@ -109,7 +114,7 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setBackground(new java.awt.Color(54, 77, 120));
+        jMenu2.setBackground(new java.awt.Color(45, 54, 73));
         jMenu2.setText("Salir");
         jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -159,6 +164,13 @@ public class Menu extends javax.swing.JFrame {
         ve.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_mniVehiculoActionPerformed
+
+    private void mniPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPuestoActionPerformed
+        // TODO add your handling code here:
+        VPuesto vp = new VPuesto();
+        vp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_mniPuestoActionPerformed
 
     /**
      * @param args the command line arguments
