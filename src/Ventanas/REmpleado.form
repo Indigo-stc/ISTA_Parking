@@ -177,11 +177,13 @@
     <Component class="javax.swing.JComboBox" name="comboCargo">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="6">
             <StringItem index="0" value="Seleccione"/>
-            <StringItem index="1" value="Registrador"/>
-            <StringItem index="2" value="Guardia"/>
-            <StringItem index="3" value="Limpieza"/>
+            <StringItem index="1" value="Administrador"/>
+            <StringItem index="2" value="Registrador"/>
+            <StringItem index="3" value="Seguridad"/>
+            <StringItem index="4" value="Limpieza"/>
+            <StringItem index="5" value="Invitado"/>
           </StringArray>
         </Property>
       </Properties>
@@ -229,6 +231,7 @@
     <Component class="javax.swing.JTextField" name="txtCelular">
       <Events>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCelularFocusLost"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCelularKeyTyped"/>
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -584,9 +587,6 @@
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="lblVerfiCelularKeyTyped"/>
-      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="490" y="150" width="170" height="10"/>
@@ -610,6 +610,9 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JPasswordField" name="Password">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="PasswordKeyTyped"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="160" y="260" width="170" height="-1"/>
@@ -633,6 +636,9 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="txtUsuario">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtUsuarioKeyTyped"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="160" y="210" width="170" height="-1"/>

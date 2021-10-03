@@ -3,13 +3,13 @@ package Ventanas;
 import ConexionPG.PgConect;
 import Lógica.Empleado;
 import Validaciones.Validaciones;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 
 public class REmpleado extends javax.swing.JFrame {
 
@@ -116,7 +116,7 @@ public class REmpleado extends javax.swing.JFrame {
         lblCorreomp3.setText("Correo:");
         getContentPane().add(lblCorreomp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, -1, -1));
 
-        comboCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Registrador", "Guardia", "Limpieza" }));
+        comboCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Administrador", "Registrador", "Seguridad", "Limpieza", "Invitado" }));
         getContentPane().add(comboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 210, 170, -1));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -153,6 +153,11 @@ public class REmpleado extends javax.swing.JFrame {
         txtCelular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCelularFocusLost(evt);
+            }
+        });
+        txtCelular.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCelularKeyTyped(evt);
             }
         });
         getContentPane().add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 120, 170, -1));
@@ -216,7 +221,6 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 250, 170, -1));
 
         botonRegistrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonRegistrar.setForeground(new java.awt.Color(0, 0, 0));
         botonRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
         botonRegistrar.setText("REGISTRAR");
         botonRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -227,7 +231,6 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 160, 40));
 
         botonEliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonEliminar.setForeground(new java.awt.Color(0, 0, 0));
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
         botonEliminar.setText("ELIMINAR");
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -238,7 +241,6 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 150, 40));
 
         botonModificar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonModificar.setForeground(new java.awt.Color(0, 0, 0));
         botonModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoEditar.png"))); // NOI18N
         botonModificar.setText("MODIFICAR");
         botonModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +251,6 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(botonModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, 150, 40));
 
         MOSTRAR.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        MOSTRAR.setForeground(new java.awt.Color(0, 0, 0));
         MOSTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoMostrar.png"))); // NOI18N
         MOSTRAR.setText("MOSTRAR");
         MOSTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +264,6 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 250, 120, 30));
 
         botonLimpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonLimpiar.setForeground(new java.awt.Color(0, 0, 0));
         botonLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
         botonLimpiar.setText("LIMPIAR");
         botonLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -306,23 +306,30 @@ public class REmpleado extends javax.swing.JFrame {
 
         lblVerfiCelular.setBackground(new java.awt.Color(255, 0, 0));
         lblVerfiCelular.setForeground(new java.awt.Color(255, 0, 0));
-        lblVerfiCelular.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                lblVerfiCelularKeyTyped(evt);
-            }
-        });
         getContentPane().add(lblVerfiCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 170, 10));
 
         jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Usuario:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 110, 20));
+
+        Password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PasswordKeyTyped(evt);
+            }
+        });
         getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, 170, -1));
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Contraseña:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 140, -1));
+
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 170, -1));
         getContentPane().add(lblvrfUsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 170, 10));
 
@@ -340,23 +347,32 @@ public class REmpleado extends javax.swing.JFrame {
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
         if (txtCedula.getText() == null || txtNombres.getText() == null
                 || txtApellidos.getText() == null || txtCorreo.getText() == null || genero == null
-                || txtCelular.getText() == null || " ".equals(this.fecha.getDate())) {
+                || txtCelular.getText() == null || " ".equals(this.fecha.getDate()) ||
+                comboCargo.getSelectedIndex() == 0 ) {
             JOptionPane.showMessageDialog(null, "Faltan campos por llenar");
         } else {
             Empleado emp = new Empleado(txtCedula.getText(), txtNombres.getText(),
-                    txtApellidos.getText(), txtUsuario.getText(), Password.getText(), (Date) fecha.getDate(), txtCelular.getText(),
+                    txtApellidos.getText(), txtUsuario.getText(), Password.getText(), 
+                    fecha.getDate(), txtCelular.getText(),
                     txtCorreo.getText(), genero, comboCargo.getSelectedItem().toString());
             PgConect conect = new PgConect(); 
+            
             try {
-                conect.insPer(emp.getCedula(), emp.getNombres(),
+                ResultSet idRol = conect.rol(emp.getCargo());
+                if (idRol.next()) {
+                    conect.insPer(emp.getCedula(), emp.getNombres(),
                         emp.getApellidos(), emp.getFechaNacimiento(), emp.getCelular(),
                         emp.getCorreo(), emp.getGenero());
-                conect.insEmp(emp.getId_Emp(), conect.rol(emp.getCargo()), emp.getCedula());
-                listaEmpleados.add(emp);
+                    conect.insEmp(emp.getId_Emp(), idRol.getString("idrol"), emp.getCedula(),
+                             emp.getUsuario(), emp.getContraseña());
+                    JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
+                } else {
+                    System.out.println("no hay cargo, no se registro empleado");
+                }
+                
             } catch (SQLException ex) {
                 Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            }     
             
         }
         actualizarDatos();
@@ -446,17 +462,6 @@ public class REmpleado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCelularFocusLost
 
-    private void lblVerfiCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblVerfiCelularKeyTyped
-        char validar = evt.getKeyChar();
-        if (Character.isLetter(validar) || Validaciones.justNumb(txtCelular.getText())) {
-            getToolkit();
-            evt.consume();
-            lblVerfiCelular.setText("Deben ser 10 digitos");
-        } else {
-            lblVerfiCelular.setText(null);
-        }
-    }//GEN-LAST:event_lblVerfiCelularKeyTyped
-
     private void txtCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorreoFocusLost
         if (!Validaciones.arroba(txtCorreo.getText())) {
             lblverificarCorreo.setText("No es un correo");
@@ -485,6 +490,40 @@ public class REmpleado extends javax.swing.JFrame {
             lblVerificarCedula.setText(null);
         }
     }//GEN-LAST:event_txtCedulaKeyTyped
+
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+        char validar = evt.getKeyChar();
+        if (!Validaciones.usuario(Character.toString(validar))) {
+            getToolkit();
+            evt.consume();
+            lblvrfUsu.setText("De 8 a 10 caracteres");
+        } else {
+            lblvrfUsu.setText(null);
+        }
+    }//GEN-LAST:event_txtUsuarioKeyTyped
+
+    private void PasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PasswordKeyTyped
+        char validar = evt.getKeyChar();
+        if (!Validaciones.contraseña(Character.toString(validar))) {
+            getToolkit();
+            evt.consume();
+            //lblVerificarCedula.setText("No es una cédula");
+        } else {
+            lblVerificarCedula.setText(null);
+        }
+    }//GEN-LAST:event_PasswordKeyTyped
+
+    private void txtCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelularKeyTyped
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)
+                || Validaciones.justNumb(txtCelular.getText())) {
+            getToolkit();
+            evt.consume();
+            lblVerfiCelular.setText("No es un celular");
+        } else {
+            lblVerificarCedula.setText(null);
+        }
+    }//GEN-LAST:event_txtCelularKeyTyped
 
 //    private void Busqueda(String cedula) {
 //        System.out.println("Busqueda");
@@ -581,7 +620,7 @@ public class REmpleado extends javax.swing.JFrame {
             listaEmpleados.get(indexSlct).setCedula(txtCedula.getText());
             listaEmpleados.get(indexSlct).setNombres(txtNombres.getText());
             listaEmpleados.get(indexSlct).setApellidos(txtApellidos.getText());
-            listaEmpleados.get(indexSlct).setFechaNacimiento((Date) fecha.getDate());
+            listaEmpleados.get(indexSlct).setFechaNacimiento(fecha.getDate());
             listaEmpleados.get(indexSlct).setCorreo(txtCorreo.getText());
             listaEmpleados.get(indexSlct).setCelular(txtCelular.getText());
             limpiar();

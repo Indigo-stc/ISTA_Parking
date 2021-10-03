@@ -1,6 +1,6 @@
 package Lógica;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Persona {
 
@@ -46,8 +46,10 @@ public class Persona {
         this.apellidos = apellidos;
     }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
+    public java.sql.Date getFechaNacimiento() {
+        long form = fechaNacimiento.getTime();
+        java.sql.Date time = new java.sql.Date(form);
+        return time;
     }
 
     public void setFechaNacimiento(Date fechaNacimiento) {

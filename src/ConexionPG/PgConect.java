@@ -15,9 +15,9 @@ public class PgConect {
     Statement stat;
     ResultSet rSet;
 
-    String cadConexion = "jdbc:postgresql://localhost:5432/";
+    String cadConexion = "jdbc:postgresql://localhost:5432/BASE";
     String pgUser = "postgres";
-    String pgPassword = "";
+    String pgPassword = "1234";
 
     public PgConect() {
 
@@ -66,7 +66,7 @@ public class PgConect {
     
     
     public boolean insRol(String idRol, String rolnombre, String usuario, String contraseña) {
-        String nquery = "INSERT TO rol("
+        String nquery = "INSERT INTO rol("
                 + "idrol, rolnombre, usuario, contraseña)"
                 + "VALUES ('"+ idRol +"', '"+ rolnombre +"', '"+ usuario +"', '"+ contraseña +"');";
         if (noQuery(nquery) == null) {
@@ -85,7 +85,7 @@ public class PgConect {
     
     public boolean insPer(String cedula, String nombres, String apellidos,
             Date f_nac, String celular, String correo, String genero) {
-        String nquery = "INSERT TO personas ("
+        String nquery = "INSERT INTO personas ("
                 + "cedula, nombre, apellido, fechanac, celular, correo, genero)"
                 + "VALUES ('"+ cedula +"', '"+ nombres +"', '"+ apellidos +"', "
                 + "'"+ f_nac +"', '"+ celular +"', '"+ correo +"', '"+ genero +"');";
@@ -97,10 +97,10 @@ public class PgConect {
         }
     }
     
-    public boolean insEmp(String id_Emp, String cedula, String rol) {
-        String nquery = "INSERT TO empleados ("
-                + "idempleado, idrol, idperson)"
-                + "VALUES ('"+ id_Emp +"', '"+ rol +"', '"+ cedula +"');";
+    public boolean insEmp(String id_Emp, String rol, String cedula, String usuario, String contraseña) {
+        String nquery = "INSERT INTO empleados ("
+                + "idempleado, idrol, cedula, usuario, contraseña)"
+                + "VALUES ('"+ id_Emp +"', '"+ rol +"', '"+ cedula +"', '"+ usuario +"', '"+ contraseña +"');";
         if (noQuery(nquery) == null) {
             return true;
         } else {
@@ -110,7 +110,7 @@ public class PgConect {
     }
     
     public boolean insCli(String idCli, String cedula) {
-        String nquery = "INSERT TO clientes ("
+        String nquery = "INSERT INTO clientes ("
                 + "idcliente, idpersona)"
                 + "VALUES ('"+ idCli +"', '"+ cedula +"');";
         if (noQuery(nquery) == null) {
@@ -122,7 +122,7 @@ public class PgConect {
     }
     
     public boolean insVehi(String placa, String modelo, String tipo) {
-        String nquery = "INSERT TO vehiculos ("
+        String nquery = "INSERT INTO vehiculos ("
                 + "placa, modelo, tipo)"
                 + "VALUES ('"+ placa +"', '"+ modelo +"', '"+ tipo +"');";
         if (noQuery(nquery) == null) {
@@ -134,7 +134,7 @@ public class PgConect {
     }
     
     public boolean perVeh(String idClie, String placa) {
-        String nquery = "INSERT TO due_v("
+        String nquery = "INSERT INTO due_v("
                 + "idcliente, placa)"
                 + "VALUES ('"+ idClie +"', '"+ placa +"');";
         if (noQuery(nquery) == null) {
@@ -145,15 +145,17 @@ public class PgConect {
         }
     }
     
-    public String rol(String rol) throws SQLException {
+    public ResultSet rol(String rolnombre) throws SQLException {
         String query = "SELECT idrol"
-                + "FROM roles"
-                + "WHERE rol = '"+ rol +"'";
-        if (query(query) == null) {
+                + " FROM roles"
+                + " WHERE rolnombre IN ('"+ rolnombre +"');";
+        ResultSet idRol = query(query);
+        if (idRol == null) {
             System.out.println("no hay datos");
+            System.out.println(idRol);
             return null;
         } else {
-            return query(query).getString("idrol");
+            return idRol;
         }
         
     }

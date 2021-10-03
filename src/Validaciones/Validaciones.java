@@ -3,6 +3,7 @@ package Validaciones;
 import java.util.Date;
 
 public class Validaciones {
+    
     public static boolean justNumb(String cedula) {
         return (cedula.matches("[0-9]*") && cedula.length() == 10);
     }
@@ -69,6 +70,16 @@ public class Validaciones {
         }
         return false;
     }
+    
+    public static boolean contraseña(String cadena) {
+        return (cadena.length() >= 8 && cadena.length() <= 10) 
+                && cadena.matches("[A-Za-z0-9]+");
+    }
+    
+    public static boolean usuario(String cadena) {
+        return (cadena.length() <= 10);
+    }
+    
     
     /*public static boolean placa(String placa) {
         char[] verify = placa.toCharArray();
