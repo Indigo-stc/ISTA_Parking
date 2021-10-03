@@ -37,6 +37,8 @@ public class RVehiculo extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setBackground(new java.awt.Color(54, 77, 103));
+
         jLabel2.setText("VEHÍCULO");
 
         jLabel5.setText("Modelo");
