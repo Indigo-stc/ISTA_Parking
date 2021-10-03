@@ -1,7 +1,7 @@
 package Ventanas;
 
 import Lógica.Cliente;
-import Validaciones.Validaciones;
+import Validaciones.Val;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -290,9 +290,9 @@ public class RCliente extends javax.swing.JFrame {
                 || txtApellidos.getText() == null || txtCelular.getText() == null
                 || txtCorreo.getText() == null || " ".equals(this.fechaNa.getDate())) {
             JOptionPane.showMessageDialog(null, "Falta campos por llenar");
-        } else if (Validaciones.digVfy(txtCedula.getText())) {
+        } else if (Val.digVfy(txtCedula.getText())) {
             JOptionPane.showMessageDialog(null, "Cédula incorrecta");
-        } else if (Validaciones.justNumb(txtCelular.getText())) {
+        } else if (Val.isNumber(txtCelular.getText())) {
             JOptionPane.showMessageDialog(null, "Celular incorrecto");
         } else {
             Cliente registroCliente = new Cliente(txtCedula.getText(),
@@ -346,7 +346,7 @@ public class RCliente extends javax.swing.JFrame {
 
     private void lblvrfCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblvrfCedulaKeyTyped
         char validar = evt.getKeyChar();
-        if (Character.isLetter(validar) || Validaciones.justNumb(txtCedula.getText())) {
+        if (Character.isLetter(validar) || Val.isNumber(txtCedula.getText())) {
             getToolkit();
             evt.consume();
             lblvrfCedula.setText("Deben ser 10 digitos");
@@ -356,7 +356,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_lblvrfCedulaKeyTyped
 
     private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
-        if (!Validaciones.justNumb(txtCedula.getText())) {
+        if (!Val.isNumber(txtCedula.getText())) {
             lblvrfCedula.setText("Deben ser 10 digitos");
         } else {
             lblvrfCedula.setText(null);
@@ -364,7 +364,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCedulaFocusLost
 
     private void txtNombresFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombresFocusLost
-        if (Validaciones.hollow(txtNombres.getText())) {
+        if (Val.hollow(txtNombres.getText())) {
             lblvrfCedula.setText("Campo Obligatorio");
         } else {
             lblvrfCedula.setText(null);
@@ -372,7 +372,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombresFocusLost
 
     private void txtApellidosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApellidosFocusLost
-        if (Validaciones.hollow(txtApellidos.getText())) {
+        if (Val.hollow(txtApellidos.getText())) {
             lblvrfApellidos.setText("Campo Obligatorio");
         } else {
             lblvrfApellidos.setText(null);
@@ -380,7 +380,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtApellidosFocusLost
 
     private void txtCelularFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCelularFocusLost
-        if (Validaciones.hollow(txtCelular.getText())) {
+        if (Val.hollow(txtCelular.getText())) {
             lblvrfCelular.setText("Campo Obligatorio");
         } else {
             lblvrfCelular.setText(null);
@@ -389,7 +389,7 @@ public class RCliente extends javax.swing.JFrame {
 
     private void lblvrfCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblvrfCelularKeyTyped
         char validar = evt.getKeyChar();
-        if (Character.isLetter(validar) || Validaciones.justNumb(txtCelular.getText())) {
+        if (Character.isLetter(validar) || Val.isNumber(txtCelular.getText())) {
             getToolkit();
             evt.consume();
             lblvrfCelular.setText("Deben ser 10 digitos");
@@ -399,7 +399,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_lblvrfCelularKeyTyped
 
     private void txtCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorreoFocusLost
-        if (!Validaciones.arroba(txtCorreo.getText())) {
+        if (!Val.email(txtCorreo.getText())) {
             lblvrfCorreo.setText("No es un correo");
         } else {
             lblvrfCorreo.setText(null);
@@ -413,8 +413,8 @@ public class RCliente extends javax.swing.JFrame {
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char validar = evt.getKeyChar();
         if (Character.isLetter(validar)
-                || Validaciones.justNumb(txtCedula.getText())
-                || Validaciones.digVfy(txtCedula.getText())) {
+                || Val.isNumber(txtCedula.getText())
+                || Val.digVfy(txtCedula.getText())) {
             getToolkit();
             evt.consume();
             lblvrfCedula.setText("No es una cédula");
@@ -426,7 +426,7 @@ public class RCliente extends javax.swing.JFrame {
     private void txtCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelularKeyTyped
         char validar = evt.getKeyChar();
         if (Character.isLetter(validar)
-                || Validaciones.justNumb(txtCedula.getText())) {
+                || Val.isNumber(txtCedula.getText())) {
             getToolkit();
             evt.consume();
             lblvrfCedula.setText("Deben ser 10 digitos");
@@ -565,12 +565,12 @@ public class RCliente extends javax.swing.JFrame {
 
         /*
         int index = tbl_Cliente.getSelectedRow();
-        String cedula = clients.get(index).getCedula();
-        Base.eliminarCliente(Base.park, cedula);
+        String isNumber = clients.get(index).getCedula();
+        Base.eliminarCliente(Base.park, isNumber);
         limpiarTbl();
         clients.clear();
         ArrayList<Cliente> temp = Base.sGCedCli(
-                    Base.park, cedula);
+                    Base.park, isNumber);
         for (int i = 0; i < temp.size(); i++) {
             clients.add(temp.get(i));
         }

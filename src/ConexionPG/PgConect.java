@@ -51,12 +51,11 @@ public class PgConect {
     }
 
     public ResultSet query(String sql) {
-
         System.out.println(sql);
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            //stat.close();
+            stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,6 +93,18 @@ public class PgConect {
         } else {
             System.out.println("ERROR INSERT persona");
             return false;
+        }
+    }
+    
+    public boolean pkPerson(String cedula) throws SQLException {
+        String query = "SELECT cedula "
+                + "FROM personas "
+                + "WHERE cedula = '"+ cedula +"';";
+        if (query(query) == null) {
+            System.out.println("no hay registros");
+            return false;
+        } else {
+            return true;
         }
     }
     
