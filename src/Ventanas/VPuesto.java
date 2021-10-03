@@ -5,7 +5,7 @@
  */
 package Ventanas;
 
-import Validaciones.Validaciones;
+import Validaciones.Val;
 
 /**
  *
@@ -288,7 +288,7 @@ public class VPuesto extends javax.swing.JFrame {
 
     private void txt_TipoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_TipoFocusLost
         // TODO add your handling code here:
-           if (Validaciones.hollow(txt_Tipo.getText())) {
+           if (Val.hollow(txt_Tipo.getText())) {
             lbl_VTipo.setText("Campo Obligatorio");
         } else {
             lbl_VTipo.setText(null);

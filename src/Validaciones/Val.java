@@ -1,10 +1,13 @@
 package Validaciones;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class Validaciones {
+public class Val {
     
-    public static boolean justNumb(String cedula) {
+    public static boolean isNumber(String cedula) {
         return (cedula.matches("[0-9]*") && cedula.length() == 10);
     }
     
@@ -12,12 +15,21 @@ public class Validaciones {
         return (cadena == null || cadena.trim().equals(""));
     }
     
-    public static boolean arroba(String email) {
-        return (email.contains("@"));
+    public static boolean email(String email) {
+        Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher mather = pattern.matcher(email);
+        return mather.find();
     }
     
-    public static boolean edad(String edad) {
-         return (Integer.parseInt(edad) >= 18);
+    public static boolean edad(Date birth) {
+        Date current = new Date();
+        SimpleDateFormat format_current = new SimpleDateFormat("YYYY");
+        String año_current = format_current.format(current);
+        SimpleDateFormat manner2 = new SimpleDateFormat("YYYY");
+        String año_nac = manner2.format(birth);
+        return (Integer.parseInt(año_current) - Integer.parseInt(año_nac)) >= 18;
     }
     
     public static boolean ID(String id) {
@@ -33,11 +45,7 @@ public class Validaciones {
     }
     
     public static boolean Fecha(Date fecha_Rsrv, Date fechaIngreso){
-        if(fecha_Rsrv.getTime()<fechaIngreso.getTime()){
-            return true;
-        }else{
-            return false;
-        }
+        return fecha_Rsrv.getTime()<fechaIngreso.getTime();
     }
     
     public static boolean digVfy(String cedula) {
@@ -65,19 +73,22 @@ public class Validaciones {
             }
             if ((sum - (sum % 10) + 10 - sum) == digits[9])
                 return true;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
         }
         return false;
     }
     
     public static boolean contraseña(String cadena) {
-        return (cadena.length() >= 8 && cadena.length() <= 10) 
-                && cadena.matches("[A-Za-z0-9]+");
+        Pattern pattern = Pattern
+                .compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])"
+                        + "(?=\\S+$).{8,}$");
+        Matcher mather = pattern.matcher(cadena);
+        return mather.find();
     }
     
     public static boolean usuario(String cadena) {
-        return (cadena.length() <= 10);
+        return (cadena.length() >= 8 && cadena.length() <= 10);
     }
     
     
