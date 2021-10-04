@@ -199,15 +199,17 @@ public class PgConect {
             return false;
         }
     }
-        public static void modificar(String cedula, String nombres, String apellidos, Date fechaNacimiento,String celular, String correo, String genero) {
-        long jtime = fechaNacimiento.getTime();
+    public void modificarPer(String cedula, String nombre, String apellido, Date fechanac,
+            String celular, String correo, String genero) {
+        long jtime = fechanac.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
-        PgConect connect= new PgConect();
-        String nsql = "UPDATE public.personas\n" +
-            "SET nombre='"+nombres+"', apellido='"+apellidos+"', fechanac='"+sqltime+"', celular='"+celular+"', correo='"+correo+"', genero='"+genero+"'\n" +
-            "WHERE cedula_cli = '" + cedula + "';"; 
-        if (connect.noQuery(nsql) == null) {
+        String noquery = "UPDATE personas "
+                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '" + 
+                sqltime  + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
+                + "WHERE cedula= '" + cedula + "';";
+        if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
     }
+  
 }

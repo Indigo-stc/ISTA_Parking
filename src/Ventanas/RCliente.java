@@ -3,6 +3,7 @@ package Ventanas;
 import ConexionPG.PgConect;
 import Lógica.Cliente;
 import Validaciones.Val;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -293,6 +294,11 @@ public class RCliente extends javax.swing.JFrame {
                 tablaClientesMouseClicked(evt);
             }
         });
+        tablaClientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tablaClientesKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaClientes);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 800, 110));
@@ -352,7 +358,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_rbFMouseClicked
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
-   
+
     }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
@@ -459,13 +465,29 @@ public class RCliente extends javax.swing.JFrame {
   
     }//GEN-LAST:event_botonBuscarActionPerformed
 
-    private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
-
-    }//GEN-LAST:event_MOSTRARActionPerformed
-
     private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCelularActionPerformed
+
+    private void tablaClientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaClientesKeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            String idcliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
+            String cedula =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
+            String nombre =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString();
+            String apellido =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 3).toString();
+            Date fechanac =  (Date) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 4);
+            String correo =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 5).toString();
+            String celular =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 6).toString();
+            String genero =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 7).toString();
+
+            PgConect con = new PgConect();
+            con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, genero);
+        }
+    }//GEN-LAST:event_tablaClientesKeyReleased
+
+    private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
+
+    }//GEN-LAST:event_MOSTRARActionPerformed
 
     public void mostrarDatos(int seleccionado) {
 

@@ -545,23 +545,8 @@ public class REmpleado extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCelularActionPerformed
 
-//    private void Busqueda(String isNumber) {
-//        System.out.println("Busqueda");
-//
-//        List<Empleado> emp = new ArrayList <> ();
-//
-//        emp = listaEmpleados.stream().filter(x -> x.getCedula().equals(isNumber)).collect(Collectors.toList());
-//        System.out.println(emp);
-//        dtm.setNumRows(0);
-//        emp.stream().forEach(e -> {
-//
-//            String fila[] = {e.getCedula(), e.getNombres(), e.getApellidos(), e.getCargo(), e.getCorreo(),
-//                e.getCelular(), e.getGenero()};
-//
-//            dtm.addRow(fila);
-//
-//        });
-//    }
+
+   
     public void mostrarDatos(int seleccionado) {
 
         txtCedula.setText(listaEmpleados.get(seleccionado).getCedula());
