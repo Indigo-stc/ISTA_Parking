@@ -60,7 +60,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            stat.close();
+          //  stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -307,30 +307,16 @@ public class PgConect {
             return listaPersonas;
         }
     }
-   public static ArrayList<Cliente> clien() throws SQLException {
-        ArrayList<Cliente> listaclientes = new ArrayList<> ();
-        PgConect connect= new PgConect();
-        String sql = "SELECT * FROM personas;"; 
-        Cliente cli;
-        if (connect.query(sql) == null) {
+   public ResultSet mostrarCli() throws SQLException {
+        String query = "SELECT idcliente, personas.cedula, nombre, apellido, fechanac, correo, celular, genero "
+                + "FROM clientes, personas "
+                + "WHERE personas.cedula= clientes.idpersona ;";
+        ResultSet rs = query(query);
+        if (rs == null) {
             System.out.println("No se han encontrado datos");
             return null;
         } else {
-            ResultSet rs = connect.query(sql);
-            while(rs.next()) {
-                System.out.println(rs);
-                //Date utilDate = new java.util.Date(nac.getTime());
-                cli = new Cliente(
-                        rs.getString("cedula"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido"),
-                        rs.getDate("fechanac"),
-                         rs.getString("celular"),
-                        rs.getString("correo"),
-                        rs.getString("genero") );
-                listaclientes.add(cli);
-            }
-            return listaclientes;
+            return rs;
         }
     }
 
@@ -348,15 +334,16 @@ public class PgConect {
             return false;
         }
     }
-  
-    public static void modificar(String cedula, String nombres, String apellidos, Date fechaNacimiento,String celular, String correo, String genero) {
-        long jtime = fechaNacimiento.getTime();
+
+    public void modificarPer(String cedula, String nombre, String apellido, Date fechanac,
+            String celular, String correo, String genero) {
+        long jtime = fechanac.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
-        PgConect connect= new PgConect();
-        String nsql = "UPDATE public.personas\n" +
-            "SET nombre='"+nombres+"', apellido='"+apellidos+"', fechanac='"+sqltime+"', celular='"+celular+"', correo='"+correo+"', genero='"+genero+"'\n" +
-            "WHERE cedula_cli = '" + cedula + "';"; 
-        if (connect.noQuery(nsql) == null) {
+        String noquery = "UPDATE personas "
+                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '" + 
+                sqltime  + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
+                + "WHERE cedula= '" + cedula + "';";
+        if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
     }

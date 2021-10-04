@@ -197,6 +197,11 @@ public class REmpleado extends javax.swing.JFrame {
                 txtCelularFocusLost(evt);
             }
         });
+        txtCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCelularActionPerformed(evt);
+            }
+        });
         txtCelular.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCelularKeyTyped(evt);
@@ -546,6 +551,7 @@ public class REmpleado extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_fechaFocusLost
 
+
     private void tblEmpleadosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadosKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
@@ -564,24 +570,6 @@ public class REmpleado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblEmpleadosKeyReleased
 
-    
-//    private void Busqueda(String isNumber) {
-//        System.out.println("Busqueda");
-//
-//        List<Empleado> emp = new ArrayList <> ();
-//
-//        emp = listaEmpleados.stream().filter(x -> x.getCedula().equals(isNumber)).collect(Collectors.toList());
-//        System.out.println(emp);
-//        dtm.setNumRows(0);
-//        emp.stream().forEach(e -> {
-//
-//            String fila[] = {e.getCedula(), e.getNombres(), e.getApellidos(), e.getCargo(), e.getCorreo(),
-//                e.getCelular(), e.getGenero()};
-//
-//            dtm.addRow(fila);
-//
-//        });
-//    }
     public void mostrarDatos(int seleccionado) {
 
         txtCedula.setText(listaEmpleados.get(seleccionado).getCedula());
