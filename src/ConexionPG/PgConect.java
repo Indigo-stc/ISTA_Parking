@@ -272,7 +272,7 @@ public class PgConect {
             String celular, String correo, String genero) {
         long jtime = fechanac.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
-        String noquery = "UPDATE personas"
+        String noquery = "UPDATE personas "
                 + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '" + 
                 sqltime  + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
                 + "WHERE cedula= '" + cedula + "';";
@@ -284,7 +284,7 @@ public class PgConect {
     public ArrayList searchPer(String nombre, String apellido) throws SQLException {
         ArrayList<Persona> listaPersonas = new ArrayList<> ();
         
-        String query = "SELECT cedula, nombre, apellido, fechanac, celular, correo, genero \n" +
+        String query = "SELECT cedula, nombre, apellido, fechanac, celular, correo, genero " +
                      "FROM personas\n" +
                      "WHERE nombre = '" + nombre + "' AND apellido = '" + apellido + "';";
         Persona per;
