@@ -111,6 +111,11 @@ public class RCliente extends javax.swing.JFrame {
                 txtCedulaFocusLost(evt);
             }
         });
+        txtCedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedulaActionPerformed(evt);
+            }
+        });
         txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCedulaKeyTyped(evt);
@@ -135,6 +140,11 @@ public class RCliente extends javax.swing.JFrame {
         txtCelular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCelularFocusLost(evt);
+            }
+        });
+        txtCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCelularActionPerformed(evt);
             }
         });
         txtCelular.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -500,6 +510,14 @@ public class RCliente extends javax.swing.JFrame {
         }
         limpiar();
     }//GEN-LAST:event_MOSTRARActionPerformed
+
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCelularActionPerformed
+
+    private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedulaActionPerformed
 
     public void mostrarDatos(int seleccionado) {
 

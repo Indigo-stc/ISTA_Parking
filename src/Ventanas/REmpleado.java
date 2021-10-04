@@ -175,11 +175,6 @@ public class REmpleado extends javax.swing.JFrame {
                 txtCorreoFocusLost(evt);
             }
         });
-        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCorreoActionPerformed(evt);
-            }
-        });
         getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 170, -1));
 
         b_GroupEmpleados.add(rbF);
@@ -521,10 +516,6 @@ public class REmpleado extends javax.swing.JFrame {
             lblverificarCorreo.setText(null);
         }
     }//GEN-LAST:event_txtCorreoFocusLost
-
-    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         System.exit(0);

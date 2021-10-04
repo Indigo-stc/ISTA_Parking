@@ -97,7 +97,7 @@ public class Ingreso extends javax.swing.JFrame {
         try {
             ResultSet rolnombre = conect.login(txtUsuarioM.getText(), txtContraseñaM.getText());
             if (rolnombre.next()) {
-                String rol = rolnombre.getString("rolnombre");
+                String rol = rolnombre.getString("idrol");
                 Menu menu = new Menu(rol);
                 menu.setVisible(true);
                 this.setVisible(false); 
