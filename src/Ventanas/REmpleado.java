@@ -68,6 +68,7 @@ public class REmpleado extends javax.swing.JFrame {
         lblvrfContra = new javax.swing.JLabel();
         lblvrfFecha = new javax.swing.JLabel();
         lblvrfCargo = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
@@ -273,6 +274,7 @@ public class REmpleado extends javax.swing.JFrame {
         });
         getContentPane().add(MOSTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 150, 40));
 
+        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         botonBuscar.setText("BUSCAR");
         getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 110, 30));
 
@@ -349,6 +351,9 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(lblvrfFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 170, 20));
         getContentPane().add(lblvrfCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 200, 20));
 
+        jPanel1.setBackground(new java.awt.Color(54, 77, 103));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 540));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -369,7 +374,7 @@ public class REmpleado extends javax.swing.JFrame {
                     !Val.isNumber(txtCelular.getText()) ||
                     !Val.edad(fecha.getDate()) ||
                     comboCargo.getSelectedIndex() == 0 ) {
-                JOptionPane.showMessageDialog(null, "Datos incorrctos");
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
                 Empleado emp = new Empleado(txtCedula.getText(), txtNombres.getText(),
                         txtApellidos.getText(), txtUsuario.getText(), txtContra.getText(),
@@ -729,6 +734,7 @@ public class REmpleado extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellidosEmp;
     private javax.swing.JLabel lblCargoEmp3;
