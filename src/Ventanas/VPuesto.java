@@ -18,6 +18,7 @@ public class VPuesto extends javax.swing.JFrame {
      */
     public VPuesto() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -128,6 +129,11 @@ public class VPuesto extends javax.swing.JFrame {
         btn_Registrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
         btn_Registrar.setText("Ingresa");
         btn_Registrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_Registrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegistrarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 134, 51));
 
         btn_mostrar.setBackground(new java.awt.Color(51, 51, 51));
@@ -205,6 +211,10 @@ public class VPuesto extends javax.swing.JFrame {
             lbl_VTipo.setText(null);
         }
     }//GEN-LAST:event_txt_TipoFocusLost
+
+    private void btn_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegistrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_RegistrarActionPerformed
 
     /**
      * @param args the command line arguments

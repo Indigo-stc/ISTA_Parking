@@ -16,6 +16,7 @@ public class TicketSalida extends javax.swing.JFrame {
      */
     public TicketSalida() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

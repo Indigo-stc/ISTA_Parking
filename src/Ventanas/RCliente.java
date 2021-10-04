@@ -1,7 +1,7 @@
 package Ventanas;
 
 import ConexionPG.PgConect;
-import Lógica.Cliente;
+import entidades.Cliente;
 import Validaciones.Val;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
@@ -113,6 +113,11 @@ public class RCliente extends javax.swing.JFrame {
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCedulaFocusLost(evt);
+            }
+        });
+        txtCedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedulaActionPerformed(evt);
             }
         });
         txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -488,6 +493,14 @@ public class RCliente extends javax.swing.JFrame {
     private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
 
     }//GEN-LAST:event_MOSTRARActionPerformed
+
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCelularActionPerformed
+
+    private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedulaActionPerformed
 
     public void mostrarDatos(int seleccionado) {
 

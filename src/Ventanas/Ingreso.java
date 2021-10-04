@@ -1,5 +1,12 @@
 package Ventanas;
 
+import ConexionPG.PgConect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 public class Ingreso extends javax.swing.JFrame {
 
     public Ingreso() {
@@ -13,7 +20,7 @@ public class Ingreso extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
-        btnAdmin = new javax.swing.JButton();
+        btnInicio = new javax.swing.JButton();
         lblContraseñaM = new javax.swing.JLabel();
         lblUsuarioM = new javax.swing.JLabel();
         txtUsuarioM = new javax.swing.JTextField();
@@ -37,12 +44,17 @@ public class Ingreso extends javax.swing.JFrame {
         btnSalir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 180, 50));
 
-        btnAdmin.setBackground(new java.awt.Color(51, 51, 51));
-        btnAdmin.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/user_admin_gear.png"))); // NOI18N
-        btnAdmin.setText("Iniciar Sesión");
-        btnAdmin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        getContentPane().add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 180, -1));
+        btnInicio.setBackground(new java.awt.Color(51, 51, 51));
+        btnInicio.setForeground(new java.awt.Color(255, 255, 255));
+        btnInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/user_admin_gear.png"))); // NOI18N
+        btnInicio.setText("Iniciar Sesión");
+        btnInicio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInicioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 180, -1));
 
         lblContraseñaM.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         lblContraseñaM.setForeground(new java.awt.Color(0, 0, 0));
@@ -55,6 +67,11 @@ public class Ingreso extends javax.swing.JFrame {
         getContentPane().add(lblUsuarioM, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, -1, -1));
 
         txtUsuarioM.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        txtUsuarioM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsuarioMActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtUsuarioM, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, 200, -1));
 
         txtContraseñaM.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -70,6 +87,27 @@ public class Ingreso extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtUsuarioMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsuarioMActionPerformed
+
+    private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
+        PgConect conect = new PgConect();
+        try {
+            ResultSet rolnombre = conect.login(txtUsuarioM.getText(), txtContraseñaM.getText());
+            if (rolnombre.next()) {
+                String rol = rolnombre.getString("idrol");
+                Menu menu = new Menu(rol);
+                menu.setVisible(true);
+                this.setVisible(false); 
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Usuario o contraseña incorrectos");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnInicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -96,38 +134,7 @@ public class Ingreso extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Ingreso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -140,7 +147,7 @@ public class Ingreso extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdmin;
+    private javax.swing.JButton btnInicio;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblContraseñaM;

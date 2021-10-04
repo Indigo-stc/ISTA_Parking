@@ -2,9 +2,37 @@ package Ventanas;
 
 public class Menu extends javax.swing.JFrame {
 
+    String rol;
+    
     public Menu() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    public Menu(String nombre) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.rol = nombre;
+        switch (rol) {
+            case "1" -> {
+                
+            }
+            case "2" -> {
+                mniEmpleado.setVisible(false);
+                mniPuesto.setVisible(false);
+            }
+            case "5" -> {
+                mniCliente.setVisible(false);
+                mniEmpleado.setVisible(false);
+                mniPuesto.setVisible(false);
+                mniReserva.setVisible(false);
+                mniVehiculo.setVisible(false);
+            } 
+            default -> {System.out.println("no valeeeeee");
+                System.out.println(rol);
+            }
+            
+        }
     }
 
     @SuppressWarnings("unchecked")
