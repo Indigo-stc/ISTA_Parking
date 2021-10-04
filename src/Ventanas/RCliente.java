@@ -1,18 +1,24 @@
 package Ventanas;
 
+import ConexionPG.PgConect;
 import Lógica.Cliente;
 import Validaciones.Val;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
+import java.util.List;
 
 
 public class RCliente extends javax.swing.JFrame {
-
-    public static ArrayList<Cliente> listaClientes = new ArrayList();
+    public static List<Cliente> listaClientes = new ArrayList();
+   
     String genero = null;
     String idCli = null;
+ 
 
     public RCliente() {
         initComponents();
@@ -200,6 +206,11 @@ public class RCliente extends javax.swing.JFrame {
         MOSTRAR.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         MOSTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoMostrar.png"))); // NOI18N
         MOSTRAR.setText("MOSTRAR");
+        MOSTRAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MOSTRARActionPerformed(evt);
+            }
+        });
         getContentPane().add(MOSTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 310, 150, 40));
 
         botonLimpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
@@ -286,37 +297,39 @@ public class RCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-        if (txtCedula.getText() == null || txtNombres.getText() == null
-                || txtApellidos.getText() == null || txtCelular.getText() == null
-                || txtCorreo.getText() == null || " ".equals(this.fechaNa.getDate())) {
-            JOptionPane.showMessageDialog(null, "Falta campos por llenar");
-        } else if (Val.digVfy(txtCedula.getText())) {
-            JOptionPane.showMessageDialog(null, "Cédula incorrecta");
-        } else if (Val.isNumber(txtCelular.getText())) {
-            JOptionPane.showMessageDialog(null, "Celular incorrecto");
-        } else {
-            Cliente registroCliente = new Cliente(txtCedula.getText(),
-                    txtNombres.getText(), txtApellidos.getText(), (Date) fechaNa.getDate(),
-                    txtCelular.getText(),
-                    txtCorreo.getText(), genero);
-            listaClientes.add(registroCliente);
-            
-            
-
-            /* for DB
-            ArrayList<Cliente> temp = Base.sGCedCli(
-                    Base.park, 
-                    txt_cedula.getText());
-            
-            for (int i = 0; i < temp.size(); i++) {
-                clients.add(temp.get(i));
+         PgConect conect = new PgConect(); 
+        try {
+            if (conect.pkPerson(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+            } else if (!Val.isNumber(txtCedula.getText())||
+                    Val.hollow(txtNombres.getText()) ||
+                    Val.hollow(txtApellidos.getText()) ||
+                    !Val.email(txtCorreo.getText()) ||
+                    !(rbM.isSelected() || rbF.isSelected()) ||
+                    !Val.isNumber(txtCelular.getText()) ||
+                    !Val.edad(fechaNa.getDate()) ) {
+                JOptionPane.showMessageDialog(null, "Datos incorrctos");
+            } else {
+                Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
+                        txtApellidos.getText(), (Date) fechaNa.getDate(), txtCelular.getText(),
+                        txtCorreo.getText(), genero);
+               
+   
+      
+                    conect.insPer(cli.getCedula(), cli.getNombres(),
+                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                            cli.getCorreo(), cli.getGenero());
+                 /*   conect.insEmp(cli.getIdCli, idRol.getString("idrol"), emp.getCedula(),
+                            emp.getUsuario(), emp.getContraseña());*/
+                 conect.insCli(cli.getIdCli(), cli.getCedula());
+                    JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
+                    actualizarDatos();
+                    limpiar();
+                
             }
-            actualizarDatos();
-            limpiarTxt();
-             */
+        } catch (SQLException ex) {
+            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        actualizarDatos();
-        limpiar();
     }//GEN-LAST:event_botonRegistrarActionPerformed
 
     private void rbMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbMMouseClicked
@@ -328,16 +341,49 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_rbFMouseClicked
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
-        int indexSlct = tablaClientes.getSelectedRow();
-        mostrarDatos(indexSlct);
+         int modify = tablaClientes.getSelectedRow();
+        txtCedula.setText(clie.get(modify).getCedula());
+        txtCedula.setEditable(false);
+        txtNombres.setText(clie.get(modify).getNombres());
+        txtApellidos.setText(clie.get(modify).getApellidos());
+        fechaNa.setDate(clie.get(modify).getFechaNacimiento());
     }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        Eliminar();
+          int index = tablaClientes.getSelectedRow();
+        String cedula = clie.get(index).getCedula();
+        if (PgConect.eliminar(cedula)) {
+            try {
+            ArrayList<Cliente> temp =PgConect.clien();
+            clie.clear();
+            for (int i = 0; i < temp.size(); i++) {
+                clie.add(temp.get(i));
+            }
+            actualizarDatos();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            JOptionPane.showMessageDialog(rootPane, "Eliminado exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No eliminado   ");
+        }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-        modificar();
+               int index = tablaClientes.getSelectedRow();
+        String cedula = clie.get(index).getCedula();
+        PgConect.modificar(txtCedula.getText(), txtNombres.getText(), txtApellidos.getText(), (Date) fechaNa.getDate(),txtCorreo.getText(),txtCelular.getText(),genero);
+        try {
+            ArrayList<Cliente> temp = PgConect.clien();
+            clie.clear();
+            for (int i = 0; i < temp.size(); i++) {
+                clie.add(temp.get(i));
+            }
+            actualizarDatos();
+        } catch (SQLException ex) {
+               Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -436,39 +482,24 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCelularKeyTyped
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        /* 
-        limpiarTbl();
-        clients.clear();
-        
-        
-        if (!(txt_ID.getText().length() == 0)) {
-            ArrayList<Cliente> temp = Base.sGIDCli(
-                    Base.parkl, txt_ID.getText());
-            bsqactuaL(temp);
-        } else if (!(txt_cedula.getText().length() == 0)) {
-            ArrayList<Cliente> temp = Base.sGCedCli(
-                    Base.parkl, txt_cedula.getText());
-            bsqactuaL(temp);
-        } else if (!(txt_Nombre.getText().length() == 0)) {
-            ArrayList<Cliente> temp = Base.sGNomCli(
-                    Base.park, txt_Nombre.getText());
-            bsqactuaL(temp);
-        } else if (!(txt_Apellido1.getText().length() == 0)) {
-            ArrayList<Cliente> temp = Base.sGApeCli(
-                    Base.park, txt_Apellido1.getText());
-            bsqactuaL(temp);
-        } else if (!(genero.length() == 0)) {
-            ArrayList<Cliente> temp = Base.sGGenCli(
-                    Base.parkl, genero);
-            bsqactuaL(temp);
-        } else if (!(txt_Apellido1.getText().length() == 0 &&
-                genero.length() == 0)) {
-            ArrayList<Cliente> temp = Base.sGApeGenCli(
-                    Base.park, txt_Apellido1.getText(), genero);
-            bsqactuaL(temp);
-        }
-         */
+  
     }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
+        // TODO add your handling code here:
+        PgConect conect = new PgConect();
+        try {
+            ArrayList<Cliente> tempo= conect.clien();
+            listaClientes.clear();
+            for (int i = 0; i < tempo.size(); i++) {
+                listaClientes.add(tempo.get(i));
+            }
+            actualizarDatos();
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        limpiar();
+    }//GEN-LAST:event_MOSTRARActionPerformed
 
     public void mostrarDatos(int seleccionado) {
 
@@ -662,4 +693,6 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombres;
     // End of variables declaration//GEN-END:variables
+  public static ArrayList<Cliente> clie = new ArrayList<> ();
+  public static ArrayList <PgConect> pg =new ArrayList<> ();
 }
