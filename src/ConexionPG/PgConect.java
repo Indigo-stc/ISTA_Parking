@@ -63,6 +63,21 @@ public class PgConect {
         }
     }
     
+    public ResultSet login(String usuario, String contraseña) throws SQLException {
+        String query = "SELECT usuario, contraseña, empleados.idrol, rolnombre "
+                + "FROM empleados, roles "
+                + "WHERE usuario = '"+ usuario +"' AND empleados.idrol = roles.idrol "
+                + "AND contraseña = '"+ contraseña +"';";
+        ResultSet rolnombre = query(query);
+        if (rolnombre == null) {
+            System.out.println("no hay datos");
+            System.out.println(rolnombre);
+            return null;
+        } else {
+            return rolnombre;
+        }
+    }
+    
     
     public boolean insRol(String idRol, String rolnombre, String usuario, String contraseña) {
         String nquery = "INSERT INTO rol("
@@ -163,7 +178,6 @@ public class PgConect {
         ResultSet idRol = query(query);
         if (idRol == null) {
             System.out.println("no hay datos");
-            System.out.println(idRol);
             return null;
         } else {
             return idRol;
