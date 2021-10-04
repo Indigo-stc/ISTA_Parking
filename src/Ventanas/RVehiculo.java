@@ -3,7 +3,10 @@ package Ventanas;
 import ConexionPG.PgConect;
 import entidades.Vehiculo;
 import Validaciones.Val;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,9 +16,15 @@ public class RVehiculo extends javax.swing.JFrame {
     public static ArrayList <Vehiculo> listav= new ArrayList();
     public RVehiculo() {
         initComponents();
-        RCliente cli = new RCliente();
-        txt_IDCli.setText(cli.idCli);
-        setLocationRelativeTo(null);
+        RCliente cli;
+        try {
+            cli = new RCliente();
+            txt_IDCli.setText(cli.idCli);
+            setLocationRelativeTo(null);
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -186,7 +195,11 @@ public class RVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     public void mostrarDatos(int seleccionado) {
-        RCliente cli = new RCliente();
+        try {
+            RCliente cli = new RCliente();
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         txt_Placa.setText(listav.get(seleccionado).getPlaca());
         txt_Placa.setEditable(false);
         //txt_IDCli.setText(listav.get(seleccionado));

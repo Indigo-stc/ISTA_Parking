@@ -335,18 +335,6 @@ public class PgConect {
         }
     }
 
-    public void modificarPer(String cedula, String nombre, String apellido, Date fechanac,
-            String celular, String correo, String genero) {
-        long jtime = fechanac.getTime();
-        java.sql.Date sqltime = new java.sql.Date(jtime);
-        String noquery = "UPDATE personas "
-                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '" + 
-                sqltime  + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
-                + "WHERE cedula= '" + cedula + "';";
-        if (noQuery(noquery) == null) {
-            System.out.println("Modificado exitosamente");
-        }
-    }
   
 }
 

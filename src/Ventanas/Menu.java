@@ -182,9 +182,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mniEmpleadoActionPerformed
 
     private void mniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClienteActionPerformed
-        RCliente rc = new RCliente();
+        /*RCliente rc = new RCliente();
         rc.setVisible(true);
-        this.setVisible(false);
+        this.setVisible(false);*/
     }//GEN-LAST:event_mniClienteActionPerformed
 
     private void mniVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVehiculoActionPerformed
@@ -194,7 +194,6 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mniVehiculoActionPerformed
 
     private void mniPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPuestoActionPerformed
-        // TODO add your handling code here:
         VPuesto vp = new VPuesto();
         vp.setVisible(true);
         this.setVisible(false);
