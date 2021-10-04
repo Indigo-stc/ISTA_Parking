@@ -68,6 +68,7 @@ public class REmpleado extends javax.swing.JFrame {
         lblvrfContra = new javax.swing.JLabel();
         lblvrfFecha = new javax.swing.JLabel();
         lblvrfCargo = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
@@ -124,7 +125,7 @@ public class REmpleado extends javax.swing.JFrame {
                 comboCargoFocusLost(evt);
             }
         });
-        getContentPane().add(comboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 160, 170, -1));
+        getContentPane().add(comboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 170, -1));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -224,14 +225,14 @@ public class REmpleado extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaEmpleados);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 800, 170));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 820, 170));
 
         fecha.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 fechaFocusLost(evt);
             }
         });
-        getContentPane().add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 170, -1));
+        getContentPane().add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 170, -1));
 
         botonRegistrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
@@ -241,7 +242,7 @@ public class REmpleado extends javax.swing.JFrame {
                 botonRegistrarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 160, 40));
+        getContentPane().add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 150, 40));
 
         botonEliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
@@ -251,7 +252,7 @@ public class REmpleado extends javax.swing.JFrame {
                 botonEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 150, 40));
+        getContentPane().add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 150, 40));
 
         botonModificar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoEditar.png"))); // NOI18N
@@ -261,7 +262,7 @@ public class REmpleado extends javax.swing.JFrame {
                 botonModificarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, 150, 40));
+        getContentPane().add(botonModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, 150, 40));
 
         MOSTRAR.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         MOSTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoMostrar.png"))); // NOI18N
@@ -271,10 +272,11 @@ public class REmpleado extends javax.swing.JFrame {
                 MOSTRARActionPerformed(evt);
             }
         });
-        getContentPane().add(MOSTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 150, 40));
+        getContentPane().add(MOSTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 150, 40));
 
+        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         botonBuscar.setText("BUSCAR");
-        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 290, 120, 30));
+        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 110, 30));
 
         botonLimpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
@@ -284,7 +286,7 @@ public class REmpleado extends javax.swing.JFrame {
                 botonLimpiarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 330, 130, 40));
+        getContentPane().add(botonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 330, 130, 40));
 
         botonSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -294,7 +296,7 @@ public class REmpleado extends javax.swing.JFrame {
                 botonSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 100, -1));
+        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 10, 100, -1));
 
         lblVerificarCedula.setBackground(new java.awt.Color(255, 0, 0));
         lblVerificarCedula.setForeground(new java.awt.Color(255, 0, 0));
@@ -349,6 +351,9 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(lblvrfFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 170, 20));
         getContentPane().add(lblvrfCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 200, 20));
 
+        jPanel1.setBackground(new java.awt.Color(54, 77, 103));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 540));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -369,7 +374,7 @@ public class REmpleado extends javax.swing.JFrame {
                     !Val.isNumber(txtCelular.getText()) ||
                     !Val.edad(fecha.getDate()) ||
                     comboCargo.getSelectedIndex() == 0 ) {
-                JOptionPane.showMessageDialog(null, "Datos incorrctos");
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
                 Empleado emp = new Empleado(txtCedula.getText(), txtNombres.getText(),
                         txtApellidos.getText(), txtUsuario.getText(), txtContra.getText(),
@@ -406,7 +411,26 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombresActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        Eliminar();
+        PgConect conect = new PgConect();
+        int index = tablaEmpleados.getSelectedRow();
+        String cedula = listaEmpleados.get(index).getCedula();
+        if (conect.eliminarEmp(cedula)) {
+            try {
+                ArrayList<Empleado> temp = conect.mostrar();
+                listaEmpleados.clear();
+                for (int i = 0; i < temp.size(); i++) {
+                    listaEmpleados.add(temp.get(i));
+                }
+                actualizarDatos();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(rootPane, "Eliminado exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No eliminado   ");
+        }
+        limpiar();
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void tablaEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEmpleadosMouseClicked
@@ -415,7 +439,22 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaEmpleadosMouseClicked
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-        modificar();
+//        PgConect conect = new PgConect();
+//        int index = tablaEmpleados.getSelectedRow();
+//        String cedula = listaEmpleados.get(index).getCedula();
+//        conect.modificar(cedula, cedula, cedula, genero, cedula);
+//        try {
+//            ArrayList<Personas> temp = Personas.all();
+//            listaPersona.clear();
+//            for (int i = 0; i < temp.size(); i++) {
+//                listaPersona.add(temp.get(i));
+//            }
+//            actualizarDatos();
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        limpiar();
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -423,13 +462,18 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_botonLimpiarActionPerformed
 
     private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
-//        listaEmpleados.clear();
-//        ArrayList<Empleado> emp = new ArrayList();
-//        for (int i = 0; i < emp.size(); i++) {
-//            listaEmpleados.add(emp.get(i));
-//        }
-//        actualizarDatos();
-//        limpiar();
+        PgConect conect = new PgConect();
+        try {
+            ArrayList<Empleado> tempo = conect.mostrar();
+            listaEmpleados.clear();
+            for (int i = 0; i < tempo.size(); i++) {
+                listaEmpleados.add(tempo.get(i));
+            }
+            actualizarDatos();
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        limpiar();
     }//GEN-LAST:event_MOSTRARActionPerformed
 
     private void lblVerificarCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblVerificarCedulaKeyTyped
@@ -690,6 +734,7 @@ public class REmpleado extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblApellidosEmp;
     private javax.swing.JLabel lblCargoEmp3;

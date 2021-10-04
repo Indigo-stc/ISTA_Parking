@@ -28,5 +28,13 @@ public class Vehiculo {
         this.tipo = tipo;
     }
 
+    /**
+     * @return the placa
+     */
+    public String getPlaca() {
+        return placa;
+    }
+
+    
     
 }
