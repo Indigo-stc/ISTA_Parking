@@ -65,6 +65,21 @@ public class PgConect {
             return null;
         }
     }
+    
+    public ResultSet login(String usuario, String contraseña) throws SQLException {
+        String query = "SELECT usuario, contraseña, empleados.idrol, rolnombre "
+                + "FROM empleados, roles "
+                + "WHERE usuario = '"+ usuario +"' AND empleados.idrol = roles.idrol "
+                + "AND contraseña = '"+ contraseña +"';";
+        ResultSet rolnombre = query(query);
+        if (rolnombre == null) {
+            System.out.println("no hay datos");
+            System.out.println(rolnombre);
+            return null;
+        } else {
+            return rolnombre;
+        }
+    }
 
     public boolean insRol(String idRol, String rolnombre, String usuario, String contraseña) {
         String nquery = "INSERT INTO rol("
@@ -164,7 +179,6 @@ public class PgConect {
         ResultSet idRol = query(query);
         if (idRol == null) {
             System.out.println("no hay datos");
-            System.out.println(idRol);
             return null;
         } else {
             return idRol;
@@ -341,7 +355,7 @@ public class PgConect {
         
         
 
-      public static boolean eliminar(String cedula) {
+     public static boolean eliminar(String cedula) {
          PgConect connect= new PgConect();
         String nsql = "DELETE FROM personas\n" +
                     "WHERE cedula = '" + cedula + "';"; 
@@ -352,7 +366,8 @@ public class PgConect {
             return false;
         }
     }
-        public static void modificar(String cedula, String nombres, String apellidos, Date fechaNacimiento,String celular, String correo, String genero) {
+  
+    public static void modificar(String cedula, String nombres, String apellidos, Date fechaNacimiento,String celular, String correo, String genero) {
         long jtime = fechaNacimiento.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
         PgConect connect= new PgConect();
@@ -363,6 +378,6 @@ public class PgConect {
             System.out.println("Modificado exitosamente");
         }
     }
-    
-    
+  
 }
+
