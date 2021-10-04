@@ -213,13 +213,13 @@ public class RCliente extends javax.swing.JFrame {
         getContentPane().add(botonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 310, 160, 40));
 
         botonBuscar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonBuscar.setText("BUSCAR");
+        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 260, 160, 40));
+        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 80, 50, 50));
 
         botonSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -276,10 +276,10 @@ public class RCliente extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaClientes);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 800, 150));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 800, 110));
         getContentPane().add(fechaNa, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 190, -1));
 
-        lblFondoCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondoClientes.jpg"))); // NOI18N
+        lblFondoCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/5.jpg"))); // NOI18N
         getContentPane().add(lblFondoCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();

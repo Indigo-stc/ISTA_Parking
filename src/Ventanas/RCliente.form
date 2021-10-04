@@ -351,14 +351,16 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Cascadia Code" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="BUSCAR"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Imagenes/Buscar.png"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonBuscarActionPerformed"/>
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="630" y="260" width="160" height="40"/>
+          <AbsoluteConstraints x="670" y="80" width="50" height="50"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -468,7 +470,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="350" width="800" height="150"/>
+          <AbsoluteConstraints x="0" y="360" width="800" height="110"/>
         </Constraint>
       </Constraints>
 
@@ -552,7 +554,7 @@
     <Component class="javax.swing.JLabel" name="lblFondoCli">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Imagenes/fondoClientes.jpg"/>
+          <Image iconType="3" name="/Imagenes/5.jpg"/>
         </Property>
       </Properties>
       <Constraints>
