@@ -17,7 +17,7 @@ public class Empleado extends Persona {
         this.contraseña = contraseña;
         this.id_Emp = "Emp-" + UUID.randomUUID().toString().substring(0, 3);
     }
-
+    
     public String getCargo() {
         return cargo;
     }
