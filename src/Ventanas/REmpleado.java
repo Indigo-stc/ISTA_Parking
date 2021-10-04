@@ -162,6 +162,11 @@ public class REmpleado extends javax.swing.JFrame {
                 txtCelularFocusLost(evt);
             }
         });
+        txtCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCelularActionPerformed(evt);
+            }
+        });
         txtCelular.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCelularKeyTyped(evt);
@@ -359,7 +364,7 @@ public class REmpleado extends javax.swing.JFrame {
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
         PgConect conect = new PgConect(); 
         try {
-            if (conect.pkPerson(txtCedula.getText())) {
+            if (!conect.pkPerson(txtCedula.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (!Val.isNumber(txtCedula.getText())||
                     Val.hollow(txtNombres.getText()) ||
@@ -535,6 +540,10 @@ public class REmpleado extends javax.swing.JFrame {
             lblvrfFecha.setText(null);
         } 
     }//GEN-LAST:event_fechaFocusLost
+
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCelularActionPerformed
 
 //    private void Busqueda(String isNumber) {
 //        System.out.println("Busqueda");

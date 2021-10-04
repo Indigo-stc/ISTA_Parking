@@ -57,7 +57,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            stat.close();
+          //  stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,30 +172,16 @@ public class PgConect {
         }
         
     }
-   public static ArrayList<Cliente> clien() throws SQLException {
-        ArrayList<Cliente> listaclientes = new ArrayList<> ();
-        PgConect connect= new PgConect();
-        String sql = "SELECT * FROM personas;"; 
-        Cliente cli;
-        if (connect.query(sql) == null) {
+   public ResultSet mostrarCli() throws SQLException {
+        String query = "SELECT idcliente, personas.cedula, nombre, apellido, fechanac, correo, celular, genero "
+                + "FROM clientes, personas "
+                + "WHERE personas.cedula= clientes.idpersona ;";
+        ResultSet rs = query(query);
+        if (rs == null) {
             System.out.println("No se han encontrado datos");
             return null;
         } else {
-            ResultSet rs = connect.query(sql);
-            while(rs.next()) {
-                System.out.println(rs);
-                //Date utilDate = new java.util.Date(nac.getTime());
-                cli = new Cliente(
-                        rs.getString("cedula"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido"),
-                        rs.getDate("fechanac"),
-                         rs.getString("celular"),
-                        rs.getString("correo"),
-                        rs.getString("genero") );
-                listaclientes.add(cli);
-            }
-            return listaclientes;
+            return rs;
         }
     }
 

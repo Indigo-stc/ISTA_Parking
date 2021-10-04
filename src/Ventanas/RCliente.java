@@ -3,15 +3,17 @@ package Ventanas;
 import ConexionPG.PgConect;
 import Lógica.Cliente;
 import Validaciones.Val;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.List;
-
+import java.text.SimpleDateFormat;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 public class RCliente extends javax.swing.JFrame {
     public static List<Cliente> listaClientes = new ArrayList();
@@ -20,9 +22,10 @@ public class RCliente extends javax.swing.JFrame {
     String idCli = null;
  
 
-    public RCliente() {
+    public RCliente() throws SQLException {
         initComponents();
         setLocationRelativeTo(null);
+        tblModelo(); 
     }
 
     @SuppressWarnings("unchecked")
@@ -135,6 +138,11 @@ public class RCliente extends javax.swing.JFrame {
         txtCelular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCelularFocusLost(evt);
+            }
+        });
+        txtCelular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCelularActionPerformed(evt);
             }
         });
         txtCelular.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -299,7 +307,7 @@ public class RCliente extends javax.swing.JFrame {
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
          PgConect conect = new PgConect(); 
         try {
-            if (conect.pkPerson(txtCedula.getText())) {
+            if (!conect.pkPerson(txtCedula.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (!Val.isNumber(txtCedula.getText())||
                     Val.hollow(txtNombres.getText()) ||
@@ -310,8 +318,11 @@ public class RCliente extends javax.swing.JFrame {
                     !Val.edad(fechaNa.getDate()) ) {
                 JOptionPane.showMessageDialog(null, "Datos incorrctos");
             } else {
-                Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
-                        txtApellidos.getText(), (Date) fechaNa.getDate(), txtCelular.getText(),
+                Cliente cli;
+                          long jtime = fechaNa.getDate().getTime();
+                         java.sql.Date sqltime = new java.sql.Date(jtime);
+                cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
+                        txtApellidos.getText(),  sqltime, txtCelular.getText(),
                         txtCorreo.getText(), genero);
                
    
@@ -341,49 +352,15 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_rbFMouseClicked
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
-         int modify = tablaClientes.getSelectedRow();
-        txtCedula.setText(clie.get(modify).getCedula());
-        txtCedula.setEditable(false);
-        txtNombres.setText(clie.get(modify).getNombres());
-        txtApellidos.setText(clie.get(modify).getApellidos());
-        fechaNa.setDate(clie.get(modify).getFechaNacimiento());
+   
     }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-          int index = tablaClientes.getSelectedRow();
-        String cedula = clie.get(index).getCedula();
-        if (PgConect.eliminar(cedula)) {
-            try {
-            ArrayList<Cliente> temp =PgConect.clien();
-            clie.clear();
-            for (int i = 0; i < temp.size(); i++) {
-                clie.add(temp.get(i));
-            }
-            actualizarDatos();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            JOptionPane.showMessageDialog(rootPane, "Eliminado exitosamente");
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "No eliminado   ");
-        }
+   
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-               int index = tablaClientes.getSelectedRow();
-        String cedula = clie.get(index).getCedula();
-        PgConect.modificar(txtCedula.getText(), txtNombres.getText(), txtApellidos.getText(), (Date) fechaNa.getDate(),txtCorreo.getText(),txtCelular.getText(),genero);
-        try {
-            ArrayList<Cliente> temp = PgConect.clien();
-            clie.clear();
-            for (int i = 0; i < temp.size(); i++) {
-                clie.add(temp.get(i));
-            }
-            actualizarDatos();
-        } catch (SQLException ex) {
-               Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -470,14 +447,11 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCedulaKeyTyped
 
     private void txtCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelularKeyTyped
-        char validar = evt.getKeyChar();
+          char validar = evt.getKeyChar();
         if (Character.isLetter(validar)
-                || Val.isNumber(txtCedula.getText())) {
+                || Val.isNumber(txtCelular.getText())) {
             getToolkit();
             evt.consume();
-            lblvrfCedula.setText("Deben ser 10 digitos");
-        } else {
-            lblvrfCedula.setText(null);
         }
     }//GEN-LAST:event_txtCelularKeyTyped
 
@@ -486,20 +460,12 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
-        // TODO add your handling code here:
-        PgConect conect = new PgConect();
-        try {
-            ArrayList<Cliente> tempo= conect.clien();
-            listaClientes.clear();
-            for (int i = 0; i < tempo.size(); i++) {
-                listaClientes.add(tempo.get(i));
-            }
-            actualizarDatos();
-        } catch (SQLException ex) {
-            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        limpiar();
+
     }//GEN-LAST:event_MOSTRARActionPerformed
+
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCelularActionPerformed
 
     public void mostrarDatos(int seleccionado) {
 
@@ -627,6 +593,31 @@ public class RCliente extends javax.swing.JFrame {
 
     }
 
+    public void tblModelo() throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tablaClientes.setModel(modelo);
+        PgConect con = new PgConect();
+        ResultSet clientes = con.mostrarCli();
+        ResultSetMetaData rsmd = clientes.getMetaData();
+        int columns = rsmd.getColumnCount(); 
+
+        modelo.addColumn("ID");
+        modelo.addColumn("Cedula");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("F.Nacimiento");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Celular");
+        modelo.addColumn("Genero");
+
+        while(clientes.next()) {
+            Object[] filas = new Object[columns];
+            for (int i = 0; i < columns; i++) {
+                filas[i] = clientes.getObject(i+1);
+            }
+            modelo.addRow(filas);
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -654,7 +645,11 @@ public class RCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RCliente().setVisible(true);
+                try {
+                    new RCliente().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
