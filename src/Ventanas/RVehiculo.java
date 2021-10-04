@@ -1,7 +1,7 @@
 package Ventanas;
 
 import ConexionPG.PgConect;
-import Lógica.Vehiculo;
+import entidades.Vehiculo;
 import Validaciones.Val;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

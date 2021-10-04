@@ -1,7 +1,5 @@
 package Ventanas;
 
-import Lógica.*;
-
 public class CTicketIngreso extends javax.swing.JFrame {
 
     public CTicketIngreso() {

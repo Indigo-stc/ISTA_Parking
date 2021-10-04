@@ -21,7 +21,17 @@ public class Menu extends javax.swing.JFrame {
                 mniEmpleado.setVisible(false);
                 mniPuesto.setVisible(false);
             }
-            case "5" -> {}
+            case "5" -> {
+                mniCliente.setVisible(false);
+                mniEmpleado.setVisible(false);
+                mniPuesto.setVisible(false);
+                mniReserva.setVisible(false);
+                mniVehiculo.setVisible(false);
+            } 
+            default -> {System.out.println("no valeeeeee");
+                System.out.println(rol);
+            }
+            
         }
     }
 

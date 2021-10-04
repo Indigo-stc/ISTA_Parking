@@ -1,7 +1,7 @@
 package Ventanas;
 
 import ConexionPG.PgConect;
-import Lógica.Empleado;
+import entidades.Empleado;
 import Validaciones.Val;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 public class REmpleado extends javax.swing.JFrame {
 
@@ -21,6 +22,38 @@ public class REmpleado extends javax.swing.JFrame {
     public REmpleado() {
         initComponents();
         setLocationRelativeTo(null);
+        try {
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void tblModelo() throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tblEmpleados.setModel(modelo);
+        PgConect con = new PgConect();
+        ResultSet empleados = con.mostrarEmp();
+        ResultSetMetaData rsmd = empleados.getMetaData();
+        int columns = rsmd.getColumnCount(); 
+        
+        modelo.addColumn("ID Empleado");
+        modelo.addColumn("Cedula");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("Rol");
+        modelo.addColumn("F.Nacimiento");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Celular");
+        modelo.addColumn("Genero");
+        
+        while(empleados.next()) {
+            Object[] filas = new Object[columns];
+            for (int i = 0; i < columns; i++) {
+                filas[i] = empleados.getObject(i+1);
+            }
+            modelo.addRow(filas);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -46,12 +79,11 @@ public class REmpleado extends javax.swing.JFrame {
         rbF = new javax.swing.JRadioButton();
         rbM = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaEmpleados = new javax.swing.JTable();
+        tblEmpleados = new javax.swing.JTable();
         fecha = new com.toedter.calendar.JDateChooser();
         botonRegistrar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
         botonModificar = new javax.swing.JButton();
-        MOSTRAR = new javax.swing.JButton();
         botonBuscar = new javax.swing.JButton();
         botonLimpiar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
@@ -175,11 +207,6 @@ public class REmpleado extends javax.swing.JFrame {
                 txtCorreoFocusLost(evt);
             }
         });
-        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCorreoActionPerformed(evt);
-            }
-        });
         getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 170, -1));
 
         b_GroupEmpleados.add(rbF);
@@ -209,8 +236,8 @@ public class REmpleado extends javax.swing.JFrame {
         });
         getContentPane().add(rbM, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 60, 50, -1));
 
-        tablaEmpleados.setFont(new java.awt.Font("Cascadia Code", 1, 10)); // NOI18N
-        tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmpleados.setFont(new java.awt.Font("Cascadia Code", 1, 10)); // NOI18N
+        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -218,12 +245,12 @@ public class REmpleado extends javax.swing.JFrame {
                 "ID", "Cédula", "Nombres", "Apellidos", "Cargo", "Fecha N.", "Correo", "Celular", "Genero"
             }
         ));
-        tablaEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaEmpleadosMouseClicked(evt);
+                tblEmpleadosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaEmpleados);
+        jScrollPane1.setViewportView(tblEmpleados);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 820, 170));
 
@@ -263,16 +290,6 @@ public class REmpleado extends javax.swing.JFrame {
             }
         });
         getContentPane().add(botonModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, 150, 40));
-
-        MOSTRAR.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        MOSTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoMostrar.png"))); // NOI18N
-        MOSTRAR.setText("MOSTRAR");
-        MOSTRAR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MOSTRARActionPerformed(evt);
-            }
-        });
-        getContentPane().add(MOSTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 150, 40));
 
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         botonBuscar.setText("BUSCAR");
@@ -364,7 +381,7 @@ public class REmpleado extends javax.swing.JFrame {
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
         PgConect conect = new PgConect(); 
         try {
-            if (conect.pkPerson(txtCedula.getText())) {
+            if (!conect.pkPerson(txtCedula.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (!Val.isNumber(txtCedula.getText())||
                     Val.hollow(txtNombres.getText()) ||
@@ -411,12 +428,12 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombresActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        PgConect conect = new PgConect();
-        int index = tablaEmpleados.getSelectedRow();
+        /*PgConect conect = new PgConect();
+        int index = tblEmpleados.getSelectedRow();
         String cedula = listaEmpleados.get(index).getCedula();
         if (conect.eliminarEmp(cedula)) {
             try {
-                ArrayList<Empleado> temp = conect.mostrar();
+                ArrayList<Empleado> temp = conect.mostrarEmp();
                 listaEmpleados.clear();
                 for (int i = 0; i < temp.size(); i++) {
                     listaEmpleados.add(temp.get(i));
@@ -430,51 +447,36 @@ public class REmpleado extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "No eliminado   ");
         }
-        limpiar();
+        limpiar();*/
     }//GEN-LAST:event_botonEliminarActionPerformed
 
-    private void tablaEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEmpleadosMouseClicked
-        int indexSlct = tablaEmpleados.getSelectedRow();
+    private void tblEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseClicked
+        int indexSlct = tblEmpleados.getSelectedRow();
         mostrarDatos(indexSlct);
-    }//GEN-LAST:event_tablaEmpleadosMouseClicked
+    }//GEN-LAST:event_tblEmpleadosMouseClicked
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-//        PgConect conect = new PgConect();
-//        int index = tablaEmpleados.getSelectedRow();
-//        String cedula = listaEmpleados.get(index).getCedula();
-//        conect.modificar(cedula, cedula, cedula, genero, cedula);
-//        try {
-//            ArrayList<Personas> temp = Personas.all();
-//            listaPersona.clear();
-//            for (int i = 0; i < temp.size(); i++) {
-//                listaPersona.add(temp.get(i));
-//            }
-//            actualizarDatos();
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        limpiar();
+        PgConect conect = new PgConect();
+        int index = tblEmpleados.getSelectedRow();
+        String cedula = listaEmpleados.get(index).getCedula();
+        conect.modificar(cedula, cedula, cedula, genero, cedula);
+        try {
+            ArrayList<Personas> temp = Personas.all();
+            listaPersona.clear();
+            for (int i = 0; i < temp.size(); i++) {
+                listaPersona.add(temp.get(i));
+            }
+            actualizarDatos();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        limpiar();
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_botonLimpiarActionPerformed
-
-    private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
-        PgConect conect = new PgConect();
-        try {
-            ArrayList<Empleado> tempo = conect.mostrar();
-            listaEmpleados.clear();
-            for (int i = 0; i < tempo.size(); i++) {
-                listaEmpleados.add(tempo.get(i));
-            }
-            actualizarDatos();
-        } catch (SQLException ex) {
-            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        limpiar();
-    }//GEN-LAST:event_MOSTRARActionPerformed
 
     private void lblVerificarCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblVerificarCedulaKeyTyped
         
@@ -521,10 +523,6 @@ public class REmpleado extends javax.swing.JFrame {
             lblverificarCorreo.setText(null);
         }
     }//GEN-LAST:event_txtCorreoFocusLost
-
-    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         System.exit(0);
@@ -644,7 +642,7 @@ public class REmpleado extends javax.swing.JFrame {
             matriz[i][7] = listaEmpleados.get(i).getCelular();
             matriz[i][8] = listaEmpleados.get(i).getGenero();
         }
-        tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
                 matriz,
                 new String[]{
                     "ID", "Cédula", "Nombres", "Apellidos", "Cargo", "Fecha N.", "Correo", "Celular", "Genero"
@@ -653,8 +651,8 @@ public class REmpleado extends javax.swing.JFrame {
     }
 
     private void Eliminar() {
-        DefaultTableModel mdl = (DefaultTableModel) tablaEmpleados.getModel();
-        int seleccion = tablaEmpleados.getSelectedRow();
+        DefaultTableModel mdl = (DefaultTableModel) tblEmpleados.getModel();
+        int seleccion = tblEmpleados.getSelectedRow();
         if (seleccion < 0) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para eliminar");
         } else {
@@ -670,7 +668,7 @@ public class REmpleado extends javax.swing.JFrame {
 
     public void modificar() {
 
-        int indexSlct = tablaEmpleados.getSelectedRow();
+        int indexSlct = tblEmpleados.getSelectedRow();
         if (indexSlct != -1) {
             listaEmpleados.get(indexSlct).setCedula(txtCedula.getText());
             listaEmpleados.get(indexSlct).setNombres(txtNombres.getText());
@@ -722,7 +720,6 @@ public class REmpleado extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton MOSTRAR;
     private javax.swing.ButtonGroup b_GroupEmpleados;
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonEliminar;
@@ -756,7 +753,7 @@ public class REmpleado extends javax.swing.JFrame {
     private javax.swing.JLabel lblvrfUsu;
     private javax.swing.JRadioButton rbF;
     private javax.swing.JRadioButton rbM;
-    private javax.swing.JTable tablaEmpleados;
+    private javax.swing.JTable tblEmpleados;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
