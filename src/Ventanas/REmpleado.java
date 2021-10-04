@@ -3,6 +3,7 @@ package Ventanas;
 import ConexionPG.PgConect;
 import entidades.Empleado;
 import Validaciones.Val;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.Date;
 
 public class REmpleado extends javax.swing.JFrame {
 
@@ -250,9 +252,9 @@ public class REmpleado extends javax.swing.JFrame {
                 "ID", "Cédula", "Nombres", "Apellidos", "Cargo", "Fecha N.", "Correo", "Celular", "Genero"
             }
         ));
-        tblEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblEmpleadosMouseClicked(evt);
+        tblEmpleados.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblEmpleadosKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tblEmpleados);
@@ -433,50 +435,16 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombresActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        /*PgConect conect = new PgConect();
-        int index = tblEmpleados.getSelectedRow();
-        String cedula = listaEmpleados.get(index).getCedula();
-        if (conect.eliminarEmp(cedula)) {
-            try {
-                ArrayList<Empleado> temp = conect.mostrarEmp();
-                listaEmpleados.clear();
-                for (int i = 0; i < temp.size(); i++) {
-                    listaEmpleados.add(temp.get(i));
-                }
-                actualizarDatos();
-
-            } catch (SQLException ex) {
-                Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            JOptionPane.showMessageDialog(rootPane, "Eliminado exitosamente");
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "No eliminado   ");
-        }
-        limpiar();*/
+        String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
+        String cedula =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
+        
+        PgConect con = new PgConect();
+        con.eliminarPer(cedula);
+        con.eliminarEmp(idEmp);
     }//GEN-LAST:event_botonEliminarActionPerformed
 
-    private void tblEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseClicked
-        int indexSlct = tblEmpleados.getSelectedRow();
-        mostrarDatos(indexSlct);
-    }//GEN-LAST:event_tblEmpleadosMouseClicked
-
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-        PgConect conect = new PgConect();
-        int index = tblEmpleados.getSelectedRow();
-        String cedula = listaEmpleados.get(index).getCedula();
-        conect.modificar(cedula, cedula, cedula, genero, cedula);
-        try {
-            ArrayList<Personas> temp = Personas.all();
-            listaPersona.clear();
-            for (int i = 0; i < temp.size(); i++) {
-                listaPersona.add(temp.get(i));
-            }
-            actualizarDatos();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        limpiar();
+        
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -583,12 +551,25 @@ public class REmpleado extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_fechaFocusLost
 
-    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCelularActionPerformed
 
+    private void tblEmpleadosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadosKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
+            String cedula =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
+            String nombre =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
+            String apellido =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
+            String rol =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
+            Date fechanac =  (Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5);
+            String correo =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
+            String celular =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7).toString();
+            String genero =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
+            
+            PgConect con = new PgConect();
+            con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, genero);
+            //con.modificarEmp(idEmp, usuario, correo);
+        }
+    }//GEN-LAST:event_tblEmpleadosKeyReleased
 
-   
     public void mostrarDatos(int seleccionado) {
 
         txtCedula.setText(listaEmpleados.get(seleccionado).getCedula());
