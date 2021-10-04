@@ -1,6 +1,8 @@
 package ConexionPG;
 
-import Lógica.*;
+import entidades.Cliente;
+import entidades.Persona;
+import entidades.Empleado;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -186,36 +188,16 @@ public class PgConect {
 
     }
     
-    public ArrayList<Empleado> mostrar() throws SQLException {
-        ArrayList<Empleado> listaEmpleados = new ArrayList<>();
-        
-        String query = "SELECT * FROM empleados;";
-        Empleado emp;
-
-        if (query(query) == null) {
+    public ResultSet mostrarEmp() throws SQLException {
+        String query = "SELECT idempleado, empleados.cedula, nombre, apellido, rolnombre, fechanac, correo, celular, genero "
+                + "FROM empleados, personas, roles "
+                + "WHERE personas.cedula = empleados.cedula AND empleados.idrol = roles.idrol;";
+        ResultSet rs = query(query);
+        if (rs == null) {
             System.out.println("No se han encontrado datos");
             return null;
         } else {
-            ResultSet rs = query(query);
-            while (rs.next()) {
-                System.out.println(rs);
-                
-                emp = new Empleado(
-                        rs.getString("cedula"), 
-                        rs.getString("nombre"), 
-                        rs.getString("apellido"), 
-                        rs.getString("usuario"), 
-                        rs.getString("contraseña"), 
-                        rs.getDate("fechanac"),
-                        rs.getString("celular"), 
-                        rs.getString("correo"),
-                        rs.getString("genero"), 
-                        rs.getString("cargo"));
-                        
-                        
-                listaEmpleados.add(emp);
-            }
-            return listaEmpleados;
+            return rs;
         }
     }
     
@@ -232,10 +214,10 @@ public class PgConect {
         }
     }
     
-    public void modificarEmp(String idempleado, String idrol, String cedula, String usuario,
+    public void modificarEmp(String idempleado, String usuario,
             String contraseña) {
-        String noquery = "UPDATE empleados\n"
-                + "SET idempleado ='" + idempleado + "', idrol = '" + idrol + "', cedula ='" + cedula + "', usuario = '" + usuario + "', contraseña = '" + contraseña + "'\n"
+        String noquery = "UPDATE empleados"
+                + "SET usuario = '" + usuario + "', contraseña = '" + contraseña + "'\n"
                 + "WHERE idempleado= '" + idempleado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
@@ -290,8 +272,8 @@ public class PgConect {
             String celular, String correo, String genero) {
         long jtime = fechanac.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
-        String noquery = "UPDATE personas\n"
-                + "SET cedula ='" + cedula + "', nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '" + 
+        String noquery = "UPDATE personas"
+                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '" + 
                 sqltime  + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
                 + "WHERE cedula= '" + cedula + "';";
         if (noQuery(noquery) == null) {

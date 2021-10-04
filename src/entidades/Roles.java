@@ -1,4 +1,4 @@
-package Lógica;
+package entidades;
 
 public class Roles {
 

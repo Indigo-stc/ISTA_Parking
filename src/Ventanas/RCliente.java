@@ -1,7 +1,7 @@
 package Ventanas;
 
 import ConexionPG.PgConect;
-import Lógica.Cliente;
+import entidades.Cliente;
 import Validaciones.Val;
 import java.util.logging.Level;
 import java.util.logging.Logger;
