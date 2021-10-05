@@ -159,6 +159,11 @@ public class REmpleado extends javax.swing.JFrame {
                 comboCargoFocusLost(evt);
             }
         });
+        comboCargo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboCargoActionPerformed(evt);
+            }
+        });
         getContentPane().add(comboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 170, -1));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -564,6 +569,10 @@ public class REmpleado extends javax.swing.JFrame {
             //con.modificarEmp(idEmp, usuario, correo);
         }
     }//GEN-LAST:event_tblEmpleadosKeyReleased
+
+    private void comboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCargoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboCargoActionPerformed
 
     public void mostrarDatos(int seleccionado) {
 

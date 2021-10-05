@@ -5,15 +5,18 @@
  */
 package entidades;
 
+import java.util.UUID;
+
 /**
  *
  * @author User
  */
 public class Puesto {
-    private String idpuesto,tipo,estado;
+    private final String idpuesto;
+    private String tipo,estado;
 
-    public Puesto(String idpuesto, String tipo, String estado) {
-        this.idpuesto = idpuesto;
+    public Puesto(String tipo, String estado) {
+        this.idpuesto = "puest-" + UUID.randomUUID().toString().substring(0, 3);
         this.tipo = tipo;
         this.estado = estado;
     }
@@ -22,9 +25,7 @@ public class Puesto {
         return idpuesto;
     }
 
-    public void setIdpuesto(String idpuesto) {
-        this.idpuesto = idpuesto;
-    }
+   
 
     public String getTipo() {
         return tipo;
