@@ -1,6 +1,5 @@
 package ConexionPG;
 
-import entidades.Cliente;
 import entidades.Persona;
 import entidades.Empleado;
 import java.sql.Connection;
@@ -28,7 +27,6 @@ public class PgConect {
 
         try {
             Class.forName("org.postgresql.Driver");
-
             System.out.println("Se Cargo Driver.");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,7 +58,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-          //  stat.close();
+            stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,27 +81,10 @@ public class PgConect {
         }
     }
 
-    public boolean insRol(String idRol, String rolnombre, String usuario, String contraseña) {
-        String nquery = "INSERT INTO rol("
-                + "idrol, rolnombre, usuario, contraseña)"
-                + "VALUES ('" + idRol + "', '" + rolnombre + "', '" + usuario + "', '" + contraseña + "');";
-        if (noQuery(nquery) == null) {
-            return true;
-        } else {
-            System.out.println("ERROR INSERT rol");
-            return false;
-        }
-    }
-
-    /*
-    txtCedula.getText(), txtNombres.getText(),
-                    txtApellidos.getText(), fecha.getDate(), txtCelular.getText(),
-                    txtCorreo.getText(), genero, comboCargo.getSelectedItem().toString()
-     */
     public boolean insPer(String cedula, String nombres, String apellidos,
             Date f_nac, String celular, String correo, String genero) {
         String nquery = "INSERT INTO personas ("
-                + "cedula, nombre, apellido, fechanac, celular, correo, genero)"
+                + "cedula, nombre, apellido, fechanac, celular, correo, genero) "
                 + "VALUES ('" + cedula + "', '" + nombres + "', '" + apellidos + "', "
                 + "'" + f_nac + "', '" + celular + "', '" + correo + "', '" + genero + "');";
         if (noQuery(nquery) == null) {
@@ -118,17 +99,41 @@ public class PgConect {
         String query = "SELECT cedula "
                 + "FROM personas "
                 + "WHERE cedula = '" + cedula + "';";
-        if (query(query) == null) {
+        if (query(query).next()) {
+            return true;
+        } else {
+            System.out.println("No hay registros");
+            return false;
+        }
+    }
+    
+    public boolean perEmpl(String cedula) throws SQLException {
+        String query = "SELECT idempleado "
+                + "FROM empleados "
+                + "WHERE cedula = '"+ cedula +"';";
+        if (query(query).next()) {
+            return true;
+        } else {
+            System.out.println("No hay registros");
+            return false;
+        }
+    }
+    
+    public boolean usuario(String usuario) throws SQLException {
+        String query = "SELECT usuario "
+                + "FROM empleados "
+                + "WHERE usuario = '"+ usuario +"'";
+        if (query(query).next()) {
+            return true;
+        } else {
             System.out.println("no hay registros");
             return false;
-        } else {
-            return true;
         }
     }
 
     public boolean insEmp(String id_Emp, String rol, String cedula, String usuario, String contraseña) {
         String nquery = "INSERT INTO empleados ("
-                + "idempleado, idrol, cedula, usuario, contraseña)"
+                + "idempleado, idrol, cedula, usuario, contraseña) "
                 + "VALUES ('" + id_Emp + "', '" + rol + "', '" + cedula + "', '" + usuario + "', '" + contraseña + "');";
         if (noQuery(nquery) == null) {
             return true;
@@ -189,7 +194,8 @@ public class PgConect {
     }
     
     public ResultSet mostrarEmp() throws SQLException {
-        String query = "SELECT idempleado, empleados.cedula, nombre, apellido, rolnombre, fechanac, correo, celular, genero "
+        String query = "SELECT idempleado, empleados.cedula, nombre, apellido, "
+                + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
                 + "FROM empleados, personas, roles "
                 + "WHERE personas.cedula = empleados.cedula AND empleados.idrol = roles.idrol;";
         ResultSet rs = query(query);
@@ -201,11 +207,9 @@ public class PgConect {
         }
     }
     
-    public boolean eliminarEmp(String idempleado) {
-        
-        String noquery = "DELETE FROM empleados\n"
+    public boolean elimEmp(String idempleado) {
+        String noquery = "DELETE FROM empleados "
                 + "WHERE idempleado = '" + idempleado + "';";
-
         if (noQuery(noquery) == null) {
             return true;
         } else {
@@ -224,40 +228,9 @@ public class PgConect {
         }
     }
     
-    public ArrayList searchEmp(String idempleado, String usuario) throws SQLException {
-        ArrayList<Empleado> listaEmpleados = new ArrayList<> ();
-        
-        String query = "SELECT idempleado, idrol, cedula, usuario, contraseña \n" +
-                     "FROM empleados\n" +
-                     "WHERE idempleado = '" + idempleado + "' AND usuario = '" + usuario + "';";
-        Empleado emp;
-        if (query(query) == null) {
-            System.out.println("No se han encontrado datos");
-            return null;
-        } else {
-            ResultSet rs = query(query);
-            while(rs.next()) {
-                System.out.println(rs);
-                emp = new Empleado(
-                        rs.getString("cedula"), 
-                        rs.getString("nombre"), 
-                        rs.getString("apellido"), 
-                        rs.getString("usuario"), 
-                        rs.getString("contraseña"), 
-                        rs.getDate("fechanac"),
-                        rs.getString("celular"), 
-                        rs.getString("correo"),
-                        rs.getString("genero"), 
-                        rs.getString("cargo"));
-                listaEmpleados.add(emp);
-            }
-            return listaEmpleados;
-        }
-    }
-    
     public boolean eliminarPer(String cedula) {
         
-        String noquery = "DELETE FROM personas\n"
+        String noquery = "DELETE FROM personas "
                 + "WHERE cedula = '" + cedula + "';";
 
         if (noQuery(noquery) == null) {
@@ -317,21 +290,6 @@ public class PgConect {
             return null;
         } else {
             return rs;
-        }
-    }
-
-        
-        
-
-     public static boolean eliminar(String cedula) {
-         PgConect connect= new PgConect();
-        String nsql = "DELETE FROM personas\n" +
-                    "WHERE cedula = '" + cedula + "';"; 
-        if (connect.noQuery(nsql) == null) {
-            return true;
-        } else {
-            System.out.println("Error");
-            return false;
         }
     }
 
