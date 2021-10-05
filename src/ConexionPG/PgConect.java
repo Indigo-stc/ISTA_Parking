@@ -293,5 +293,34 @@ public class PgConect {
         }
     }
 
+    public boolean insPuesto(String idpuesto, String tipo, String estado) {
+        String nquery = "INSERT INTO puesto ("
+                + "idpuesto, tipo, estado)"
+                + "VALUES ('" + idpuesto + "', '" + tipo + "', '" + estado + "');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT puesto");
+            return false;
+        }
+    }
+       public ResultSet mostrarPuest() throws SQLException {
+        String query ="SELECT idpuesto, tipo, estado"
+         + " FROM puesto";
+        ResultSet rs = query(query);
+        if (rs == null) {
+            System.out.println("No se han encontrado datos");
+            return null;
+        } else {
+            return rs;
+        }
+    }
+        public void modificarPuesto(String tipo, String estado) { 
+        String noquery = "UPDATE puesto "
+                + "SET  tipo = '" + tipo + "', estado ='" + estado + "';";
+        if (noQuery(noquery) == null) {
+            System.out.println("Modificado exitosamente");
+        }
+    }
 }
 

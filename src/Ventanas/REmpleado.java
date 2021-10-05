@@ -161,6 +161,7 @@ public class REmpleado extends javax.swing.JFrame {
                 cbRolFocusLost(evt);
             }
         });
+      
         getContentPane().add(cbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 170, -1));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
