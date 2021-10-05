@@ -5,7 +5,21 @@
  */
 package Ventanas;
 
+import ConexionPG.PgConect;
 import Validaciones.Val;
+import entidades.Cliente;
+import entidades.Puesto;
+import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,12 +27,19 @@ import Validaciones.Val;
  */
 public class VPuesto extends javax.swing.JFrame {
 
+    public static List<Puesto> listaPuesto = new ArrayList();
+
     /**
      * Creates new form VPuesto
      */
     public VPuesto() {
         initComponents();
         setLocationRelativeTo(null);
+            try {
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(Puesto.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -32,14 +53,13 @@ public class VPuesto extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtIDpuesto = new javax.swing.JTextField();
+        lblvrfEstado = new javax.swing.JLabel();
+        lbl_VTipo = new javax.swing.JLabel();
         txt_Tipo = new javax.swing.JTextField();
         cmbEstado = new javax.swing.JComboBox<>();
         btn_Reegresar = new javax.swing.JButton();
-        lbl_VTipo = new javax.swing.JLabel();
         btn_Buscar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
         btn_Registrar = new javax.swing.JButton();
@@ -61,24 +81,21 @@ public class VPuesto extends javax.swing.JFrame {
         jLabel1.setText("PUESTOS");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, -1, 25));
 
-        jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("ID Puesto:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, -1, -1));
-
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tipo de Puesto:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Estado:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
 
-        txtIDpuesto.setForeground(new java.awt.Color(51, 51, 51));
-        txtIDpuesto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jPanel1.add(txtIDpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 245, -1));
+        lblvrfEstado.setForeground(new java.awt.Color(255, 0, 51));
+        jPanel1.add(lblvrfEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 230, 170, 20));
+
+        lbl_VTipo.setForeground(new java.awt.Color(255, 0, 51));
+        jPanel1.add(lbl_VTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 245, 16));
 
         txt_Tipo.setForeground(new java.awt.Color(51, 51, 51));
         txt_Tipo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -87,9 +104,14 @@ public class VPuesto extends javax.swing.JFrame {
                 txt_TipoFocusLost(evt);
             }
         });
-        jPanel1.add(txt_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 245, -1));
+        jPanel1.add(txt_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 245, -1));
 
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Ocupado", "Desocupado" }));
+        cmbEstado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cmbEstadoFocusLost(evt);
+            }
+        });
         jPanel1.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 245, -1));
 
         btn_Reegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -100,9 +122,6 @@ public class VPuesto extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_Reegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(684, 17, 100, -1));
-
-        lbl_VTipo.setForeground(new java.awt.Color(255, 0, 51));
-        jPanel1.add(lbl_VTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(247, 166, 245, 16));
 
         btn_Buscar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Buscar.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,6 +198,14 @@ public class VPuesto extends javax.swing.JFrame {
             }
         });
         tblPuestos.setColumnSelectionAllowed(true);
+        tblPuestos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblPuestosKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tblPuestosKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPuestos);
         tblPuestos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -205,7 +232,7 @@ public class VPuesto extends javax.swing.JFrame {
 
     private void txt_TipoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_TipoFocusLost
         // TODO add your handling code here:
-           if (Val.hollow(txt_Tipo.getText())) {
+        if (Val.hollow(txt_Tipo.getText())) {
             lbl_VTipo.setText("Campo Obligatorio");
         } else {
             lbl_VTipo.setText(null);
@@ -213,12 +240,87 @@ public class VPuesto extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_TipoFocusLost
 
     private void btn_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegistrarActionPerformed
-        // TODO add your handling code here:
+        PgConect conect = new PgConect();
+        Puesto puest;
+        if (Val.hollow(txt_Tipo.getText()) || cmbEstado.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Datos incorrectos");
+        } else {
+            puest = new Puesto(txt_Tipo.getText(), cmbEstado.getSelectedItem().toString());
+            conect.insPuesto(puest.getIdpuesto(), puest.getTipo(), puest.getEstado());
+            JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
+            actualizarDatos();
+            limpiar();
+        }
     }//GEN-LAST:event_btn_RegistrarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void cmbEstadoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbEstadoFocusLost
+        if (cmbEstado.getSelectedIndex() == 0) {
+            lblvrfEstado.setText("Escoger un cargo");
+        } else {
+            lblvrfEstado.setText(null);
+        }
+    }//GEN-LAST:event_cmbEstadoFocusLost
+
+    private void tblPuestosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblPuestosKeyTyped
+            
+    }//GEN-LAST:event_tblPuestosKeyTyped
+
+    private void tblPuestosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblPuestosKeyReleased
+          if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            String idpuesto = tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 0).toString();
+            String tipo =  tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 1).toString();
+            String estado =  tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 2).toString();
+         
+
+            PgConect con = new PgConect();
+            con.modificarPuesto(tipo, estado);
+        }
+    }//GEN-LAST:event_tblPuestosKeyReleased
+
+    public void limpiar() {
+        txt_Tipo.setText(null);
+        cmbEstado.setSelectedIndex(0);
+
+    }
+
+    public void actualizarDatos() {
+        String matriz[][] = new String[listaPuesto.size()][9];
+
+        for (int i = 0; i < listaPuesto.size(); i++) {
+            matriz[i][0] = listaPuesto.get(i).getIdpuesto();
+            matriz[i][1] = listaPuesto.get(i).getTipo();
+            matriz[i][2] = listaPuesto.get(i).getEstado();
+
+        }
+
+        tblPuestos.setModel(new javax.swing.table.DefaultTableModel(
+                matriz,
+                new String[]{
+                    "IDPuesto", "Tipo_Puesto", "Estado"
+                }
+        ));
+    }
+
+     public void tblModelo() throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tblPuestos.setModel(modelo);
+        PgConect con = new PgConect();
+        ResultSet puesto = con.mostrarPuest();
+        ResultSetMetaData rsmd = puesto.getMetaData();
+        int columns = rsmd.getColumnCount(); 
+        
+        modelo.addColumn("idpuesto");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Estado");
+         
+        while(puesto.next()) {
+            Object[] filas = new Object[columns];
+            for (int i = 0; i < columns; i++) {
+                filas[i] = puesto.getObject(i+1);
+            }
+            modelo.addRow(filas);
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -262,15 +364,14 @@ public class VPuesto extends javax.swing.JFrame {
     private javax.swing.JButton btn_mostrar;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lbl_VTipo;
+    private javax.swing.JLabel lblvrfEstado;
     private javax.swing.JTable tblPuestos;
-    private javax.swing.JTextField txtIDpuesto;
     private javax.swing.JTextField txt_Tipo;
     // End of variables declaration//GEN-END:variables
 }

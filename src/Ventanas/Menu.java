@@ -15,7 +15,7 @@ public class Menu extends javax.swing.JFrame {
         this.rol = nombre;
         switch (rol) {
             case "1" -> {
-                
+                                
             }
             case "2" -> {
                 mniEmpleado.setVisible(false);
