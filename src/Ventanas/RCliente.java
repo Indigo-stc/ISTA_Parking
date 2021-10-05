@@ -311,10 +311,12 @@ public class RCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-         PgConect conect = new PgConect(); 
         try {
-            if (!conect.pkPerson(txtCedula.getText())) {
+            PgConect conect = new PgConect();
+            if (conect.pkPerson(txtCedula.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
+            } else if (conect.usuario(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Usuario existente");
             } else if (!Val.isNumber(txtCedula.getText())||
                     Val.hollow(txtNombres.getText()) ||
                     Val.hollow(txtApellidos.getText()) ||
@@ -325,24 +327,23 @@ public class RCliente extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Datos incorrctos");
             } else {
                 Cliente cli;
-                          long jtime = fechaNa.getDate().getTime();
-                         java.sql.Date sqltime = new java.sql.Date(jtime);
+                long jtime = fechaNa.getDate().getTime();
+                java.sql.Date sqltime = new java.sql.Date(jtime);
                 cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
                         txtApellidos.getText(),  sqltime, txtCelular.getText(),
                         txtCorreo.getText(), genero);
-               
-   
-      
-                    conect.insPer(cli.getCedula(), cli.getNombres(),
-                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
-                            cli.getCorreo(), cli.getGenero());
-                 /*   conect.insEmp(cli.getIdCli, idRol.getString("idrol"), emp.getCedula(),
-                            emp.getUsuario(), emp.getContraseña());*/
-                 conect.insCli(cli.getIdCli(), cli.getCedula());
-                    JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
-                    actualizarDatos();
-                    limpiar();
                 
+                
+                
+                conect.insPer(cli.getCedula(), cli.getNombres(),
+                        cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                        cli.getCorreo(), cli.getGenero());
+                /*   conect.insEmp(cli.getIdCli, idRol.getString("idrol"), emp.getCedula(),
+                emp.getUsuario(), emp.getContraseña());*/
+                conect.insCli(cli.getIdCli(), cli.getCedula());
+                JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
+                actualizarDatos();
+                limpiar();
             }
         } catch (SQLException ex) {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
