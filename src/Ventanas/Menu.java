@@ -1,5 +1,9 @@
 package Ventanas;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Menu extends javax.swing.JFrame {
 
     String rol;
@@ -182,9 +186,13 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mniEmpleadoActionPerformed
 
     private void mniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClienteActionPerformed
-        /*RCliente rc = new RCliente();
-        rc.setVisible(true);
-        this.setVisible(false);*/
+        try {
+            RCliente rc = new RCliente();
+            rc.setVisible(true);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_mniClienteActionPerformed
 
     private void mniVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVehiculoActionPerformed

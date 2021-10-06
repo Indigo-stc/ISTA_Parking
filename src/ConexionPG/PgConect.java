@@ -341,6 +341,7 @@ public class PgConect {
         }
     }
 
+
     public ResultSet mostrarVeh() throws SQLException {
 
         String query = "SELECT vehiculo.placa, idcliente, modelo, tipo "
@@ -355,10 +356,11 @@ public class PgConect {
         }
     }
 
-    public boolean insPuesto(String idpuesto, String tipo, String estado) {
+    public boolean insPuesto(String idpuesto, String tipo, boolean ocupado) {
+
         String nquery = "INSERT INTO puesto ("
-                + "idpuesto, tipo, estado)"
-                + "VALUES ('" + idpuesto + "', '" + tipo + "', '" + estado + "');";
+                + "idpuesto, tipo, ocupado)"
+                + "VALUES ('" + idpuesto + "', '" + tipo + "', '" + ocupado + "');";
         if (noQuery(nquery) == null) {
             return true;
         } else {
@@ -366,10 +368,10 @@ public class PgConect {
             return false;
         }
     }
-
-    public ResultSet mostrarPuest() throws SQLException {
-        String query = "SELECT idpuesto, tipo, estado"
-                + " FROM puesto";
+  
+       public ResultSet mostrarPuest() throws SQLException {
+        String query ="SELECT idpuesto, tipo, ocupado"
+         + " FROM puesto";
         ResultSet rs = query(query);
         if (rs == null) {
             System.out.println("No se han encontrado datos");
@@ -379,11 +381,22 @@ public class PgConect {
         }
     }
 
-    public void modificarPuesto(String tipo, String estado) {
+        public void modificarPuesto(String tipo, boolean ocupado) { 
         String noquery = "UPDATE puesto "
-                + "SET  tipo = '" + tipo + "', estado ='" + estado + "';";
+                + "SET  tipo = '" + tipo + "', ocupado ='" + ocupado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
+        }
+    }
+            public boolean pkPuesto(String idpuesto) throws SQLException {
+        String query = "SELECT idpuesto "
+                + "FROM puesto "
+                + "WHERE idpuesto = '" + idpuesto + "';";
+        if (query(query).next()) {
+            return true;
+        } else {
+            System.out.println("No hay registros");
+            return false;
         }
     }
 }

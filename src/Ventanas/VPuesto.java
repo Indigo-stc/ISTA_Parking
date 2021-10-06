@@ -35,7 +35,7 @@ public class VPuesto extends javax.swing.JFrame {
     public VPuesto() {
         initComponents();
         setLocationRelativeTo(null);
-            try {
+        try {
             tblModelo();
         } catch (SQLException ex) {
             Logger.getLogger(Puesto.class.getName()).log(Level.SEVERE, null, ex);
@@ -54,11 +54,8 @@ public class VPuesto extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         lblvrfEstado = new javax.swing.JLabel();
         lbl_VTipo = new javax.swing.JLabel();
-        txt_Tipo = new javax.swing.JTextField();
-        cmbEstado = new javax.swing.JComboBox<>();
         btn_Reegresar = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
@@ -66,6 +63,7 @@ public class VPuesto extends javax.swing.JFrame {
         btn_mostrar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
         btn_Limpiar = new javax.swing.JButton();
+        cmbTipo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPuestos = new javax.swing.JTable();
         lblFondo = new javax.swing.JLabel();
@@ -86,33 +84,11 @@ public class VPuesto extends javax.swing.JFrame {
         jLabel3.setText("Tipo de Puesto:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Estado:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
-
         lblvrfEstado.setForeground(new java.awt.Color(255, 0, 51));
         jPanel1.add(lblvrfEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 230, 170, 20));
 
         lbl_VTipo.setForeground(new java.awt.Color(255, 0, 51));
         jPanel1.add(lbl_VTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 245, 16));
-
-        txt_Tipo.setForeground(new java.awt.Color(51, 51, 51));
-        txt_Tipo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        txt_Tipo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_TipoFocusLost(evt);
-            }
-        });
-        jPanel1.add(txt_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 245, -1));
-
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Ocupado", "Desocupado" }));
-        cmbEstado.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                cmbEstadoFocusLost(evt);
-            }
-        });
-        jPanel1.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 245, -1));
 
         btn_Reegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         btn_Reegresar.setText("Salir");
@@ -179,6 +155,9 @@ public class VPuesto extends javax.swing.JFrame {
         btn_Limpiar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(btn_Limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 280, 130, 52));
 
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Automovil-camioneta", "Moto", "Camion" }));
+        jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 230, -1));
+
         tblPuestos.setBackground(new java.awt.Color(102, 102, 102));
         tblPuestos.setForeground(new java.awt.Color(255, 255, 255));
         tblPuestos.setModel(new javax.swing.table.DefaultTableModel(
@@ -208,6 +187,10 @@ public class VPuesto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblPuestos);
         tblPuestos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tblPuestos.getColumnModel().getColumnCount() > 0) {
+            tblPuestos.getColumnModel().getColumn(0).setResizable(false);
+            tblPuestos.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 780, 120));
 
@@ -230,95 +213,72 @@ public class VPuesto extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btn_ReegresarActionPerformed
 
-    private void txt_TipoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_TipoFocusLost
-        // TODO add your handling code here:
-        if (Val.hollow(txt_Tipo.getText())) {
-            lbl_VTipo.setText("Campo Obligatorio");
-        } else {
-            lbl_VTipo.setText(null);
-        }
-    }//GEN-LAST:event_txt_TipoFocusLost
-
     private void btn_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegistrarActionPerformed
         PgConect conect = new PgConect();
         Puesto puest;
-        if (Val.hollow(txt_Tipo.getText()) || cmbEstado.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(null, "Datos incorrectos");
+        if (cmbTipo.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "seleccione un tipo");
         } else {
-            puest = new Puesto(txt_Tipo.getText(), cmbEstado.getSelectedItem().toString());
-            conect.insPuesto(puest.getIdpuesto(), puest.getTipo(), puest.getEstado());
-            JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
-            actualizarDatos();
-            limpiar();
+
+            puest = new Puesto(cmbTipo.getSelectedItem().toString());
+            try {
+                if (!conect.pkPuesto(puest.getIdpuesto())) {
+                    conect.insPuesto(puest.getIdpuesto(), puest.getTipo(), puest.getOcupado());
+                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
+                    tblModelo();
+                    
+                    limpiar();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "registro existente");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(VPuesto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_btn_RegistrarActionPerformed
 
-    private void cmbEstadoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbEstadoFocusLost
-        if (cmbEstado.getSelectedIndex() == 0) {
-            lblvrfEstado.setText("Escoger un cargo");
-        } else {
-            lblvrfEstado.setText(null);
-        }
-    }//GEN-LAST:event_cmbEstadoFocusLost
-
     private void tblPuestosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblPuestosKeyTyped
-            
+
     }//GEN-LAST:event_tblPuestosKeyTyped
 
     private void tblPuestosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblPuestosKeyReleased
-          if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String idpuesto = tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 0).toString();
-            String tipo =  tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 1).toString();
-            String estado =  tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 2).toString();
+            String tipo = tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 1).toString();
+            boolean ocupado = (Boolean) tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 2);
+
             PgConect con = new PgConect();
-            con.modificarPuesto(tipo, estado);
+            con.modificarPuesto(tipo, ocupado);
         }
     }//GEN-LAST:event_tblPuestosKeyReleased
 
     public void limpiar() {
-        txt_Tipo.setText(null);
-        cmbEstado.setSelectedIndex(0);
+     cmbTipo.setSelectedIndex(0);
 
     }
 
-    public void actualizarDatos() {
-        String matriz[][] = new String[listaPuesto.size()][9];
-
-        for (int i = 0; i < listaPuesto.size(); i++) {
-            matriz[i][0] = listaPuesto.get(i).getIdpuesto();
-            matriz[i][1] = listaPuesto.get(i).getTipo();
-            matriz[i][2] = listaPuesto.get(i).getEstado();
-
-        }
-
-        tblPuestos.setModel(new javax.swing.table.DefaultTableModel(
-                matriz,
-                new String[]{
-                    "IDPuesto", "Tipo_Puesto", "Estado"
-                }
-        ));
-    }
-
-     public void tblModelo() throws SQLException {
+    public void tblModelo() throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
         tblPuestos.setModel(modelo);
         PgConect con = new PgConect();
         ResultSet puesto = con.mostrarPuest();
         ResultSetMetaData rsmd = puesto.getMetaData();
-        int columns = rsmd.getColumnCount(); 
-        
+        int columns = rsmd.getColumnCount();
+
         modelo.addColumn("idpuesto");
         modelo.addColumn("Tipo");
         modelo.addColumn("Estado");
-         
-        while(puesto.next()) {
+
+        while (puesto.next()) {
             Object[] filas = new Object[columns];
             for (int i = 0; i < columns; i++) {
-                filas[i] = puesto.getObject(i+1);
+                filas[i] = puesto.getObject(i + 1);
             }
             modelo.addRow(filas);
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -360,16 +320,14 @@ public class VPuesto extends javax.swing.JFrame {
     private javax.swing.JButton btn_Reegresar;
     private javax.swing.JButton btn_Registrar;
     private javax.swing.JButton btn_mostrar;
-    private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lbl_VTipo;
     private javax.swing.JLabel lblvrfEstado;
     private javax.swing.JTable tblPuestos;
-    private javax.swing.JTextField txt_Tipo;
     // End of variables declaration//GEN-END:variables
 }
