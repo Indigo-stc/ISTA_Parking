@@ -59,11 +59,11 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btn_Insert = new javax.swing.JButton();
         btn_Show = new javax.swing.JButton();
         btn_Modify = new javax.swing.JButton();
-        btn_Eliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_vehiculo = new javax.swing.JTable();
         lbl_Placa = new javax.swing.JLabel();
@@ -123,6 +123,14 @@ public class RVehiculo extends javax.swing.JFrame {
         jLabel3.setText("Placa:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
 
+        jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, 100, 40));
+
         btnSalir.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         btnSalir.setText("Salir");
@@ -157,16 +165,6 @@ public class RVehiculo extends javax.swing.JFrame {
         btn_Modify.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoEditar.png"))); // NOI18N
         btn_Modify.setText("Modificar");
         jPanel1.add(btn_Modify, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 310, 140, 40));
-
-        btn_Eliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
-        btn_Eliminar.setText("Eliminar");
-        btn_Eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_EliminarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, 150, 40));
 
         tbl_vehiculo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -258,18 +256,11 @@ public class RVehiculo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tbl_vehiculoKeyReleased
 
-    public void mostrarDatos(int seleccionado) {
-        try {
-            RCliente cli = new RCliente();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        txt_Placa.setText(listav.get(seleccionado).getPlaca());
-        txt_Placa.setEditable(false);
-        //txt_IDCli.setText(listav.get(seleccionado).getClass().toString());
-        cb_Tipo.setSelectedItem(listav.get(seleccionado).getTipo());
-    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Eliminar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
 
     public void tblModelo() throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -364,11 +355,11 @@ public class RVehiculo extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton btn_Eliminar;
     private javax.swing.JButton btn_Insert;
     private javax.swing.JButton btn_Modify;
     private javax.swing.JButton btn_Show;
     private javax.swing.JComboBox<String> cb_Tipo;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
