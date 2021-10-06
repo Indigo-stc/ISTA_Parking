@@ -270,8 +270,6 @@ public class VPuesto extends javax.swing.JFrame {
             String idpuesto = tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 0).toString();
             String tipo =  tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 1).toString();
             String estado =  tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 2).toString();
-         
-
             PgConect con = new PgConect();
             con.modificarPuesto(tipo, estado);
         }
