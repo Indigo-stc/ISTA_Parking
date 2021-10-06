@@ -44,6 +44,8 @@ public class REmpleado extends javax.swing.JFrame {
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido");
         modelo.addColumn("Rol");
+        modelo.addColumn("Usuario");
+        modelo.addColumn("Contraseña");
         modelo.addColumn("F.Nacimiento");
         modelo.addColumn("Correo");
         modelo.addColumn("Celular");
@@ -72,7 +74,7 @@ public class REmpleado extends javax.swing.JFrame {
         lblGeneromp = new javax.swing.JLabel();
         lblCelularmp1 = new javax.swing.JLabel();
         lblCorreomp3 = new javax.swing.JLabel();
-        comboCargo = new javax.swing.JComboBox<>();
+        cbRol = new javax.swing.JComboBox<>();
         txtCedula = new javax.swing.JTextField();
         txtNombres = new javax.swing.JTextField();
         txtApellidos = new javax.swing.JTextField();
@@ -89,19 +91,19 @@ public class REmpleado extends javax.swing.JFrame {
         botonBuscar = new javax.swing.JButton();
         botonLimpiar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
-        lblVerificarCedula = new javax.swing.JLabel();
-        lblverificarNombres = new javax.swing.JLabel();
-        lblVerificarApellido = new javax.swing.JLabel();
-        lblverificarCorreo = new javax.swing.JLabel();
-        lblVerfiCelular = new javax.swing.JLabel();
+        lblVfyCedula = new javax.swing.JLabel();
+        lblVfyNombres = new javax.swing.JLabel();
+        lblVfyApellido = new javax.swing.JLabel();
+        lblVfyCorreo = new javax.swing.JLabel();
+        lblVfyCelular = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtContra = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        lblvrfUsu = new javax.swing.JLabel();
-        lblvrfContra = new javax.swing.JLabel();
-        lblvrfFecha = new javax.swing.JLabel();
-        lblvrfCargo = new javax.swing.JLabel();
+        lblVfyUsu = new javax.swing.JLabel();
+        lblVfyContra = new javax.swing.JLabel();
+        lblVfyFecha = new javax.swing.JLabel();
+        lblVfyRol = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -153,18 +155,14 @@ public class REmpleado extends javax.swing.JFrame {
         lblCorreomp3.setText("Correo:");
         getContentPane().add(lblCorreomp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, -1, -1));
 
-        comboCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Administrador", "Registrador", "Seguridad", "Limpieza", "Invitado" }));
-        comboCargo.addFocusListener(new java.awt.event.FocusAdapter() {
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Administrador", "Registrador", "Seguridad", "Limpieza", "Invitado" }));
+        cbRol.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                comboCargoFocusLost(evt);
+                cbRolFocusLost(evt);
             }
         });
-        comboCargo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboCargoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(comboCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 170, -1));
+      
+        getContentPane().add(cbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 170, -1));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -181,11 +179,6 @@ public class REmpleado extends javax.swing.JFrame {
         txtNombres.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtNombresFocusLost(evt);
-            }
-        });
-        txtNombres.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombresActionPerformed(evt);
             }
         });
         getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
@@ -225,11 +218,6 @@ public class REmpleado extends javax.swing.JFrame {
                 rbFMouseClicked(evt);
             }
         });
-        rbF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbFActionPerformed(evt);
-            }
-        });
         getContentPane().add(rbF, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 60, 50, -1));
 
         b_GroupEmpleados.add(rbM);
@@ -249,7 +237,7 @@ public class REmpleado extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Cédula", "Nombres", "Apellidos", "Cargo", "Fecha N.", "Correo", "Celular", "Genero"
+
             }
         ));
         tblEmpleados.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -322,30 +310,25 @@ public class REmpleado extends javax.swing.JFrame {
         });
         getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 10, 100, -1));
 
-        lblVerificarCedula.setBackground(new java.awt.Color(255, 0, 0));
-        lblVerificarCedula.setForeground(new java.awt.Color(255, 0, 0));
-        lblVerificarCedula.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                lblVerificarCedulaKeyTyped(evt);
-            }
-        });
-        getContentPane().add(lblVerificarCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 170, 10));
+        lblVfyCedula.setBackground(new java.awt.Color(255, 0, 0));
+        lblVfyCedula.setForeground(new java.awt.Color(255, 0, 0));
+        getContentPane().add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 170, 10));
 
-        lblverificarNombres.setBackground(new java.awt.Color(255, 0, 0));
-        lblverificarNombres.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblverificarNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, 10));
+        lblVfyNombres.setBackground(new java.awt.Color(255, 0, 0));
+        lblVfyNombres.setForeground(new java.awt.Color(255, 0, 0));
+        getContentPane().add(lblVfyNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, 10));
 
-        lblVerificarApellido.setBackground(new java.awt.Color(255, 0, 0));
-        lblVerificarApellido.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblVerificarApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 170, 10));
+        lblVfyApellido.setBackground(new java.awt.Color(255, 0, 0));
+        lblVfyApellido.setForeground(new java.awt.Color(255, 0, 0));
+        getContentPane().add(lblVfyApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 170, 10));
 
-        lblverificarCorreo.setBackground(new java.awt.Color(255, 0, 0));
-        lblverificarCorreo.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblverificarCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 170, 10));
+        lblVfyCorreo.setBackground(new java.awt.Color(255, 0, 0));
+        lblVfyCorreo.setForeground(new java.awt.Color(255, 0, 0));
+        getContentPane().add(lblVfyCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 170, 10));
 
-        lblVerfiCelular.setBackground(new java.awt.Color(255, 0, 0));
-        lblVerfiCelular.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblVerfiCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 170, 10));
+        lblVfyCelular.setBackground(new java.awt.Color(255, 0, 0));
+        lblVfyCelular.setForeground(new java.awt.Color(255, 0, 0));
+        getContentPane().add(lblVfyCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 170, 10));
 
         jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -370,10 +353,10 @@ public class REmpleado extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 210, 170, -1));
-        getContentPane().add(lblvrfUsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 170, 10));
-        getContentPane().add(lblvrfContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 290, 170, 20));
-        getContentPane().add(lblvrfFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 170, 20));
-        getContentPane().add(lblvrfCargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 200, 20));
+        getContentPane().add(lblVfyUsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 170, 10));
+        getContentPane().add(lblVfyContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 290, 170, 20));
+        getContentPane().add(lblVfyFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 170, 20));
+        getContentPane().add(lblVfyRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 200, 20));
 
         jPanel1.setBackground(new java.awt.Color(54, 77, 103));
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 540));
@@ -381,14 +364,11 @@ public class REmpleado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rbFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFActionPerformed
-
-    }//GEN-LAST:event_rbFActionPerformed
-
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-        PgConect conect = new PgConect(); 
+        PgConect conect = new PgConect();
+        
         try {
-            if (!conect.pkPerson(txtCedula.getText())) {
+            if (conect.perEmpl(txtCedula.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (!Val.isNumber(txtCedula.getText())||
                     Val.hollow(txtNombres.getText()) ||
@@ -397,25 +377,38 @@ public class REmpleado extends javax.swing.JFrame {
                     !(rbM.isSelected() || rbF.isSelected()) ||
                     !Val.isNumber(txtCelular.getText()) ||
                     !Val.edad(fecha.getDate()) ||
-                    comboCargo.getSelectedIndex() == 0 ) {
+                    cbRol.getSelectedIndex() == 0 ) {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
                 Empleado emp = new Empleado(txtCedula.getText(), txtNombres.getText(),
                         txtApellidos.getText(), txtUsuario.getText(), txtContra.getText(),
                         fecha.getDate(), txtCelular.getText(),
-                        txtCorreo.getText(), genero, comboCargo.getSelectedItem().toString());
-               
-                ResultSet idRol = conect.rol(emp.getCargo());
-                if (idRol.next()) {
-                    conect.insPer(emp.getCedula(), emp.getNombres(),
-                            emp.getApellidos(), emp.getFechaNacimiento(), emp.getCelular(),
-                            emp.getCorreo(), emp.getGenero());
-                    conect.insEmp(emp.getId_Emp(), idRol.getString("idrol"), emp.getCedula(),
-                            emp.getUsuario(), emp.getContraseña());
-                    JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
-                    actualizarDatos();
-                    limpiar();
-                } 
+                        txtCorreo.getText(), genero, cbRol.getSelectedItem().toString());
+                if (conect.pkPerson(emp.getCedula())) {
+                    System.out.println("solo empleado");
+                    ResultSet idRol = conect.rol(emp.getCargo());
+                    if (idRol.next()) {
+                        conect.insEmp(emp.getId_Emp(), idRol.getString("idrol"), emp.getCedula(),
+                                emp.getUsuario(), emp.getContraseña());
+                        JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
+                        tblModelo();
+                        limpiar();
+                    } 
+                } else {
+                    System.out.println("persona y empleado");
+                    ResultSet idRol = conect.rol(emp.getCargo());
+                    if (idRol.next()) {
+                        conect.insPer(emp.getCedula(), emp.getNombres(),
+                                emp.getApellidos(), emp.getFechaNacimiento(), emp.getCelular(),
+                                emp.getCorreo(), emp.getGenero());
+                        conect.insEmp(emp.getId_Emp(), idRol.getString("idrol"), emp.getCedula(),
+                                emp.getUsuario(), emp.getContraseña());
+                        JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
+                        tblModelo();
+                        limpiar();
+                    } 
+                }
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
@@ -430,17 +423,15 @@ public class REmpleado extends javax.swing.JFrame {
         genero = rbF.getText();
     }//GEN-LAST:event_rbFMouseClicked
 
-    private void txtNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombresActionPerformed
-
-    }//GEN-LAST:event_txtNombresActionPerformed
-
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
-        String cedula =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
-        
-        PgConect con = new PgConect();
-        con.eliminarPer(cedula);
-        con.eliminarEmp(idEmp);
+        try {
+            String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
+            PgConect con = new PgConect();
+            con.elimEmp(idEmp);
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
@@ -451,49 +442,45 @@ public class REmpleado extends javax.swing.JFrame {
         limpiar();
     }//GEN-LAST:event_botonLimpiarActionPerformed
 
-    private void lblVerificarCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblVerificarCedulaKeyTyped
-        
-    }//GEN-LAST:event_lblVerificarCedulaKeyTyped
-
     private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
         if (!Val.isNumber(txtCedula.getText())) {
-            lblVerificarCedula.setText("Deben ser 10 digitos");
+            lblVfyCedula.setText("Deben ser 10 digitos");
         } else if (!Val.digVfy(txtCedula.getText())) {
-            lblVerificarCedula.setText("No es una cedula");
+            lblVfyCedula.setText("No es una cedula");
         } else {
-            lblVerificarCedula.setText(null);
+            lblVfyCedula.setText(null);
         }
     }//GEN-LAST:event_txtCedulaFocusLost
 
     private void txtNombresFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNombresFocusLost
         if (Val.hollow(txtNombres.getText())) {
-            lblverificarNombres.setText("Campo Obligatorio");
+            lblVfyNombres.setText("Campo Obligatorio");
         } else {
-            lblverificarNombres.setText(null);
+            lblVfyNombres.setText(null);
         }
     }//GEN-LAST:event_txtNombresFocusLost
 
     private void txtApellidosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtApellidosFocusLost
         if (Val.hollow(txtApellidos.getText())) {
-            lblVerificarApellido.setText("Campo Obligatorio");
+            lblVfyApellido.setText("Campo Obligatorio");
         } else {
-            lblVerificarApellido.setText(null);
+            lblVfyApellido.setText(null);
         }
     }//GEN-LAST:event_txtApellidosFocusLost
 
     private void txtCelularFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCelularFocusLost
         if (!Val.isNumber(txtCelular.getText())) {
-            lblVerfiCelular.setText("Deben ser 10 difgitos");
+            lblVfyCelular.setText("Deben ser 10 difgitos");
         } else {
-            lblVerfiCelular.setText(null);
+            lblVfyCelular.setText(null);
         }
     }//GEN-LAST:event_txtCelularFocusLost
 
     private void txtCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorreoFocusLost
         if (!Val.email(txtCorreo.getText())) {
-            lblverificarCorreo.setText("No es un correo");
+            lblVfyCorreo.setText("No es un correo");
         } else {
-            lblverificarCorreo.setText(null);
+            lblVfyCorreo.setText(null);
         }
     }//GEN-LAST:event_txtCorreoFocusLost
 
@@ -521,33 +508,33 @@ public class REmpleado extends javax.swing.JFrame {
 
     private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
         if (!Val.usuario(txtUsuario.getText())) {
-            lblvrfUsu.setText("Deben ser de 8 a 9 caracteres");
+            lblVfyUsu.setText("Deben ser de 8 a 9 caracteres");
         } else {
-            lblvrfUsu.setText(null);
+            lblVfyUsu.setText(null);
         }
     }//GEN-LAST:event_txtUsuarioFocusLost
 
-    private void comboCargoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboCargoFocusLost
-        if (comboCargo.getSelectedIndex() == 0) {
-            lblvrfCargo.setText("Escoger un cargo");
+    private void cbRolFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbRolFocusLost
+        if (cbRol.getSelectedIndex() == 0) {
+            lblVfyRol.setText("Escoger un cargo");
         } else {
-            lblvrfCargo.setText(null);
+            lblVfyRol.setText(null);
         }
-    }//GEN-LAST:event_comboCargoFocusLost
+    }//GEN-LAST:event_cbRolFocusLost
 
     private void txtContraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtContraFocusLost
         if (!Val.contraseña(txtContra.getText())) {
-            lblvrfContra.setText("Al menos 1 mayus, 1 num ,1 simb 8carateres");
+            lblVfyContra.setText("Al menos 1 mayus, 1 num ,1 simb 8carateres");
         } else {
-            lblvrfContra.setText(null);
+            lblVfyContra.setText(null);
         }
     }//GEN-LAST:event_txtContraFocusLost
 
     private void fechaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fechaFocusLost
         if (!Val.edad(fecha.getDate())) {
-            lblvrfFecha.setText("Menor de edad");
+            lblVfyFecha.setText("Menor de edad");
         } else {
-            lblvrfFecha.setText(null);
+            lblVfyFecha.setText(null);
         } 
     }//GEN-LAST:event_fechaFocusLost
 
@@ -560,39 +547,17 @@ public class REmpleado extends javax.swing.JFrame {
             String apellido =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
             String rol =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
             Date fechanac =  (Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5);
-            String correo =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
-            String celular =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7).toString();
-            String genero =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
+            String usuario = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
+            String contraseña = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7).toString();
+            String correo =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
+            String celular =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 9).toString();
+            String gender =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
             
             PgConect con = new PgConect();
-            con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, genero);
-            //con.modificarEmp(idEmp, usuario, correo);
+            con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, gender);
+            con.modificarEmp(idEmp, usuario, contraseña);
         }
     }//GEN-LAST:event_tblEmpleadosKeyReleased
-
-    private void comboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCargoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboCargoActionPerformed
-
-    public void mostrarDatos(int seleccionado) {
-
-        txtCedula.setText(listaEmpleados.get(seleccionado).getCedula());
-        txtCedula.setEditable(false);
-        txtNombres.setText(listaEmpleados.get(seleccionado).getNombres());
-        txtApellidos.setText(listaEmpleados.get(seleccionado).getApellidos());
-        fecha.setDate(listaEmpleados.get(seleccionado).getFechaNacimiento());
-        txtCorreo.setText(listaEmpleados.get(seleccionado).getCorreo());
-        txtCelular.setText(listaEmpleados.get(seleccionado).getCelular());
-        if (listaEmpleados.get(seleccionado).getGenero().compareTo("M") == 0) {
-            rbM.setSelected(true);
-            rbF.setSelected(false);
-        } else {
-            if (listaEmpleados.get(seleccionado).getGenero().compareTo("F") == 0) {
-                rbF.setSelected(true);
-                rbM.setSelected(false);
-            }
-        }
-    }
 
     public void limpiar() {
         txtCedula.setText(null);
@@ -603,66 +568,18 @@ public class REmpleado extends javax.swing.JFrame {
         txtCelular.setText(null);
         b_GroupEmpleados.setSelected(rbM.getModel(), false);
         b_GroupEmpleados.setSelected(rbF.getModel(), false);
-        comboCargo.setSelectedIndex(0);
-    }
-
-    public void actualizarDatos() {
-
-        String matriz[][] = new String[listaEmpleados.size()][10];
-        for (int i = 0; i < listaEmpleados.size(); i++) {
-
-            matriz[i][0] = listaEmpleados.get(i).getId_Emp();
-            matriz[i][1] = listaEmpleados.get(i).getCedula();
-            matriz[i][2] = listaEmpleados.get(i).getNombres();
-            matriz[i][3] = listaEmpleados.get(i).getApellidos();
-            matriz[i][4] = listaEmpleados.get(i).getCargo();
-            matriz[i][5] = listaEmpleados.get(i).getFechaNacimiento().toString();
-            matriz[i][6] = listaEmpleados.get(i).getCorreo();
-            matriz[i][7] = listaEmpleados.get(i).getCelular();
-            matriz[i][8] = listaEmpleados.get(i).getGenero();
-        }
-        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
-                matriz,
-                new String[]{
-                    "ID", "Cédula", "Nombres", "Apellidos", "Cargo", "Fecha N.", "Correo", "Celular", "Genero"
-                }
-        ));
-    }
-
-    private void Eliminar() {
-        DefaultTableModel mdl = (DefaultTableModel) tblEmpleados.getModel();
-        int seleccion = tblEmpleados.getSelectedRow();
-        if (seleccion < 0) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para eliminar");
-        } else {
-            int confirmar = JOptionPane.showConfirmDialog(null, "Esta seguro que quiere eliminar esta fila");
-            if (JOptionPane.OK_OPTION == confirmar) {
-                mdl.removeRow(seleccion);
-                JOptionPane.showMessageDialog(null, "Registro completamente eliminado");
-                limpiar();
-            }
-
-        }
-    }
-
-    public void modificar() {
-
-        int indexSlct = tblEmpleados.getSelectedRow();
-        if (indexSlct != -1) {
-            listaEmpleados.get(indexSlct).setCedula(txtCedula.getText());
-            listaEmpleados.get(indexSlct).setNombres(txtNombres.getText());
-            listaEmpleados.get(indexSlct).setApellidos(txtApellidos.getText());
-            listaEmpleados.get(indexSlct).setFechaNacimiento(fecha.getDate());
-            listaEmpleados.get(indexSlct).setCorreo(txtCorreo.getText());
-            listaEmpleados.get(indexSlct).setCelular(txtCelular.getText());
-            limpiar();
-            actualizarDatos();
-
-            /*
-            
-             */
-        }
-
+        txtUsuario.setText(null);
+        txtContra.setText(null);
+        cbRol.setSelectedIndex(0);
+        lblVfyCedula.setText(null);
+        lblVfyNombres.setText(null);
+        lblVfyApellido.setText(null);
+        lblVfyFecha.setText(null);
+        lblVfyRol.setText(null);
+        lblVfyUsu.setText(null);
+        lblVfyContra.setText(null);
+        lblVfyCorreo.setText(null); 
+        
     }
 
     public static void main(String args[]) {
@@ -706,7 +623,7 @@ public class REmpleado extends javax.swing.JFrame {
     private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JButton botonSalir;
-    private javax.swing.JComboBox<String> comboCargo;
+    private javax.swing.JComboBox<String> cbRol;
     private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -721,15 +638,15 @@ public class REmpleado extends javax.swing.JFrame {
     private javax.swing.JLabel lblFechaNEmp4;
     private javax.swing.JLabel lblGeneromp;
     private javax.swing.JLabel lblNombresEmp;
-    private javax.swing.JLabel lblVerfiCelular;
-    private javax.swing.JLabel lblVerificarApellido;
-    private javax.swing.JLabel lblVerificarCedula;
-    private javax.swing.JLabel lblverificarCorreo;
-    private javax.swing.JLabel lblverificarNombres;
-    private javax.swing.JLabel lblvrfCargo;
-    private javax.swing.JLabel lblvrfContra;
-    private javax.swing.JLabel lblvrfFecha;
-    private javax.swing.JLabel lblvrfUsu;
+    private javax.swing.JLabel lblVfyApellido;
+    private javax.swing.JLabel lblVfyCedula;
+    private javax.swing.JLabel lblVfyCelular;
+    private javax.swing.JLabel lblVfyContra;
+    private javax.swing.JLabel lblVfyCorreo;
+    private javax.swing.JLabel lblVfyFecha;
+    private javax.swing.JLabel lblVfyNombres;
+    private javax.swing.JLabel lblVfyRol;
+    private javax.swing.JLabel lblVfyUsu;
     private javax.swing.JRadioButton rbF;
     private javax.swing.JRadioButton rbM;
     private javax.swing.JTable tblEmpleados;

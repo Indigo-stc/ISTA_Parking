@@ -246,10 +246,10 @@ public class VPuesto extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String idpuesto = tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 0).toString();
             String tipo = tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 1).toString();
-            boolean estado = (Boolean) tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 2);
+            boolean ocupado = (Boolean) tblPuestos.getValueAt(tblPuestos.getSelectedRow(), 2);
 
             PgConect con = new PgConect();
-            con.modificarPuesto(tipo, estado);
+            con.modificarPuesto(tipo, ocupado);
         }
     }//GEN-LAST:event_tblPuestosKeyReleased
 
