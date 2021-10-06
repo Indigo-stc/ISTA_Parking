@@ -4,6 +4,10 @@ import ConexionPG.PgConect;
 import entidades.Vehiculo;
 import Validaciones.Val;
 import entidades.Cliente;
+import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -14,14 +18,26 @@ import javax.swing.table.DefaultTableModel;
 public class RVehiculo extends javax.swing.JFrame {
 
     DefaultTableModel vhi;
-    public static ArrayList <Vehiculo> listav= new ArrayList();
-    public RVehiculo() {
+    public static ArrayList<Vehiculo> listav = new ArrayList();
+
+    public RVehiculo(String idcli) {
         initComponents();
-        RCliente cli;
+        txt_IDCli.setText(idcli);
+        txt_IDCli.setEnabled(false);
+        setLocationRelativeTo(null);
         try {
-            cli = new RCliente();
-            txt_IDCli.setText(cli.idCli);
-            setLocationRelativeTo(null);
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public RVehiculo()  {
+        initComponents();
+        setLocationRelativeTo(null);
+        try {
+            tblModelo();
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,7 +103,7 @@ public class RVehiculo extends javax.swing.JFrame {
         jLabel6.setText("Tipo:");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 200, -1, -1));
 
-        cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Vehiculo", "Moto", "Camioneta" }));
+        cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Vehiculo", "Moto", "Camioneta", "Camión" }));
         jPanel1.add(cb_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, 182, -1));
 
         txt_IDCli.addActionListener(new java.awt.event.ActionListener() {
@@ -160,6 +176,11 @@ public class RVehiculo extends javax.swing.JFrame {
                 "Placa", "ID Cliente", "Modelo", "Tipo"
             }
         ));
+        tbl_vehiculo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbl_vehiculoKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_vehiculo);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 800, 140));
@@ -178,24 +199,26 @@ public class RVehiculo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_InsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InsertActionPerformed
-        // TODO add your handling code here:
-        PgConect conect = new PgConect(); 
-        if (!conect.perVeh(txt_IDCli.getText(),txt_Placa.getText())) {
-            JOptionPane.showMessageDialog(rootPane, "Registro existente");
-        } else if (!Val.hollow(txt_Placa.getText()) || !Val.hollow(txt_Model.getText()) || cb_Tipo.getSelectedIndex() == 0 || !Val.hollow(txt_IDCli.getText()) ) {
-            JOptionPane.showMessageDialog(null, "Datos incorrectos");
-        } else {
-            Vehiculo emp = new Vehiculo(txt_Placa.getText(), txt_Model.getText(),
-                    cb_Tipo.getSelectedItem().toString());
-            
-            Cliente clie = null;
-            clie = new Cliente(txt_IDCli.getText(), null, null, null, null, null, null);
-            conect.perVeh(emp.getPlaca(), clie.getIdCli());
-            conect.insVehi(emp.getModelo(), emp.getPlaca(), emp.getTipo());
+
+        PgConect conect = new PgConect();
+
+        try {
+            if (conect.pkVehiculo(txt_Placa.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+            } else if (Val.hollow(txt_Placa.getText()) || Val.hollow(txt_Model.getText())
+                    || cb_Tipo.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+            } else {
+                Vehiculo vh = new Vehiculo(txt_Placa.getText(), txt_Model.getText(),
+                        cb_Tipo.getSelectedItem().toString());
+                conect.insVehi(vh.getPlaca(), vh.getModelo(), vh.getTipo());
+                conect.insDuenio(txt_IDCli.getText(), vh.getPlaca());
                 JOptionPane.showMessageDialog(rootPane, "Vehiculo guardado");
-                actualizarDatos();
-                limpiar(); 
-            //}
+                tblModelo();
+                limpiar();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_InsertActionPerformed
 
@@ -207,19 +230,33 @@ public class RVehiculo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_IDCliActionPerformed
 
-    private void btn_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_EliminarActionPerformed
+
+    private void btn_RidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RidActionPerformed
+        Eliminar();
+    }//GEN-LAST:event_btn_RidActionPerformed
+
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void tbl_vehiculoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_vehiculoKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String placa = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 0).toString();
+            String idcliente = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 1).toString();
+            String modelo = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 2).toString();
+            String tipo = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 3).toString();
+
+            PgConect con = new PgConect();
+            con.modificarVeh(placa, modelo, tipo);
+        }
+    }//GEN-LAST:event_tbl_vehiculoKeyReleased
 
     public void mostrarDatos(int seleccionado) {
         try {
@@ -233,27 +270,29 @@ public class RVehiculo extends javax.swing.JFrame {
         //txt_IDCli.setText(listav.get(seleccionado).getClass().toString());
         cb_Tipo.setSelectedItem(listav.get(seleccionado).getTipo());
     }
-    
-    public void actualizarDatos() {
 
-        String matriz[][] = new String[listav.size()][4];
-        for (int i = 0; i < listav.size(); i++) {
+    public void tblModelo() throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tbl_vehiculo.setModel(modelo);
+        PgConect con = new PgConect();
+        ResultSet vehiculo = con.mostrarVeh();
+        ResultSetMetaData rsmd = vehiculo.getMetaData();
+        int columns = rsmd.getColumnCount();
 
-            
-            matriz[i][0] = listav.get(i).getModelo();
-            matriz[i][1] = listav.get(i).getPlaca();
-            matriz[i][2] = listav.get(i).getTipo();
-            
-        }
-        tbl_vehiculo.setModel(new javax.swing.table.DefaultTableModel(
-                matriz,
-                
-                new String [] {
-                "Placa", "ID Cliente", "Modelo", "Tipo"
+        modelo.addColumn("Placa");
+        modelo.addColumn("ID Cliente");
+        modelo.addColumn("Modelo");
+        modelo.addColumn("Tipo");
+
+        while (vehiculo.next()) {
+            Object[] filas = new Object[columns];
+            for (int i = 0; i < columns; i++) {
+                filas[i] = vehiculo.getObject(i + 1);
             }
-        ));
+            modelo.addRow(filas);
+        }
     }
-    
+
     private void Eliminar() {
         DefaultTableModel vhi = (DefaultTableModel) tbl_vehiculo.getModel();
         int seleccion = tbl_vehiculo.getSelectedRow();
@@ -266,27 +305,25 @@ public class RVehiculo extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Registro completamente eliminado");
                 limpiar();
             }
-
         }
     }
-    
+
     public void limpiar() {
         txt_Placa.setText(null);
         txt_Model.setText(null);
         txt_IDCli.setText(null);
         cb_Tipo.setSelectedItem(null);
     }
-    
-    public void modify(){
+
+    public void modify() {
         int indexSc = tbl_vehiculo.getSelectedRow();
-        if(indexSc != -1){
+        if (indexSc != -1) {
             listav.get(indexSc).setModelo(txt_Model.getText());
             listav.get(indexSc).setTipo(cb_Tipo.getSelectedItem().toString());
             //listav.get(indexSc).set
         }
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */

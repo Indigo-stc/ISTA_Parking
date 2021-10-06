@@ -17,11 +17,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
 public class RCliente extends javax.swing.JFrame {
+
     public static List<Cliente> listaClientes = new ArrayList();
-   
+
     String genero = null;
-    String idCli = null;
- 
 
     public RCliente(){
         initComponents();
@@ -315,43 +314,9 @@ public class RCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-        try {
-            PgConect conect = new PgConect();
-            if (conect.pkPerson(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Registro existente");
-            } else if (conect.usuario(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Usuario existente");
-            } else if (!Val.isNumber(txtCedula.getText())||
-                    Val.hollow(txtNombres.getText()) ||
-                    Val.hollow(txtApellidos.getText()) ||
-                    !Val.email(txtCorreo.getText()) ||
-                    !(rbM.isSelected() || rbF.isSelected()) ||
-                    !Val.isNumber(txtCelular.getText()) ||
-                    !Val.edad(fechaNa.getDate()) ) {
-                JOptionPane.showMessageDialog(null, "Datos incorrctos");
-            } else {
-                Cliente cli;
-                long jtime = fechaNa.getDate().getTime();
-                java.sql.Date sqltime = new java.sql.Date(jtime);
-                cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
-                        txtApellidos.getText(),  sqltime, txtCelular.getText(),
-                        txtCorreo.getText(), genero);
-                
-                
-                
-                conect.insPer(cli.getCedula(), cli.getNombres(),
-                        cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
-                        cli.getCorreo(), cli.getGenero());
-                /*   conect.insEmp(cli.getIdCli, idRol.getString("idrol"), emp.getCedula(),
-                emp.getUsuario(), emp.getContraseña());*/
-                conect.insCli(cli.getIdCli(), cli.getCedula());
-                JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
-                actualizarDatos();
-                limpiar();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        crearEmp();
+
     }//GEN-LAST:event_botonRegistrarActionPerformed
 
     private void rbMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbMMouseClicked
@@ -367,7 +332,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-   
+        Eliminar();
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
@@ -458,7 +423,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCedulaKeyTyped
 
     private void txtCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelularKeyTyped
-          char validar = evt.getKeyChar();
+        char validar = evt.getKeyChar();
         if (Character.isLetter(validar)
                 || Val.isNumber(txtCelular.getText())) {
             getToolkit();
@@ -467,23 +432,71 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCelularKeyTyped
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-  
+
     }//GEN-LAST:event_botonBuscarActionPerformed
 
-    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    public void crearEmp() {
+        try {
+            PgConect conect = new PgConect();
+            if (conect.pkPerson(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+            } else if (conect.usuario(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Usuario existente");
+            } else if (!Val.isNumber(txtCedula.getText())
+                    || Val.hollow(txtNombres.getText())
+                    || Val.hollow(txtApellidos.getText())
+                    || !Val.email(txtCorreo.getText())
+                    || !(rbM.isSelected() || rbF.isSelected())
+                    || !Val.isNumber(txtCelular.getText())
+                    || !Val.edad(fechaNa.getDate())) {
+                JOptionPane.showMessageDialog(null, "Datos incorrctos");
+            } else {
+                Cliente cli;
+                long jtime = fechaNa.getDate().getTime();
+                java.sql.Date sqltime = new java.sql.Date(jtime);
+                cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
+                        txtApellidos.getText(), sqltime, txtCelular.getText(),
+                        txtCorreo.getText(), genero);
+
+                conect.insPer(cli.getCedula(), cli.getNombres(),
+                        cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                        cli.getCorreo(), cli.getGenero());
+                conect.insCli(cli.getIdCli(), cli.getCedula());
+                String idcliente = cli.getIdCli();
+                JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
+                tblModelo();
+                limpiar();
+                int si = JOptionPane.showConfirmDialog(null, "Sí, No o Cancelar",
+                        "YES_NO_CANCEL_OPTION", JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (JOptionPane.OK_OPTION == si) {
+
+                    RVehiculo rve = new RVehiculo(idcliente);
+                    rve.setVisible(true);
+                    this.setVisible(false);
+                } else {
+
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                          
+    }
 
     private void tablaClientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaClientesKeyReleased
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String idcliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
-            String cedula =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
-            String nombre =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString();
-            String apellido =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 3).toString();
-            Date fechanac =  (Date) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 4);
-            String correo =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 5).toString();
-            String celular =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 6).toString();
-            String genero =  tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 7).toString();
+            String cedula = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
+            String nombre = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString();
+            String apellido = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 3).toString();
+            Date fechanac = (Date) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 4);
+            String correo = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 5).toString();
+            String celular = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 6).toString();
+            String genero = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 7).toString();
 
             PgConect con = new PgConect();
             con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, genero);
@@ -630,7 +643,7 @@ public class RCliente extends javax.swing.JFrame {
         PgConect con = new PgConect();
         ResultSet clientes = con.mostrarCli();
         ResultSetMetaData rsmd = clientes.getMetaData();
-        int columns = rsmd.getColumnCount(); 
+        int columns = rsmd.getColumnCount();
 
         modelo.addColumn("ID");
         modelo.addColumn("Cedula");
@@ -641,14 +654,15 @@ public class RCliente extends javax.swing.JFrame {
         modelo.addColumn("Celular");
         modelo.addColumn("Genero");
 
-        while(clientes.next()) {
+        while (clientes.next()) {
             Object[] filas = new Object[columns];
             for (int i = 0; i < columns; i++) {
-                filas[i] = clientes.getObject(i+1);
+                filas[i] = clientes.getObject(i + 1);
             }
             modelo.addRow(filas);
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -715,6 +729,6 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombres;
     // End of variables declaration//GEN-END:variables
-  public static ArrayList<Cliente> clie = new ArrayList<> ();
-  public static ArrayList <PgConect> pg =new ArrayList<> ();
+  public static ArrayList<Cliente> clie = new ArrayList<>();
+    public static ArrayList<PgConect> pg = new ArrayList<>();
 }

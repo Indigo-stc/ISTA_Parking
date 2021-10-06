@@ -65,12 +65,12 @@ public class PgConect {
             return null;
         }
     }
-    
+
     public ResultSet login(String usuario, String contraseña) throws SQLException {
         String query = "SELECT usuario, contraseña, empleados.idrol, rolnombre "
                 + "FROM empleados, roles "
-                + "WHERE usuario = '"+ usuario +"' AND empleados.idrol = roles.idrol "
-                + "AND contraseña = '"+ contraseña +"';";
+                + "WHERE usuario = '" + usuario + "' AND empleados.idrol = roles.idrol "
+                + "AND contraseña = '" + contraseña + "';";
         ResultSet rolnombre = query(query);
         if (rolnombre == null) {
             System.out.println("no hay datos");
@@ -106,11 +106,24 @@ public class PgConect {
             return false;
         }
     }
-    
+
+    public boolean pkVehiculo(String placa) throws SQLException {
+        String query = "SELECT placa "
+                + "FROM vehiculo "
+                + "WHERE placa = '" + placa + "';";
+        if (query(query).next()) {
+            return true;
+        } else {
+            System.out.println("No hay vehiculos registrados");
+            return false;
+        }
+
+    }
+
     public boolean perEmpl(String cedula) throws SQLException {
         String query = "SELECT idempleado "
                 + "FROM empleados "
-                + "WHERE cedula = '"+ cedula +"';";
+                + "WHERE cedula = '" + cedula + "';";
         if (query(query).next()) {
             return true;
         } else {
@@ -118,11 +131,11 @@ public class PgConect {
             return false;
         }
     }
-    
+
     public boolean usuario(String usuario) throws SQLException {
         String query = "SELECT usuario "
                 + "FROM empleados "
-                + "WHERE usuario = '"+ usuario +"'";
+                + "WHERE usuario = '" + usuario + "'";
         if (query(query).next()) {
             return true;
         } else {
@@ -156,8 +169,8 @@ public class PgConect {
     }
 
     public boolean insVehi(String placa, String modelo, String tipo) {
-        String nquery = "INSERT INTO vehiculos ("
-                + "placa, modelo, tipo)"
+        String nquery = "INSERT INTO vehiculo ("
+                + "placa, modelo, tipo) "
                 + "VALUES ('" + placa + "', '" + modelo + "', '" + tipo + "');";
         if (noQuery(nquery) == null) {
             return true;
@@ -167,10 +180,22 @@ public class PgConect {
         }
     }
 
-    public boolean perVeh(String idClie, String placa) {
-        String nquery = "INSERT INTO due_v("
-                + "idcliente, placa)"
-                + "VALUES ('" + idClie + "', '" + placa + "');";
+    public boolean insDuenio(String idcliente, String placa) {
+        String nquery = "INSERT INTO due_v ( "
+                + "idcliente, placa ) "
+                + "VALUES ('" + idcliente + "', '" + placa + "');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT dueño");
+            return false;
+        }
+    }
+
+    public boolean perVeh(String idcli, String placa) {
+        String nquery = "INSERT INTO due_v ("
+                + "idcliente, placa )"
+                + "VALUES ('" + idcli + "', '" + placa + "');";
         if (noQuery(nquery) == null) {
             return true;
         } else {
@@ -190,9 +215,22 @@ public class PgConect {
         } else {
             return idRol;
         }
-
     }
-    
+
+//    public ResultSet idcliente(String idcliente) {
+//
+//        String query = "SELECT placa "
+//                + "FROM due_v "
+//                + "WHERE idcliente IN ('" + idcliente + "') ";
+//
+//        ResultSet idCliente = query(query);
+//        if (idCliente == null) {
+//            System.out.println("No hay datos");
+//            return null;
+//        } else {
+//            return idCliente;
+//        }
+//    }
     public ResultSet mostrarEmp() throws SQLException {
         String query = "SELECT idempleado, empleados.cedula, nombre, apellido, "
                 + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
@@ -206,7 +244,7 @@ public class PgConect {
             return rs;
         }
     }
-    
+
     public boolean elimEmp(String idempleado) {
         String noquery = "DELETE FROM empleados "
                 + "WHERE idempleado = '" + idempleado + "';";
@@ -217,7 +255,7 @@ public class PgConect {
             return false;
         }
     }
-    
+
     public void modificarEmp(String idempleado, String usuario,
             String contraseña) {
         String noquery = "UPDATE empleados"
@@ -227,9 +265,9 @@ public class PgConect {
             System.out.println("Modificado exitosamente");
         }
     }
-    
+
     public boolean eliminarPer(String cedula) {
-        
+
         String noquery = "DELETE FROM personas "
                 + "WHERE cedula = '" + cedula + "';";
 
@@ -240,47 +278,57 @@ public class PgConect {
             return false;
         }
     }
-    
+
     public void modificarPer(String cedula, String nombre, String apellido, Date fechanac,
             String celular, String correo, String genero) {
         long jtime = fechanac.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
         String noquery = "UPDATE personas "
-                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '" + 
-                sqltime  + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
+                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '"
+                + sqltime + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
                 + "WHERE cedula= '" + cedula + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
     }
     
+    public void modificarVeh(String placa, String modelo, String tipo){
+        String noquery = "UPDATE vehiculo "
+                + "SET placa = '" + placa + "', modelo = '" + modelo + "', tipo = '" + tipo + "'"
+                + "WHERE placa = '" + placa + "';";
+        if(noQuery(noquery) == null){
+            System.out.println("Modificaco exitosamente");
+        }
+    }
+
     public ArrayList searchPer(String nombre, String apellido) throws SQLException {
-        ArrayList<Persona> listaPersonas = new ArrayList<> ();
-        
-        String query = "SELECT cedula, nombre, apellido, fechanac, celular, correo, genero " +
-                     "FROM personas\n" +
-                     "WHERE nombre = '" + nombre + "' AND apellido = '" + apellido + "';";
+        ArrayList<Persona> listaPersonas = new ArrayList<>();
+
+        String query = "SELECT cedula, nombre, apellido, fechanac, celular, correo, genero "
+                + "FROM personas\n"
+                + "WHERE nombre = '" + nombre + "' AND apellido = '" + apellido + "';";
         Persona per;
         if (query(query) == null) {
             System.out.println("No se han encontrado datos");
             return null;
         } else {
             ResultSet rs = query(query);
-            while(rs.next()) {
+            while (rs.next()) {
                 System.out.println(rs);
-                per = new Persona(rs.getString("cedula"), 
-                        rs.getString("nombre"), 
-                        rs.getString("apellido"), 
-                        rs.getDate("fechanac"), 
-                        rs.getString("celular"), 
-                        rs.getString("correo"), 
+                per = new Persona(rs.getString("cedula"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getDate("fechanac"),
+                        rs.getString("celular"),
+                        rs.getString("correo"),
                         rs.getString("genero"));
                 listaPersonas.add(per);
             }
             return listaPersonas;
         }
     }
-   public ResultSet mostrarCli() throws SQLException {
+
+    public ResultSet mostrarCli() throws SQLException {
         String query = "SELECT idcliente, personas.cedula, nombre, apellido, fechanac, correo, celular, genero "
                 + "FROM clientes, personas "
                 + "WHERE personas.cedula= clientes.idpersona ;";
@@ -293,10 +341,26 @@ public class PgConect {
         }
     }
 
-    public boolean insPuesto(String idpuesto, String tipo, String estado) {
+
+    public ResultSet mostrarVeh() throws SQLException {
+
+        String query = "SELECT vehiculo.placa, idcliente, modelo, tipo "
+                + "FROM vehiculo, due_v "
+                + "WHERE vehiculo.placa = due_v.placa;";
+        ResultSet rs = query(query);
+        if (rs == null) {
+            System.out.println("No se han encontrado datos");
+            return null;
+        } else {
+            return rs;
+        }
+    }
+
+    public boolean insPuesto(String idpuesto, String tipo, boolean ocupado) {
+
         String nquery = "INSERT INTO puesto ("
-                + "idpuesto, tipo, estado)"
-                + "VALUES ('" + idpuesto + "', '" + tipo + "', '" + estado + "');";
+                + "idpuesto, tipo, ocupado)"
+                + "VALUES ('" + idpuesto + "', '" + tipo + "', '" + ocupado + "');";
         if (noQuery(nquery) == null) {
             return true;
         } else {
@@ -304,8 +368,9 @@ public class PgConect {
             return false;
         }
     }
+  
        public ResultSet mostrarPuest() throws SQLException {
-        String query ="SELECT idpuesto, tipo, estado"
+        String query ="SELECT idpuesto, tipo, ocupado"
          + " FROM puesto";
         ResultSet rs = query(query);
         if (rs == null) {
@@ -315,12 +380,23 @@ public class PgConect {
             return rs;
         }
     }
-        public void modificarPuesto(String tipo, String estado) { 
+
+        public void modificarPuesto(String tipo, boolean ocupado) { 
         String noquery = "UPDATE puesto "
-                + "SET  tipo = '" + tipo + "', estado ='" + estado + "';";
+                + "SET  tipo = '" + tipo + "', ocupado ='" + ocupado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
     }
+            public boolean pkPuesto(String idpuesto) throws SQLException {
+        String query = "SELECT idpuesto "
+                + "FROM puesto "
+                + "WHERE idpuesto = '" + idpuesto + "';";
+        if (query(query).next()) {
+            return true;
+        } else {
+            System.out.println("No hay registros");
+            return false;
+        }
+    }
 }
-
