@@ -58,7 +58,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            stat.close();
+            //stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
