@@ -60,7 +60,9 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-          //  stat.close();
+
+            //stat.close();
+
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -320,6 +322,7 @@ public class PgConect {
         }
     }
 
+
         
         
 
@@ -335,10 +338,11 @@ public class PgConect {
         }
     }
 
-    public boolean insPuesto(String idpuesto, String tipo, String estado) {
+    public boolean insPuesto(String idpuesto, String tipo, boolean ocupado) {
+
         String nquery = "INSERT INTO puesto ("
-                + "idpuesto, tipo, estado)"
-                + "VALUES ('" + idpuesto + "', '" + tipo + "', '" + estado + "');";
+                + "idpuesto, tipo, ocupado)"
+                + "VALUES ('" + idpuesto + "', '" + tipo + "', '" + ocupado + "');";
         if (noQuery(nquery) == null) {
             return true;
         } else {
@@ -347,7 +351,7 @@ public class PgConect {
         }
     }
        public ResultSet mostrarPuest() throws SQLException {
-        String query ="SELECT idpuesto, tipo, estado"
+        String query ="SELECT idpuesto, tipo, ocupado"
          + " FROM puesto";
         ResultSet rs = query(query);
         if (rs == null) {
@@ -357,11 +361,22 @@ public class PgConect {
             return rs;
         }
     }
-        public void modificarPuesto(String tipo, String estado) { 
+        public void modificarPuesto(String tipo, boolean ocupado) { 
         String noquery = "UPDATE puesto "
-                + "SET  tipo = '" + tipo + "', estado ='" + estado + "';";
+                + "SET  tipo = '" + tipo + "', ocupado ='" + ocupado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
+        }
+    }
+            public boolean pkPuesto(String idpuesto) throws SQLException {
+        String query = "SELECT idpuesto "
+                + "FROM puesto "
+                + "WHERE idpuesto = '" + idpuesto + "';";
+        if (query(query).next()) {
+            return true;
+        } else {
+            System.out.println("No hay registros");
+            return false;
         }
     }
 }
