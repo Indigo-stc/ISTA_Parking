@@ -244,6 +244,7 @@ public class RVehiculo extends javax.swing.JFrame {
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+
     private void tbl_vehiculoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_vehiculoKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String placa = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 0).toString();
