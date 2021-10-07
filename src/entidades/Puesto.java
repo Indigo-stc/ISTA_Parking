@@ -13,12 +13,13 @@ import java.util.UUID;
  */
 public class Puesto {
     private final String idpuesto;
-    private String tipo,estado;
+    private String tipo;
+    private boolean ocupado;
 
-    public Puesto(String tipo, String estado) {
+    public Puesto(String tipo) {
         this.idpuesto = "puest-" + UUID.randomUUID().toString().substring(0, 3);
         this.tipo = tipo;
-        this.estado = estado;
+        this.ocupado = false;
     }
 
     public String getIdpuesto() {
@@ -35,13 +36,11 @@ public class Puesto {
         this.tipo = tipo;
     }
 
-    public String getEstado() {
-        return estado;
+    public boolean getOcupado() {
+        return ocupado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+  
     
     
 }

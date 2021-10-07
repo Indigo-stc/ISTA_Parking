@@ -4,6 +4,10 @@ import ConexionPG.PgConect;
 import entidades.Vehiculo;
 import Validaciones.Val;
 import entidades.Cliente;
+import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -14,13 +18,29 @@ import javax.swing.table.DefaultTableModel;
 public class RVehiculo extends javax.swing.JFrame {
 
     DefaultTableModel vhi;
-    public static ArrayList <Vehiculo> listav= new ArrayList();
-    public RVehiculo() {
+    public static ArrayList<Vehiculo> listav = new ArrayList();
+
+    public RVehiculo(String idcli) {
         initComponents();
-        RCliente cli;
-        cli = new RCliente();
-        txt_IDCli.setText(cli.idCli);
+        txt_IDCli.setText(idcli);
+        txt_IDCli.setEnabled(false);
         setLocationRelativeTo(null);
+        try {
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public RVehiculo()  {
+        initComponents();
+        setLocationRelativeTo(null);
+        try {
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -39,11 +59,11 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btn_Insert = new javax.swing.JButton();
         btn_Show = new javax.swing.JButton();
         btn_Modify = new javax.swing.JButton();
-        btn_Eliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_vehiculo = new javax.swing.JTable();
         lbl_Placa = new javax.swing.JLabel();
@@ -83,7 +103,7 @@ public class RVehiculo extends javax.swing.JFrame {
         jLabel6.setText("Tipo:");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 200, -1, -1));
 
-        cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Vehiculo", "Moto", "Camioneta" }));
+        cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Vehiculo", "Moto", "Camioneta", "Camión" }));
         jPanel1.add(cb_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 200, 182, -1));
 
         txt_IDCli.addActionListener(new java.awt.event.ActionListener() {
@@ -102,6 +122,14 @@ public class RVehiculo extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Placa:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+
+        jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, 100, 40));
 
         btnSalir.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -138,16 +166,6 @@ public class RVehiculo extends javax.swing.JFrame {
         btn_Modify.setText("Modificar");
         jPanel1.add(btn_Modify, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 310, 140, 40));
 
-        btn_Eliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
-        btn_Eliminar.setText("Eliminar");
-        btn_Eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_EliminarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, 150, 40));
-
         tbl_vehiculo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -156,6 +174,11 @@ public class RVehiculo extends javax.swing.JFrame {
                 "Placa", "ID Cliente", "Modelo", "Tipo"
             }
         ));
+        tbl_vehiculo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbl_vehiculoKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_vehiculo);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 800, 140));
@@ -174,24 +197,26 @@ public class RVehiculo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_InsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InsertActionPerformed
-        // TODO add your handling code here:
-        PgConect conect = new PgConect(); 
-        if (!conect.perVeh(txt_IDCli.getText(),txt_Placa.getText())) {
-            JOptionPane.showMessageDialog(rootPane, "Registro existente");
-        } else if (!Val.hollow(txt_Placa.getText()) || !Val.hollow(txt_Model.getText()) || cb_Tipo.getSelectedIndex() == 0 || !Val.hollow(txt_IDCli.getText()) ) {
-            JOptionPane.showMessageDialog(null, "Datos incorrectos");
-        } else {
-            Vehiculo emp = new Vehiculo(txt_Placa.getText(), txt_Model.getText(),
-                    cb_Tipo.getSelectedItem().toString());
-            
-            Cliente clie = null;
-            clie = new Cliente(txt_IDCli.getText(), null, null, null, null, null, null);
-            conect.perVeh(emp.getPlaca(), clie.getIdCli());
-            conect.insVehi(emp.getModelo(), emp.getPlaca(), emp.getTipo());
+
+        PgConect conect = new PgConect();
+
+        try {
+            if (conect.pkVehiculo(txt_Placa.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+            } else if (Val.hollow(txt_Placa.getText()) || Val.hollow(txt_Model.getText())
+                    || cb_Tipo.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+            } else {
+                Vehiculo vh = new Vehiculo(txt_Placa.getText(), txt_Model.getText(),
+                        cb_Tipo.getSelectedItem().toString());
+                conect.insVehi(vh.getPlaca(), vh.getModelo(), vh.getTipo());
+                conect.insDuenio(txt_IDCli.getText(), vh.getPlaca());
                 JOptionPane.showMessageDialog(rootPane, "Vehiculo guardado");
-                actualizarDatos();
-                limpiar(); 
-            //}
+                tblModelo();
+                limpiar();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_InsertActionPerformed
 
@@ -203,48 +228,63 @@ public class RVehiculo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_IDCliActionPerformed
 
-    private void btn_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_EliminarActionPerformed
+
+    private void btn_RidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RidActionPerformed
+        Eliminar();
+    }//GEN-LAST:event_btn_RidActionPerformed
+
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    public void mostrarDatos(int seleccionado) {
-        RCliente cli = new RCliente();
-        txt_Placa.setText(listav.get(seleccionado).getPlaca());
-        txt_Placa.setEditable(false);
-        //txt_IDCli.setText(listav.get(seleccionado).getClass().toString());
-        cb_Tipo.setSelectedItem(listav.get(seleccionado).getTipo());
-    }
-    
-    public void actualizarDatos() {
 
-        String matriz[][] = new String[listav.size()][4];
-        for (int i = 0; i < listav.size(); i++) {
+    private void tbl_vehiculoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_vehiculoKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String placa = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 0).toString();
+            String idcliente = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 1).toString();
+            String modelo = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 2).toString();
+            String tipo = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 3).toString();
 
-            
-            matriz[i][0] = listav.get(i).getModelo();
-            matriz[i][1] = listav.get(i).getPlaca();
-            matriz[i][2] = listav.get(i).getTipo();
-            
+            PgConect con = new PgConect();
+            con.modificarVeh(placa, modelo, tipo);
         }
-        tbl_vehiculo.setModel(new javax.swing.table.DefaultTableModel(
-                matriz,
-                
-                new String [] {
-                "Placa", "ID Cliente", "Modelo", "Tipo"
+    }//GEN-LAST:event_tbl_vehiculoKeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Eliminar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
+
+    public void tblModelo() throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tbl_vehiculo.setModel(modelo);
+        PgConect con = new PgConect();
+        ResultSet vehiculo = con.mostrarVeh();
+        ResultSetMetaData rsmd = vehiculo.getMetaData();
+        int columns = rsmd.getColumnCount();
+
+        modelo.addColumn("Placa");
+        modelo.addColumn("ID Cliente");
+        modelo.addColumn("Modelo");
+        modelo.addColumn("Tipo");
+
+        while (vehiculo.next()) {
+            Object[] filas = new Object[columns];
+            for (int i = 0; i < columns; i++) {
+                filas[i] = vehiculo.getObject(i + 1);
             }
-        ));
+            modelo.addRow(filas);
+        }
     }
-    
+
     private void Eliminar() {
         DefaultTableModel vhi = (DefaultTableModel) tbl_vehiculo.getModel();
         int seleccion = tbl_vehiculo.getSelectedRow();
@@ -257,27 +297,25 @@ public class RVehiculo extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Registro completamente eliminado");
                 limpiar();
             }
-
         }
     }
-    
+
     public void limpiar() {
         txt_Placa.setText(null);
         txt_Model.setText(null);
         txt_IDCli.setText(null);
         cb_Tipo.setSelectedItem(null);
     }
-    
-    public void modify(){
+
+    public void modify() {
         int indexSc = tbl_vehiculo.getSelectedRow();
-        if(indexSc != -1){
+        if (indexSc != -1) {
             listav.get(indexSc).setModelo(txt_Model.getText());
             listav.get(indexSc).setTipo(cb_Tipo.getSelectedItem().toString());
             //listav.get(indexSc).set
         }
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -318,11 +356,11 @@ public class RVehiculo extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton btn_Eliminar;
     private javax.swing.JButton btn_Insert;
     private javax.swing.JButton btn_Modify;
     private javax.swing.JButton btn_Show;
     private javax.swing.JComboBox<String> cb_Tipo;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
