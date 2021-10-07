@@ -55,8 +55,6 @@ public class RCliente extends javax.swing.JFrame {
         rbF = new javax.swing.JRadioButton();
         botonRegistrar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
-        botonModificar = new javax.swing.JButton();
-        MOSTRAR = new javax.swing.JButton();
         botonLimpiar = new javax.swing.JButton();
         botonBuscar = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
@@ -129,21 +127,21 @@ public class RCliente extends javax.swing.JFrame {
                 txtCedulaKeyTyped(evt);
             }
         });
-        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 150, -1));
+        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 190, -1));
 
         txtNombres.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtNombresFocusLost(evt);
             }
         });
-        getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 150, -1));
+        getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 190, -1));
 
         txtApellidos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtApellidosFocusLost(evt);
             }
         });
-        getContentPane().add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, 150, -1));
+        getContentPane().add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, 190, -1));
 
         txtCelular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -194,7 +192,7 @@ public class RCliente extends javax.swing.JFrame {
                 botonRegistrarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 580, 140, 40));
+        getContentPane().add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 580, 140, 40));
 
         botonEliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
@@ -204,27 +202,7 @@ public class RCliente extends javax.swing.JFrame {
                 botonEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 580, 140, 40));
-
-        botonModificar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoEditar.png"))); // NOI18N
-        botonModificar.setText("MODIFICAR");
-        botonModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonModificarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(botonModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 580, 150, 40));
-
-        MOSTRAR.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        MOSTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoMostrar.png"))); // NOI18N
-        MOSTRAR.setText("MOSTRAR");
-        MOSTRAR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MOSTRARActionPerformed(evt);
-            }
-        });
-        getContentPane().add(MOSTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 580, 150, 40));
+        getContentPane().add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 580, 140, 40));
 
         botonLimpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
@@ -238,12 +216,13 @@ public class RCliente extends javax.swing.JFrame {
 
         botonBuscar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        botonBuscar.setText("BUSCAR");
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 70, 50, 50));
+        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 580, 140, 40));
 
         botonSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -253,7 +232,7 @@ public class RCliente extends javax.swing.JFrame {
                 botonSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 100, -1));
+        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 20, 100, -1));
 
         lblvrfCedula.setBackground(new java.awt.Color(255, 0, 0));
         lblvrfCedula.setForeground(new java.awt.Color(255, 0, 0));
@@ -370,10 +349,6 @@ public class RCliente extends javax.swing.JFrame {
    
     }//GEN-LAST:event_botonEliminarActionPerformed
 
-    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-
-    }//GEN-LAST:event_botonModificarActionPerformed
-
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_botonLimpiarActionPerformed
@@ -489,10 +464,6 @@ public class RCliente extends javax.swing.JFrame {
             con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, genero);
         }
     }//GEN-LAST:event_tablaClientesKeyReleased
-
-    private void MOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOSTRARActionPerformed
-
-    }//GEN-LAST:event_MOSTRARActionPerformed
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
         // TODO add your handling code here:
@@ -682,12 +653,10 @@ public class RCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton MOSTRAR;
     private javax.swing.ButtonGroup b_GroupClientes;
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonLimpiar;
-    private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JButton botonSalir;
     private com.toedter.calendar.JDateChooser fechaNa;

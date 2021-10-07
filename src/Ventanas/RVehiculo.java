@@ -18,13 +18,9 @@ public class RVehiculo extends javax.swing.JFrame {
     public RVehiculo() {
         initComponents();
         RCliente cli;
-        try {
-            cli = new RCliente();
-            txt_IDCli.setText(cli.idCli);
-            setLocationRelativeTo(null);
-        } catch (SQLException ex) {
-            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cli = new RCliente();
+        txt_IDCli.setText(cli.idCli);
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -222,12 +218,7 @@ public class RVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     public void mostrarDatos(int seleccionado) {
-        try {
-            RCliente cli = new RCliente();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        RCliente cli = new RCliente();
         txt_Placa.setText(listav.get(seleccionado).getPlaca());
         txt_Placa.setEditable(false);
         //txt_IDCli.setText(listav.get(seleccionado).getClass().toString());
