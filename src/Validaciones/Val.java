@@ -91,23 +91,7 @@ public class Val {
         return (cadena.length() >= 8 && cadena.length() <= 10);
     }
     
-    
-    /*public static boolean placa(String placa) {
-        char[] verify = placa.toCharArray();
-        int letra = 1;
-        
-        for (int i = 0; i < 3.; i++) {
-            if (!Character.isLetter(placa.charAt(i))) {
-                letra = 0;
-            }
-        }
-        
-        for (int i = 4; i < placa.length(); i++) {
-            if ((Character.isLetter(placa.charAt(i))) ) {
-                
-            }
-        }
-    
-        if (verify[3] != '-') 
-    }*/
+    public static boolean placa(String placa){
+        return placa.matches("^[A-Z]{3}-[0-9]{3,4}$");
+    }
 }

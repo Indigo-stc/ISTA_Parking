@@ -66,9 +66,8 @@ public class RVehiculo extends javax.swing.JFrame {
         btn_Modify = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_vehiculo = new javax.swing.JTable();
-        lbl_Placa = new javax.swing.JLabel();
-        lbl_Tipo = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
+        vrfPlaca = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,12 +83,18 @@ public class RVehiculo extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 310, 120, 40));
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 310, 120, 40));
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("VEHÍCULO");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
+
+        txt_Placa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_PlacaFocusLost(evt);
+            }
+        });
         jPanel1.add(txt_Placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 140, -1));
         jPanel1.add(txt_Model, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 182, -1));
 
@@ -182,11 +187,12 @@ public class RVehiculo extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbl_vehiculo);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 800, 140));
-        jPanel1.add(lbl_Placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 140, 10));
-        jPanel1.add(lbl_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 230, 180, 10));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 140, 50, 50));
+
+        vrfPlaca.setForeground(new java.awt.Color(255, 0, 0));
+        jPanel1.add(vrfPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 140, 10));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo.png"))); // NOI18N
         jPanel1.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -259,6 +265,14 @@ public class RVehiculo extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Eliminar();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txt_PlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_PlacaFocusLost
+        if (!Val.placa(txt_Placa.getText())) {
+            vrfPlaca.setText("Placa incorrecta");
+        } else {
+            vrfPlaca.setText(null);
+        }
+    }//GEN-LAST:event_txt_PlacaFocusLost
 
 
 
@@ -369,11 +383,10 @@ public class RVehiculo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFondo;
-    private javax.swing.JLabel lbl_Placa;
-    private javax.swing.JLabel lbl_Tipo;
     private javax.swing.JTable tbl_vehiculo;
     private javax.swing.JTextField txt_IDCli;
     private javax.swing.JTextField txt_Model;
     private javax.swing.JTextField txt_Placa;
+    private javax.swing.JLabel vrfPlaca;
     // End of variables declaration//GEN-END:variables
 }
