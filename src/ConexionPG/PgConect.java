@@ -258,9 +258,9 @@ public class PgConect {
 
     public void modificarEmp(String idempleado, String usuario,
             String contraseña) {
-        String noquery = "UPDATE empleados"
+        String noquery = "UPDATE empleados "
                 + "SET usuario = '" + usuario + "', contraseña = '" + contraseña + "'\n"
-                + "WHERE idempleado= '" + idempleado + "';";
+                + "WHERE idempleado = '" + idempleado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
@@ -284,9 +284,9 @@ public class PgConect {
         long jtime = fechanac.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
         String noquery = "UPDATE personas "
-                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '"
+                + "SET nombre = '" + nombre + "', apellido = '" + apellido + "', fechanac = '"
                 + sqltime + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
-                + "WHERE cedula= '" + cedula + "';";
+                + "WHERE cedula = '" + cedula + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
