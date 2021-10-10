@@ -545,9 +545,9 @@ public class REmpleado extends javax.swing.JFrame {
             String nombre =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
             String apellido =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
             String rol =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
-             jtime = (java.sql.Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5);
-            String usuario = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
-            String contraseña = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7).toString();
+            String usuario = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5).toString();
+            String contraseña = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
+            Date fechanac =  (Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7);
             String correo =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
             String celular =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 9).toString();
             String genero =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
