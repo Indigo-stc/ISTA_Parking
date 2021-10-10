@@ -64,25 +64,25 @@ public class VPuesto extends javax.swing.JFrame {
         btn_Eliminar = new javax.swing.JButton();
         btn_Limpiar = new javax.swing.JButton();
         cmbTipo = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
         tblPuestos = new javax.swing.JTable();
-        lblFondo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(54, 77, 103));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("PUESTOS");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, -1, 25));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, -1, 60));
 
-        jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tipo de Puesto:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, -1, -1));
 
         lblvrfEstado.setForeground(new java.awt.Color(255, 0, 51));
         jPanel1.add(lblvrfEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 230, 170, 20));
@@ -97,7 +97,7 @@ public class VPuesto extends javax.swing.JFrame {
                 btn_ReegresarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_Reegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(684, 17, 100, -1));
+        jPanel1.add(btn_Reegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 100, -1));
 
         btn_Buscar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Buscar.setForeground(new java.awt.Color(255, 255, 255));
@@ -108,7 +108,7 @@ public class VPuesto extends javax.swing.JFrame {
                 btn_BuscarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 210, 60, 50));
+        jPanel1.add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 190, 60, 50));
 
         btn_Modificar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Modificar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
@@ -116,7 +116,7 @@ public class VPuesto extends javax.swing.JFrame {
         btn_Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoEditar.png"))); // NOI18N
         btn_Modificar.setText("Modificar");
         btn_Modificar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 130, 52));
+        jPanel1.add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 350, 130, 52));
 
         btn_Registrar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Registrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
@@ -129,7 +129,7 @@ public class VPuesto extends javax.swing.JFrame {
                 btn_RegistrarActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_Registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 134, 51));
+        jPanel1.add(btn_Registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 134, 51));
 
         btn_mostrar.setBackground(new java.awt.Color(51, 51, 51));
         btn_mostrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
@@ -137,7 +137,7 @@ public class VPuesto extends javax.swing.JFrame {
         btn_mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoMostrar.png"))); // NOI18N
         btn_mostrar.setText("Mostrar");
         btn_mostrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btn_mostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 280, 130, -1));
+        jPanel1.add(btn_mostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 350, 130, -1));
 
         btn_Eliminar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Eliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
@@ -145,7 +145,7 @@ public class VPuesto extends javax.swing.JFrame {
         btn_Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btn_Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 130, 52));
+        jPanel1.add(btn_Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 350, 130, 52));
 
         btn_Limpiar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Limpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
@@ -153,10 +153,10 @@ public class VPuesto extends javax.swing.JFrame {
         btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
         btn_Limpiar.setText("Limpiar");
         btn_Limpiar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btn_Limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 280, 130, 52));
+        jPanel1.add(btn_Limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 350, 130, 52));
 
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Automovil-camioneta", "Moto", "Camion" }));
-        jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 230, -1));
+        jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 200, 230, 30));
 
         tblPuestos.setBackground(new java.awt.Color(102, 102, 102));
         tblPuestos.setForeground(new java.awt.Color(255, 255, 255));
@@ -185,19 +185,18 @@ public class VPuesto extends javax.swing.JFrame {
                 tblPuestosKeyTyped(evt);
             }
         });
-        jScrollPane1.setViewportView(tblPuestos);
+        jPanel1.add(tblPuestos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 440, 910, 220));
         tblPuestos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblPuestos.getColumnModel().getColumnCount() > 0) {
             tblPuestos.getColumnModel().getColumn(0).setResizable(false);
             tblPuestos.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 780, 120));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
-        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/12.jpg"))); // NOI18N
-        jPanel1.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 490));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 470, 780, 120));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -322,10 +321,10 @@ public class VPuesto extends javax.swing.JFrame {
     private javax.swing.JButton btn_mostrar;
     private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lbl_VTipo;
     private javax.swing.JLabel lblvrfEstado;
     private javax.swing.JTable tblPuestos;

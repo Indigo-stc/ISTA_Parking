@@ -42,6 +42,11 @@ public class Ingreso extends javax.swing.JFrame {
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit_1.png"))); // NOI18N
         btnSalir.setText("Salir           ");
         btnSalir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 180, 50));
 
         btnInicio.setBackground(new java.awt.Color(51, 51, 51));
@@ -57,12 +62,10 @@ public class Ingreso extends javax.swing.JFrame {
         getContentPane().add(btnInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 180, -1));
 
         lblContraseñaM.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        lblContraseñaM.setForeground(new java.awt.Color(0, 0, 0));
         lblContraseñaM.setText("Contraseña:");
         getContentPane().add(lblContraseñaM, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, -1, -1));
 
         lblUsuarioM.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        lblUsuarioM.setForeground(new java.awt.Color(0, 0, 0));
         lblUsuarioM.setText("Usuario:");
         getContentPane().add(lblUsuarioM, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, -1, -1));
 
@@ -78,7 +81,6 @@ public class Ingreso extends javax.swing.JFrame {
         getContentPane().add(txtContraseñaM, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, 200, -1));
 
         lblTitulo.setFont(new java.awt.Font("Cascadia Code", 1, 28)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setText("PARQUEADERO ISTA");
         getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, -1, -1));
 
@@ -108,6 +110,11 @@ public class Ingreso extends javax.swing.JFrame {
             Logger.getLogger(Ingreso.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnInicioActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
