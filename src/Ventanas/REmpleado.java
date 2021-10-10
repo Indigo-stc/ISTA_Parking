@@ -1,5 +1,6 @@
 package Ventanas;
 
+
 import ConexionPG.PgConect;
 import entidades.Empleado;
 import Validaciones.Val;
@@ -12,7 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.Date;
+import java.util.Date;
+
 
 public class REmpleado extends javax.swing.JFrame {
 
@@ -183,10 +185,14 @@ public class REmpleado extends javax.swing.JFrame {
         tblEmpleados.setFont(new java.awt.Font("Cascadia Code", 1, 10)); // NOI18N
         tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-
+                "idEmp", "cedula", "nombre", "apellido", "rol", "fechanac", "usuario", "contraseña", "correo", "celular", "genero"
             }
         ));
         tblEmpleados.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -532,6 +538,8 @@ public class REmpleado extends javax.swing.JFrame {
 
     private void tblEmpleadosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadosKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+             Date jtime = fecha.getDate();
+              
             String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
             String cedula =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
             String nombre =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
@@ -542,12 +550,25 @@ public class REmpleado extends javax.swing.JFrame {
             Date fechanac =  (Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7);
             String correo =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
             String celular =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 9).toString();
-            String gender =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
+            String genero =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
             
             PgConect con = new PgConect();
-            con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, gender);
+           con.modificarPer(cedula, nombre, apellido, (java.sql.Date) jtime, celular, correo, genero);
             con.modificarEmp(idEmp, usuario, contraseña);
         }
+            /*if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String idcliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
+            String cedula = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
+            String nombre = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString();
+            String apellido = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 3).toString();
+            Date fechanac = (Date) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 4);
+            String correo = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 5).toString();
+            String celular = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 6).toString();
+            String genero = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 7).toString();
+             
+            PgConect con = new PgConect();
+            con.modificarPer(cedula, nombre, apellido, (java.sql.Date) fechanac, celular, correo, genero);
+        }*/
     }//GEN-LAST:event_tblEmpleadosKeyReleased
 
     public void limpiar() {
