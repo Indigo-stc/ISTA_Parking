@@ -20,8 +20,6 @@ import java.sql.Date;
 
 public class REmpleado extends javax.swing.JFrame {
 
-    public static ArrayList<Empleado> listaEmpleados = new ArrayList();
-
     String genero = null;
     DefaultTableModel dtm;
 
@@ -466,6 +464,27 @@ public class REmpleado extends javax.swing.JFrame {
             lblVfyCedula.setText("No es una cedula");
         } else {
             lblVfyCedula.setText(null);
+            PgConect con = new PgConect();
+            try {
+                ResultSet persona = con.personas(txtCedula.getText());
+                if (persona.next()) {
+                    txtNombres.setText(persona.getString("nombre"));
+                    txtApellidos.setText(persona.getString("apellido"));
+                    txtCorreo.setText(persona.getString("correo"));
+                    txtCelular.setText(persona.getString("celular"));
+                    String gen = persona.getString("genero");
+                    Date fsql = persona.getDate("fechanac");
+                    java.util.Date utilDate = new java.util.Date(fsql.getTime());
+                    if (gen.equalsIgnoreCase("M")) {
+                        b_GroupEmpleados.setSelected(rbM.getModel(), true);
+                    }  else if (gen.equalsIgnoreCase("F")) {
+                        b_GroupEmpleados.setSelected(rbF.getModel(), true);
+                    }
+                    fecha.setDate(utilDate);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_txtCedulaFocusLost
 

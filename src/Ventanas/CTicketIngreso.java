@@ -109,20 +109,20 @@ public class CTicketIngreso extends javax.swing.JFrame {
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 50, 50));
 
         jLabel1.setText("Cedula");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCedulaFocusLost(evt);
             }
         });
-        jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 250, -1));
+        jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 250, -1));
 
         cbTipoPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo", "Camioneta-Auto", "Camioneta", "Camion" }));
         jPanel1.add(cbTipoPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
 
         cbNnmPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Numero" }));
-        jPanel1.add(cbNnmPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, 110, -1));
+        jPanel1.add(cbNnmPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 110, -1));
         jPanel1.add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 210, 20));
         jPanel1.add(lblVfyPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 116, 240, 20));
 
@@ -187,36 +187,36 @@ public class CTicketIngreso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
-//        if (Val.digVfy(txtCedula.getText())) {
-//            PgConect con = new PgConect();
-//            try {
-//                if (!con.existeCliente(txtCedula.getText())) {
-//                    JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
-//                    //RCliente cli = new RCliente(txtCedula.getText());
-//                    //cli.setVisible(true);
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } else {
-//            lblVfyCedula.setText("No es una cedula");
-//        }
+        if (Val.digVfy(txtCedula.getText())) {
+            PgConect con = new PgConect();
+            try {
+                if (!con.exisCli(txtCedula.getText())) {
+                    JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
+                    RCliente cli = new RCliente(txtCedula.getText());
+                    cli.setVisible(true);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            lblVfyCedula.setText("No es una cedula");
+        }
     }//GEN-LAST:event_txtCedulaFocusLost
 
     private void txtPlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPlacaFocusLost
-//        if (Val.placa(txtPlaca.getText())) {
-//            try {
-//                PgConect con = new PgConect();
-//                if (!con.CrV(txtPlaca.getText())) {
-//                    RVehiculo ve = new RVehiculo(txtCedula.getText());
-//                    ve.setVisible(true);
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } else {
-//            lblVfyPlaca.setText("No es una placa");
-//        }
+        if (Val.placa(txtPlaca.getText())) {
+            try {
+                PgConect con = new PgConect();
+                if (!con.CrV(txtCedula.getText(), txtPlaca.getText())) {
+                    RVehiculo ve = new RVehiculo(txtCedula.getText(), txtPlaca.getText());
+                    ve.setVisible(true);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            lblVfyPlaca.setText("No es una placa");
+        }
     }//GEN-LAST:event_txtPlacaFocusLost
 
     /**

@@ -40,6 +40,25 @@ public class RVehiculo extends javax.swing.JFrame {
 
     }
     
+    public RVehiculo(String idcli, String placa) {
+        initComponents();
+        txt_IDCli.setText(idcli);
+        txt_Placa.setText(placa);
+        txt_IDCli.setEnabled(false);
+        setLocationRelativeTo(null);
+        try {
+            buscar(" ");
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
     public RVehiculo()  {
         initComponents();
         setLocationRelativeTo(null);
