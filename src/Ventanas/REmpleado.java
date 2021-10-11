@@ -3,6 +3,7 @@ package Ventanas;
 import ConexionPG.PgConect;
 import entidades.Empleado;
 import Validaciones.Val;
+import java.sql.Connection;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.ResultSetMetaData;
 import java.sql.Date;
 
@@ -21,24 +23,32 @@ public class REmpleado extends javax.swing.JFrame {
     String genero = null;
     DefaultTableModel dtm;
 
+    PgConect conec = new PgConect();
+    Connection conectar = conec.Conectar();
+
     public REmpleado() {
         initComponents();
         setLocationRelativeTo(null);
+        try {
+            buscar(" ", " ");
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             tblModelo();
         } catch (SQLException ex) {
             Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void tblModelo() throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
         tblEmpleados.setModel(modelo);
         PgConect con = new PgConect();
         ResultSet empleados = con.mostrarEmp();
         ResultSetMetaData rsmd = empleados.getMetaData();
-        int columns = rsmd.getColumnCount(); 
-        
+        int columns = rsmd.getColumnCount();
+
         modelo.addColumn("ID Empleado");
         modelo.addColumn("Cedula");
         modelo.addColumn("Nombre");
@@ -50,11 +60,11 @@ public class REmpleado extends javax.swing.JFrame {
         modelo.addColumn("Correo");
         modelo.addColumn("Celular");
         modelo.addColumn("Genero");
-        
-        while(empleados.next()) {
+
+        while (empleados.next()) {
             Object[] filas = new Object[columns];
             for (int i = 0; i < columns; i++) {
-                filas[i] = empleados.getObject(i+1);
+                filas[i] = empleados.getObject(i + 1);
             }
             modelo.addRow(filas);
         }
@@ -105,6 +115,7 @@ public class REmpleado extends javax.swing.JFrame {
         lblVfyFecha = new javax.swing.JLabel();
         lblVfyRol = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setUndecorated(true);
@@ -161,7 +172,6 @@ public class REmpleado extends javax.swing.JFrame {
                 cbRolFocusLost(evt);
             }
         });
-      
         getContentPane().add(cbRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 170, -1));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -359,6 +369,15 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(lblVfyRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 200, 20));
 
         jPanel1.setBackground(new java.awt.Color(54, 77, 103));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+        });
+        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 160, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 540));
 
         pack();
@@ -366,18 +385,18 @@ public class REmpleado extends javax.swing.JFrame {
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
         PgConect conect = new PgConect();
-        
+
         try {
             if (conect.perEmpl(txtCedula.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
-            } else if (!Val.isNumber(txtCedula.getText())||
-                    Val.hollow(txtNombres.getText()) ||
-                    Val.hollow(txtApellidos.getText()) ||
-                    !Val.email(txtCorreo.getText()) ||
-                    !(rbM.isSelected() || rbF.isSelected()) ||
-                    !Val.isNumber(txtCelular.getText()) ||
-                    !Val.edad(fecha.getDate()) ||
-                    cbRol.getSelectedIndex() == 0 ) {
+            } else if (!Val.isNumber(txtCedula.getText())
+                    || Val.hollow(txtNombres.getText())
+                    || Val.hollow(txtApellidos.getText())
+                    || !Val.email(txtCorreo.getText())
+                    || !(rbM.isSelected() || rbF.isSelected())
+                    || !Val.isNumber(txtCelular.getText())
+                    || !Val.edad(fecha.getDate())
+                    || cbRol.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
                 Empleado emp = new Empleado(txtCedula.getText(), txtNombres.getText(),
@@ -393,7 +412,7 @@ public class REmpleado extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
                         tblModelo();
                         limpiar();
-                    } 
+                    }
                 } else {
                     System.out.println("persona y empleado");
                     ResultSet idRol = conect.rol(emp.getCargo());
@@ -406,9 +425,9 @@ public class REmpleado extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
                         tblModelo();
                         limpiar();
-                    } 
+                    }
                 }
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
@@ -435,7 +454,7 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
-        
+
     }//GEN-LAST:event_botonModificarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -490,7 +509,7 @@ public class REmpleado extends javax.swing.JFrame {
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char validar = evt.getKeyChar();
-        if (Character.isLetter(validar) 
+        if (Character.isLetter(validar)
                 || Val.isNumber(txtCedula.getText())) {
             getToolkit();
             evt.consume();
@@ -535,29 +554,37 @@ public class REmpleado extends javax.swing.JFrame {
             lblVfyFecha.setText("Menor de edad");
         } else {
             lblVfyFecha.setText(null);
-        } 
+        }
     }//GEN-LAST:event_fechaFocusLost
 
 
     private void tblEmpleadosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadosKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
-            String cedula =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
-            String nombre =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
-            String apellido =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
-            String rol =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
-            Date fechanac =  (Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5);
+            String cedula = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
+            String nombre = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
+            String apellido = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
+            String rol = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
+            Date fechanac = (Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5);
             String usuario = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
             String contraseña = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7).toString();
-            String correo =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
-            String celular =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 9).toString();
-            String gender =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
-            
+            String correo = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
+            String celular = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 9).toString();
+            String gender = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
+
             PgConect con = new PgConect();
             con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, gender);
             con.modificarEmp(idEmp, usuario, contraseña);
         }
     }//GEN-LAST:event_tblEmpleadosKeyReleased
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        try {
+            buscar(txtBuscar.getText(), txtBuscar.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtBuscarKeyReleased
 
     public void limpiar() {
         txtCedula.setText(null);
@@ -578,8 +605,65 @@ public class REmpleado extends javax.swing.JFrame {
         lblVfyRol.setText(null);
         lblVfyUsu.setText(null);
         lblVfyContra.setText(null);
-        lblVfyCorreo.setText(null); 
-        
+        lblVfyCorreo.setText(null);
+
+    }
+
+    public void buscar(String nombre, String cedula) throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        PgConect conec = new PgConect();
+        Connection conectar = conec.Conectar();
+
+        modelo.addColumn("ID Empleado");
+        modelo.addColumn("Cedula");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("Rol");
+        modelo.addColumn("Usuario");
+        modelo.addColumn("Contraseña");
+        modelo.addColumn("F.Nacimiento");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Celular");
+        modelo.addColumn("Genero");
+        tblEmpleados.setModel(modelo);
+        String sql = " ";
+        if (nombre.equals(" ")) {
+            sql = " SELECT idempleado, empleados.cedula, nombre, apellido, "
+                    + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
+                    + " FROM empleados, personas, roles "
+                    + " WHERE personas.cedula = empleados.cedula AND empleados.idrol = roles.idrol;";
+        } else {
+            sql = " SELECT idempleado, empleados.cedula, nombre, apellido, "
+                    + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
+                    + " FROM empleados, personas, roles "
+                    + " WHERE personas.cedula = empleados.cedula AND "
+                    + "empleados.idrol = roles.idrol AND nombre like '%" + nombre + "%';";
+        }
+        String Usuarios[] = new String[11];
+        Statement set;
+        try {
+            set = conectar.createStatement();
+            ResultSet resul = set.executeQuery(sql);
+            while (resul.next()) {
+                Usuarios[0] = resul.getString(1);
+                Usuarios[1] = resul.getString(2);
+                Usuarios[2] = resul.getString(3);
+                Usuarios[3] = resul.getString(4);
+                Usuarios[4] = resul.getString(5);
+                Usuarios[5] = resul.getString(6);
+                Usuarios[6] = resul.getString(7);
+                Usuarios[7] = resul.getString(8);
+                Usuarios[8] = resul.getString(9);
+                Usuarios[9] = resul.getString(10);
+                Usuarios[10] = resul.getString(11);
+                modelo.addRow(Usuarios);
+
+            }
+            tblEmpleados.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public static void main(String args[]) {
@@ -651,6 +735,7 @@ public class REmpleado extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbM;
     private javax.swing.JTable tblEmpleados;
     private javax.swing.JTextField txtApellidos;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
     private javax.swing.JPasswordField txtContra;

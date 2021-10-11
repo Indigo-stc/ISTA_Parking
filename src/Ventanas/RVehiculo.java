@@ -5,10 +5,12 @@ import entidades.Vehiculo;
 import Validaciones.Val;
 import entidades.Cliente;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
+import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 public class RVehiculo extends javax.swing.JFrame {
 
     DefaultTableModel vhi;
+    PgConect conec = new PgConect();
+    Connection conectar = conec.Conectar();
     public static ArrayList<Vehiculo> listav = new ArrayList();
 
     public RVehiculo(String idcli) {
@@ -25,6 +29,12 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli.setText(idcli);
         txt_IDCli.setEnabled(false);
         setLocationRelativeTo(null);
+        
+        try {
+            buscar(" ");
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             tblModelo();
         } catch (SQLException ex) {
@@ -32,8 +42,8 @@ public class RVehiculo extends javax.swing.JFrame {
         }
 
     }
-    
-    public RVehiculo()  {
+
+    public RVehiculo() {
         initComponents();
         setLocationRelativeTo(null);
         try {
@@ -68,6 +78,7 @@ public class RVehiculo extends javax.swing.JFrame {
         tbl_vehiculo = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         vrfPlaca = new javax.swing.JLabel();
+        txtBuscarV = new javax.swing.JTextField();
         lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -176,7 +187,7 @@ public class RVehiculo extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Placa", "ID Cliente", "Modelo", "Tipo"
+
             }
         ));
         tbl_vehiculo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -193,6 +204,13 @@ public class RVehiculo extends javax.swing.JFrame {
 
         vrfPlaca.setForeground(new java.awt.Color(255, 0, 0));
         jPanel1.add(vrfPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 140, 10));
+
+        txtBuscarV.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarVKeyReleased(evt);
+            }
+        });
+        jPanel1.add(txtBuscarV, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 180, -1));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo.png"))); // NOI18N
         jPanel1.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -274,7 +292,13 @@ public class RVehiculo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txt_PlacaFocusLost
 
-
+    private void txtBuscarVKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarVKeyReleased
+        try {
+            buscar(txtBuscarV.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtBuscarVKeyReleased
 
     public void tblModelo() throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -327,6 +351,47 @@ public class RVehiculo extends javax.swing.JFrame {
             listav.get(indexSc).setTipo(cb_Tipo.getSelectedItem().toString());
             //listav.get(indexSc).set
         }
+    }
+
+    public void buscar(String placa) throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        PgConect conec = new PgConect();
+        Connection conectar = conec.Conectar();
+
+        modelo.addColumn("Placa");
+        modelo.addColumn("ID Cliente");
+        modelo.addColumn("Modelo");
+        modelo.addColumn("Tipo");
+
+        tbl_vehiculo.setModel(modelo);
+        String sql = " ";
+        if (placa.equals(" ")) {
+            sql = "SELECT vehiculo.placa, idcliente, modelo, tipo "
+                    + "FROM vehiculo, due_v "
+                    + "WHERE vehiculo.placa = due_v.placa;";
+        } else {
+            sql = "SELECT vehiculo.placa, idcliente, modelo, tipo "
+                    + "FROM vehiculo, due_v "
+                    + "WHERE vehiculo.placa = due_v.placa AND vehiculo.placa like '%" + placa + "%';";
+        }
+        String Usuarios[] = new String[11];
+        Statement set;
+        try {
+            set = conectar.createStatement();
+            ResultSet resul = set.executeQuery(sql);
+            while (resul.next()) {
+                Usuarios[0] = resul.getString(1);
+                Usuarios[1] = resul.getString(2);
+                Usuarios[2] = resul.getString(3);
+                Usuarios[3] = resul.getString(4);
+                modelo.addRow(Usuarios);
+
+            }
+            tbl_vehiculo.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -384,6 +449,7 @@ public class RVehiculo extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JTable tbl_vehiculo;
+    private javax.swing.JTextField txtBuscarV;
     private javax.swing.JTextField txt_IDCli;
     private javax.swing.JTextField txt_Model;
     private javax.swing.JTextField txt_Placa;

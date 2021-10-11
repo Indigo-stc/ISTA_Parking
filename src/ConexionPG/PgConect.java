@@ -291,12 +291,12 @@ public class PgConect {
             System.out.println("Modificado exitosamente");
         }
     }
-    
-    public void modificarVeh(String placa, String modelo, String tipo){
+
+    public void modificarVeh(String placa, String modelo, String tipo) {
         String noquery = "UPDATE vehiculo "
                 + "SET placa = '" + placa + "', modelo = '" + modelo + "', tipo = '" + tipo + "'"
                 + "WHERE placa = '" + placa + "';";
-        if(noQuery(noquery) == null){
+        if (noQuery(noquery) == null) {
             System.out.println("Modificaco exitosamente");
         }
     }
@@ -341,7 +341,6 @@ public class PgConect {
         }
     }
 
-
     public ResultSet mostrarVeh() throws SQLException {
 
         String query = "SELECT vehiculo.placa, idcliente, modelo, tipo "
@@ -368,10 +367,10 @@ public class PgConect {
             return false;
         }
     }
-  
-       public ResultSet mostrarPuest() throws SQLException {
-        String query ="SELECT idpuesto, tipo, ocupado"
-         + " FROM puesto";
+
+    public ResultSet mostrarPuest() throws SQLException {
+        String query = "SELECT idpuesto, tipo, ocupado"
+                + " FROM puesto";
         ResultSet rs = query(query);
         if (rs == null) {
             System.out.println("No se han encontrado datos");
@@ -381,14 +380,15 @@ public class PgConect {
         }
     }
 
-        public void modificarPuesto(String tipo, boolean ocupado) { 
+    public void modificarPuesto(String tipo, boolean ocupado) {
         String noquery = "UPDATE puesto "
                 + "SET  tipo = '" + tipo + "', ocupado ='" + ocupado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
     }
-            public boolean pkPuesto(String idpuesto) throws SQLException {
+
+    public boolean pkPuesto(String idpuesto) throws SQLException {
         String query = "SELECT idpuesto "
                 + "FROM puesto "
                 + "WHERE idpuesto = '" + idpuesto + "';";
@@ -398,5 +398,21 @@ public class PgConect {
             System.out.println("No hay registros");
             return false;
         }
+    }
+
+    public Connection Conectar() {
+        Connection conect = null;
+        try {
+            conect = DriverManager.getConnection(cadConexion, pgUser, pgPassword);
+        } catch (SQLException ex) {
+            Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            Class.forName("org.postgresql.Driver");
+            System.out.println("Se Cargo Driver.");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return conect;
     }
 }
