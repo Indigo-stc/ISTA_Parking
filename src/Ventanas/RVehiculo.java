@@ -3,11 +3,9 @@ package Ventanas;
 import ConexionPG.PgConect;
 import entidades.Vehiculo;
 import Validaciones.Val;
-import entidades.Cliente;
 import java.sql.Connection;
 import java.awt.event.KeyEvent;
 import java.sql.Statement;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -20,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 public class RVehiculo extends javax.swing.JFrame {
 
     DefaultTableModel vhi;
-    public static ArrayList<Vehiculo> listav = new ArrayList();
 
     public RVehiculo(String idcli) {
         initComponents();
@@ -32,11 +29,11 @@ public class RVehiculo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            tblModelo();
-        } catch (SQLException ex) {
-            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            tblModelo();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
     
@@ -51,11 +48,11 @@ public class RVehiculo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            tblModelo();
-        } catch (SQLException ex) {
-            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            tblModelo();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
     
@@ -63,10 +60,15 @@ public class RVehiculo extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         try {
-            tblModelo();
+            buscar(" ");
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        try {
+//            tblModelo();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +88,7 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btn_Insert = new javax.swing.JButton();
         vrfPlaca = new javax.swing.JLabel();
@@ -139,12 +141,6 @@ public class RVehiculo extends javax.swing.JFrame {
 
         cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Vehiculo", "Moto", "Camioneta", "Camión" }));
         jPanel1.add(cb_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 270, 182, -1));
-
-        txt_IDCli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_IDCliActionPerformed(evt);
-            }
-        });
         jPanel1.add(txt_IDCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 160, -1));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
@@ -157,14 +153,14 @@ public class RVehiculo extends javax.swing.JFrame {
         jLabel3.setText("Placa:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
-        jButton1.setText("Eliminar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 640, 170, 40));
+        jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 640, 170, 40));
 
         btnSalir.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
@@ -231,9 +227,6 @@ public class RVehiculo extends javax.swing.JFrame {
         Eliminar();
     }//GEN-LAST:event_btn_RidActionPerformed
 
-
-
-
     private void tbl_vehiculoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_vehiculoKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String placa = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 0).toString();
@@ -276,13 +269,9 @@ public class RVehiculo extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         Eliminar();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txt_IDCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_IDCliActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_IDCliActionPerformed
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txt_PlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_PlacaFocusLost
         if (!Val.placa(txt_Placa.getText())) {
@@ -349,15 +338,6 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli.setText(null);
         cb_Tipo.setSelectedItem(null);
     }
-
-    public void modify() {
-        int indexSc = tbl_vehiculo.getSelectedRow();
-        if (indexSc != -1) {
-            listav.get(indexSc).setModelo(txt_Model.getText());
-            listav.get(indexSc).setTipo(cb_Tipo.getSelectedItem().toString());
-            //listav.get(indexSc).set
-        }
-    }
     
     public void buscar(String placa) throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -372,9 +352,10 @@ public class RVehiculo extends javax.swing.JFrame {
         tbl_vehiculo.setModel(modelo);
         String sql = " ";
         if (placa.equals(" ")) {
-            sql = "SELECT vehiculo.placa, idcliente, modelo, tipo "
-                    + "FROM vehiculo, due_v "
-                    + "WHERE vehiculo.placa = due_v.placa;";
+            sql = "SELECT vehiculo.placa, due_v.idcliente, modelo, tipo "
+                    + "FROM vehiculo, due_v, clientes "
+                    + "WHERE vehiculo.placa = due_v.placa AND activo = TRUE AND "
+                    + "clientes.idcliente = due_v.idcliente;";
         } else {
             sql = "SELECT vehiculo.placa, idcliente, modelo, tipo "
                     + "FROM vehiculo, due_v "
@@ -437,11 +418,11 @@ public class RVehiculo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btn_Insert;
     private javax.swing.JComboBox<String> cb_Tipo;
-    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
