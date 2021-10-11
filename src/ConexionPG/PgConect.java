@@ -217,20 +217,6 @@ public class PgConect {
         }
     }
 
-//    public ResultSet idcliente(String idcliente) {
-//
-//        String query = "SELECT placa "
-//                + "FROM due_v "
-//                + "WHERE idcliente IN ('" + idcliente + "') ";
-//
-//        ResultSet idCliente = query(query);
-//        if (idCliente == null) {
-//            System.out.println("No hay datos");
-//            return null;
-//        } else {
-//            return idCliente;
-//        }
-//    }
     public ResultSet mostrarEmp() throws SQLException {
         String query = "SELECT idempleado, empleados.cedula, nombre, apellido, "
                 + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
@@ -258,9 +244,9 @@ public class PgConect {
 
     public void modificarEmp(String idempleado, String usuario,
             String contraseña) {
-        String noquery = "UPDATE empleados"
+        String noquery = "UPDATE empleados "
                 + "SET usuario = '" + usuario + "', contraseña = '" + contraseña + "'\n"
-                + "WHERE idempleado= '" + idempleado + "';";
+                + "WHERE idempleado = '" + idempleado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
@@ -284,9 +270,9 @@ public class PgConect {
         long jtime = fechanac.getTime();
         java.sql.Date sqltime = new java.sql.Date(jtime);
         String noquery = "UPDATE personas "
-                + "SET nombre = '" + nombre + "', apellido ='" + apellido + "', fechanac = '"
+                + "SET nombre = '" + nombre + "', apellido = '" + apellido + "', fechanac = '"
                 + sqltime + "', celular = '" + celular + "', correo = '" + correo + "', genero = '" + genero + "'\n"
-                + "WHERE cedula= '" + cedula + "';";
+                + "WHERE cedula = '" + cedula + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
         }
@@ -400,6 +386,7 @@ public class PgConect {
         }
     }
 
+
     public Connection Conectar() {
         Connection conect = null;
         try {
@@ -407,12 +394,12 @@ public class PgConect {
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
+             try {
             Class.forName("org.postgresql.Driver");
             System.out.println("Se Cargo Driver.");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return conect;
+       return conect; 
     }
 }
