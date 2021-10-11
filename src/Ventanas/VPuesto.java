@@ -213,28 +213,28 @@ public class VPuesto extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_ReegresarActionPerformed
 
     private void btn_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegistrarActionPerformed
-        PgConect conect = new PgConect();
-        Puesto puest;
-        if (cmbTipo.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "seleccione un tipo");
-        } else {
-
-            puest = new Puesto(cmbTipo.getSelectedItem().toString());
-            try {
-                if (!conect.pkPuesto(puest.getIdpuesto())) {
-                    conect.insPuesto(puest.getIdpuesto(), puest.getTipo(), puest.getOcupado());
-                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
-                    tblModelo();
-                    
-                    limpiar();
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "registro existente");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(VPuesto.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
+//        PgConect conect = new PgConect();
+//        Puesto puest;
+//        if (cmbTipo.getSelectedIndex() == 0) {
+//            JOptionPane.showMessageDialog(rootPane, "seleccione un tipo");
+//        } else {
+//
+//            puest = new Puesto(cmbTipo.getSelectedItem().toString());
+//            try {
+//                if (!conect.pkPuesto(puest.getIdpuesto())) {
+//                    conect.insPuesto(puest.getIdpuesto(), puest.getTipo(), puest.getOcupado());
+//                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
+//                    tblModelo();
+//                    
+//                    limpiar();
+//                } else {
+//                    JOptionPane.showMessageDialog(rootPane, "registro existente");
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(VPuesto.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        }
     }//GEN-LAST:event_btn_RegistrarActionPerformed
 
     private void tblPuestosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblPuestosKeyTyped

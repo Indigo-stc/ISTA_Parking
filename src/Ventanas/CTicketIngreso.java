@@ -15,34 +15,34 @@ public class CTicketIngreso extends javax.swing.JFrame {
     public CTicketIngreso() {
         initComponents();
         setLocationRelativeTo(null);
-        try {
-            tblModel();
-        } catch (SQLException ex) {
-            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            tblModel();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
-    public void tblModel() throws SQLException {
-        DefaultTableModel modelo = new DefaultTableModel();
-        tblTicketI.setModel(modelo);
-        PgConect con = new PgConect();
-        ResultSet ticks = con.ticketsI();
-        ResultSetMetaData rsmd = ticks.getMetaData();
-        int columns = rsmd.getColumnCount(); 
-        
-        modelo.addColumn("ID Ticket");
-        modelo.addColumn("ID Cliente");
-        modelo.addColumn("ID Puesto");
-        modelo.addColumn("F. Ingreso");
-        
-        while(ticks.next()) {
-            Object[] filas = new Object[columns];
-            for (int i = 0; i < columns; i++) {
-                filas[i] = ticks.getObject(i+1);
-            }
-            modelo.addRow(filas);
-        }
-    }
+//    public void tblModel() throws SQLException {
+//        DefaultTableModel modelo = new DefaultTableModel();
+//        tblTicketI.setModel(modelo);
+//        PgConect con = new PgConect();
+//        ResultSet ticks = con.ticketsI();
+//        ResultSetMetaData rsmd = ticks.getMetaData();
+//        int columns = rsmd.getColumnCount(); 
+//        
+//        modelo.addColumn("ID Ticket");
+//        modelo.addColumn("ID Cliente");
+//        modelo.addColumn("ID Puesto");
+//        modelo.addColumn("F. Ingreso");
+//        
+//        while(ticks.next()) {
+//            Object[] filas = new Object[columns];
+//            for (int i = 0; i < columns; i++) {
+//                filas[i] = ticks.getObject(i+1);
+//            }
+//            modelo.addRow(filas);
+//        }
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -187,36 +187,36 @@ public class CTicketIngreso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
-        if (Val.digVfy(txtCedula.getText())) {
-            PgConect con = new PgConect();
-            try {
-                if (!con.existeCliente(txtCedula.getText())) {
-                    JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
-                    //RCliente cli = new RCliente(txtCedula.getText());
-                    //cli.setVisible(true);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            lblVfyCedula.setText("No es una cedula");
-        }
+//        if (Val.digVfy(txtCedula.getText())) {
+//            PgConect con = new PgConect();
+//            try {
+//                if (!con.existeCliente(txtCedula.getText())) {
+//                    JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
+//                    //RCliente cli = new RCliente(txtCedula.getText());
+//                    //cli.setVisible(true);
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } else {
+//            lblVfyCedula.setText("No es una cedula");
+//        }
     }//GEN-LAST:event_txtCedulaFocusLost
 
     private void txtPlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPlacaFocusLost
-        if (Val.placa(txtPlaca.getText())) {
-            try {
-                PgConect con = new PgConect();
-                if (!con.CrV(txtPlaca.getText())) {
-                    RVehiculo ve = new RVehiculo(txtCedula.getText());
-                    ve.setVisible(true);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            lblVfyPlaca.setText("No es una placa");
-        }
+//        if (Val.placa(txtPlaca.getText())) {
+//            try {
+//                PgConect con = new PgConect();
+//                if (!con.CrV(txtPlaca.getText())) {
+//                    RVehiculo ve = new RVehiculo(txtCedula.getText());
+//                    ve.setVisible(true);
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } else {
+//            lblVfyPlaca.setText("No es una placa");
+//        }
     }//GEN-LAST:event_txtPlacaFocusLost
 
     /**
