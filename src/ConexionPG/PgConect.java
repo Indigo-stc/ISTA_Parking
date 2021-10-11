@@ -58,7 +58,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            //stat.close();
+            stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,7 +174,7 @@ public class PgConect {
             return false;
         }
     }
-
+   
     public boolean insVehi(String placa, String modelo, String tipo) {
         String nquery = "INSERT INTO vehiculo ("
                 + "placa, modelo, tipo) "
@@ -224,19 +224,20 @@ public class PgConect {
         }
     }
     
-    public boolean exisCli(String cedula) throws SQLException {
+    public ResultSet pkCli(String cedula) {
         String query = "SELECT idcliente "
                 + "FROM clientes "
-                + "WHERE idpersona = '"+ cedula +"'";
-        ResultSet exisCli = query(query);
-        return exisCli.next();
+                + "WHERE idpersona = '"+ cedula +"' AND activo = TRUE";
+        return query(query);
     }
     
-    public boolean CrV(String cedula, String placa) throws SQLException {
-        String query = "SELECT * FROM due_v"
-                + "WHERE idpersona = '"+ cedula +"' AND placa = '"+ placa +"'";
-        ResultSet exisCli = query(query);
-        return exisCli.next();
+    public ResultSet CrV(String cedula, String placa) throws SQLException {
+        String query = "SELECT cedula, clientes.idcliente, vehiculo.placa "
+                + "FROM clientes, due_v, vehiculo, personas "
+                + "WHERE cedula = '"+ cedula +"' AND  cedula = idpersona AND clientes.idcliente = due_v.idcliente "
+                + "AND due_v.placa = '"+ placa +"' AND due_v.placa = vehiculo.placa "
+                + "AND activo = TRUE;";
+        return query(query);
     }
 
     public ResultSet mostrarEmp() throws SQLException {

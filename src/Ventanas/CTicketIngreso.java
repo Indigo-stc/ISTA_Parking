@@ -189,8 +189,9 @@ public class CTicketIngreso extends javax.swing.JFrame {
     private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
         if (Val.digVfy(txtCedula.getText())) {
             PgConect con = new PgConect();
+            ResultSet exisCli = con.pkCli(txtCedula.getText());
             try {
-                if (!con.exisCli(txtCedula.getText())) {
+                if (!exisCli.next()) {
                     JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
                     RCliente cli = new RCliente(txtCedula.getText());
                     cli.setVisible(true);
@@ -198,6 +199,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
             }
+ 
         } else {
             lblVfyCedula.setText("No es una cedula");
         }
@@ -207,8 +209,11 @@ public class CTicketIngreso extends javax.swing.JFrame {
         if (Val.placa(txtPlaca.getText())) {
             try {
                 PgConect con = new PgConect();
-                if (!con.CrV(txtCedula.getText(), txtPlaca.getText())) {
-                    RVehiculo ve = new RVehiculo(txtCedula.getText(), txtPlaca.getText());
+                ResultSet exisCli = con.pkCli(txtCedula.getText());
+                exisCli.next();
+                ResultSet crv = con.CrV(txtCedula.getText(), txtPlaca.getText());
+                if (!crv.next()) {
+                    RVehiculo ve = new RVehiculo(exisCli.getString("idcliente"), txtPlaca.getText());
                     ve.setVisible(true);
                 }
             } catch (SQLException ex) {
