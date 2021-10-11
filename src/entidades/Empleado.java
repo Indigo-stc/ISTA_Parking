@@ -47,6 +47,4 @@ public class Empleado extends Persona {
         this.contraseña = contraseña;
     }
     
-    
-    
 }

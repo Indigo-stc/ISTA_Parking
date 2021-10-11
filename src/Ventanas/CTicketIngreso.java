@@ -1,10 +1,47 @@
 package Ventanas;
 
+import ConexionPG.PgConect;
+import Validaciones.Val;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class CTicketIngreso extends javax.swing.JFrame {
 
     public CTicketIngreso() {
         initComponents();
         setLocationRelativeTo(null);
+        try {
+            tblModel();
+        } catch (SQLException ex) {
+            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void tblModel() throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tblTicketI.setModel(modelo);
+        PgConect con = new PgConect();
+        ResultSet ticks = con.ticketsI();
+        ResultSetMetaData rsmd = ticks.getMetaData();
+        int columns = rsmd.getColumnCount(); 
+        
+        modelo.addColumn("ID Ticket");
+        modelo.addColumn("ID Cliente");
+        modelo.addColumn("ID Puesto");
+        modelo.addColumn("F. Ingreso");
+        
+        while(ticks.next()) {
+            Object[] filas = new Object[columns];
+            for (int i = 0; i < columns; i++) {
+                filas[i] = ticks.getObject(i+1);
+            }
+            modelo.addRow(filas);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -13,18 +50,23 @@ public class CTicketIngreso extends javax.swing.JFrame {
 
         panelFondo = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtPlaca = new javax.swing.JTextField();
-        txtIDticket = new javax.swing.JTextField();
-        txtPuestoA = new javax.swing.JTextField();
         fechaIngreso = new com.toedter.calendar.JDateChooser();
         btnGenerar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtCedula = new javax.swing.JTextField();
+        cbTipoPue = new javax.swing.JComboBox<>();
+        cbNnmPue = new javax.swing.JComboBox<>();
+        lblVfyCedula = new javax.swing.JLabel();
+        lblVfyPlaca = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblTicketI = new javax.swing.JTable();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -35,51 +77,56 @@ public class CTicketIngreso extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("ID Ticket:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
-
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Placa:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));
+        jLabel2.setText("Placa");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, 20));
 
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Puesto Asignado:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
+        jLabel3.setText("Puesto");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Fecha ingreso:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
+        jLabel4.setText("F. Ingreso");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
 
-        txtPlaca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPlacaActionPerformed(evt);
+        txtPlaca.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPlacaFocusLost(evt);
             }
         });
-        jPanel1.add(txtPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, 220, -1));
-
-        txtIDticket.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIDticketActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtIDticket, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 220, -1));
-        jPanel1.add(txtPuestoA, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 220, -1));
-        jPanel1.add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, 220, -1));
+        jPanel1.add(txtPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 220, 20));
+        jPanel1.add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 220, -1));
 
         btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnGenerar.setText("Generar");
-        jPanel1.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 110, 40));
+        jPanel1.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, 110, 40));
 
         btnBuscar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, 50, 50));
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 50, 50));
 
-        panelFondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 600, 290));
+        jLabel1.setText("Cedula");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCedulaFocusLost(evt);
+            }
+        });
+        jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 250, -1));
+
+        cbTipoPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo", "Camioneta-Auto", "Camioneta", "Camion" }));
+        jPanel1.add(cbTipoPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
+
+        cbNnmPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Numero" }));
+        jPanel1.add(cbNnmPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, 110, -1));
+        jPanel1.add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 210, 20));
+        jPanel1.add(lblVfyPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 116, 240, 20));
+
+        panelFondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 590, 280));
 
         jPanel3.setBackground(new java.awt.Color(255, 102, 51));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -105,7 +152,22 @@ public class CTicketIngreso extends javax.swing.JFrame {
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
-        panelFondo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 600, 50));
+        panelFondo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 600, 50));
+
+        tblTicketI.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tblTicketI);
+
+        panelFondo.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 600, 140));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/10.jpg"))); // NOI18N
         panelFondo.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 500));
@@ -124,13 +186,38 @@ public class CTicketIngreso extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIDticketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDticketActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIDticketActionPerformed
+    private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
+        if (Val.digVfy(txtCedula.getText())) {
+            PgConect con = new PgConect();
+            try {
+                if (!con.existeCliente(txtCedula.getText())) {
+                    JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
+                    //RCliente cli = new RCliente(txtCedula.getText());
+                    //cli.setVisible(true);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            lblVfyCedula.setText("No es una cedula");
+        }
+    }//GEN-LAST:event_txtCedulaFocusLost
 
-    private void txtPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPlacaActionPerformed
+    private void txtPlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPlacaFocusLost
+        if (Val.placa(txtPlaca.getText())) {
+            try {
+                PgConect con = new PgConect();
+                if (!con.CrV(txtPlaca.getText())) {
+                    RVehiculo ve = new RVehiculo(txtCedula.getText());
+                    ve.setVisible(true);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            lblVfyPlaca.setText("No es una placa");
+        }
+    }//GEN-LAST:event_txtPlacaFocusLost
 
     /**
      * @param args the command line arguments
@@ -177,6 +264,8 @@ public class CTicketIngreso extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnGenerar;
+    private javax.swing.JComboBox<String> cbNnmPue;
+    private javax.swing.JComboBox<String> cbTipoPue;
     private com.toedter.calendar.JDateChooser fechaIngreso;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
@@ -186,9 +275,12 @@ public class CTicketIngreso extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblVfyCedula;
+    private javax.swing.JLabel lblVfyPlaca;
     private javax.swing.JPanel panelFondo;
-    private javax.swing.JTextField txtIDticket;
+    private javax.swing.JTable tblTicketI;
+    private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtPlaca;
-    private javax.swing.JTextField txtPuestoA;
     // End of variables declaration//GEN-END:variables
 }
