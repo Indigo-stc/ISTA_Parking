@@ -35,10 +35,9 @@ public class Ingreso extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/5.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 320, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, -1, -1));
 
         btnSalir.setBackground(new java.awt.Color(51, 51, 51));
-        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit_1.png"))); // NOI18N
         btnSalir.setText("Salir           ");
         btnSalir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -47,10 +46,9 @@ public class Ingreso extends javax.swing.JFrame {
                 btnSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 180, 50));
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 180, 50));
 
         btnInicio.setBackground(new java.awt.Color(51, 51, 51));
-        btnInicio.setForeground(new java.awt.Color(255, 255, 255));
         btnInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/user_admin_gear.png"))); // NOI18N
         btnInicio.setText("Iniciar Sesión");
         btnInicio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -59,15 +57,17 @@ public class Ingreso extends javax.swing.JFrame {
                 btnInicioActionPerformed(evt);
             }
         });
-        getContentPane().add(btnInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 180, -1));
+        getContentPane().add(btnInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 280, 180, -1));
 
         lblContraseñaM.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        lblContraseñaM.setForeground(new java.awt.Color(255, 255, 255));
         lblContraseñaM.setText("Contraseña:");
-        getContentPane().add(lblContraseñaM, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, -1, -1));
+        getContentPane().add(lblContraseñaM, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
 
         lblUsuarioM.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        lblUsuarioM.setForeground(new java.awt.Color(255, 255, 255));
         lblUsuarioM.setText("Usuario:");
-        getContentPane().add(lblUsuarioM, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, -1, -1));
+        getContentPane().add(lblUsuarioM, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, -1, -1));
 
         txtUsuarioM.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         txtUsuarioM.addActionListener(new java.awt.event.ActionListener() {
@@ -75,17 +75,18 @@ public class Ingreso extends javax.swing.JFrame {
                 txtUsuarioMActionPerformed(evt);
             }
         });
-        getContentPane().add(txtUsuarioM, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, 200, -1));
+        getContentPane().add(txtUsuarioM, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 140, 200, -1));
 
         txtContraseñaM.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        getContentPane().add(txtContraseñaM, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, 200, -1));
+        getContentPane().add(txtContraseñaM, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 200, -1));
 
         lblTitulo.setFont(new java.awt.Font("Cascadia Code", 1, 28)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
         lblTitulo.setText("PARQUEADERO ISTA");
-        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, -1, -1));
+        getContentPane().add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, -1, -1));
 
-        lblfondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/13_1.jpg"))); // NOI18N
-        getContentPane().add(lblfondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 450));
+        lblfondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoI2.png"))); // NOI18N
+        getContentPane().add(lblfondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

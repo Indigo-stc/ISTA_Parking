@@ -114,7 +114,6 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_Registrar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Registrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Registrar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Registrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
         btn_Registrar.setText("Ingresa");
         btn_Registrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -127,7 +126,6 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_Eliminar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Eliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Eliminar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -135,7 +133,6 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_Limpiar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Limpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Limpiar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
         btn_Limpiar.setText("Cancelar");
         btn_Limpiar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -182,7 +179,7 @@ public class VPuesto extends javax.swing.JFrame {
         });
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 230, 350, 30));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP2.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
