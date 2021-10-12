@@ -28,42 +28,50 @@ public class TicketSalida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         txtTicketSalida = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        fechaSalida = new com.toedter.calendar.JDateChooser();
+        btnGenerar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTisalida = new javax.swing.JTable();
-        btnBuscar = new javax.swing.JButton();
-        btnGenerar = new javax.swing.JButton();
-        fechaSalida = new com.toedter.calendar.JDateChooser();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         lblfondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("TICKET SALIDA");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Ticket Ingreso:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
-
-        jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Fecha Salida:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, -1, -1));
 
         txtTicketSalida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTicketSalidaActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTicketSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 180, -1));
+        getContentPane().add(txtTicketSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 170, 240, -1));
+
+        jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("Fecha Salida:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, -1, -1));
+        getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 290, 240, 20));
+
+        btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
+        btnGenerar.setText("Generar");
+        getContentPane().add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 400, 150, 40));
+
+        btnBuscar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
+        getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 220, 50, 50));
 
         tblTisalida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -75,46 +83,9 @@ public class TicketSalida extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblTisalida);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 680, 120));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 940, 170));
 
-        btnBuscar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 60, 50, 50));
-
-        btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btnGenerar.setText("Generar");
-        jPanel1.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 150, 40));
-        jPanel1.add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 80, 180, -1));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 700, 320));
-
-        jPanel2.setBackground(new java.awt.Color(255, 102, 0));
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("TICKET SALIDA");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(267, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(238, 238, 238))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel5)
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 700, 60));
-
-        lblfondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/10.jpg"))); // NOI18N
+        lblfondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
         getContentPane().add(lblfondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -169,8 +140,6 @@ public class TicketSalida extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblfondo;
     private javax.swing.JTable tblTisalida;

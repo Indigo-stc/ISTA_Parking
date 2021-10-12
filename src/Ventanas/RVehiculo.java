@@ -89,7 +89,6 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 430, 120, 40));
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("VEHÍCULO");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, -1, -1));
 
@@ -102,12 +101,10 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(txt_Model, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 160, 182, -1));
 
         jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Modelo:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tipo:");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 240, -1, -1));
 
@@ -122,12 +119,10 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(txt_IDCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 140, -1));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Cliente ID:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Placa:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
 
@@ -196,7 +191,7 @@ public class RVehiculo extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_vehiculo);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, 780, 140));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 510, 860, 140));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoV.png"))); // NOI18N
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));

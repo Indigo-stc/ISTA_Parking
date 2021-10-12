@@ -77,7 +77,7 @@ public class VPuesto extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("PUESTOS");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, -1, 60));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, -1, 60));
 
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -112,7 +112,6 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_Modificar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Modificar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Modificar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoEditar.png"))); // NOI18N
         btn_Modificar.setText("Modificar");
         btn_Modificar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -120,7 +119,6 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_Registrar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Registrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Registrar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Registrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
         btn_Registrar.setText("Ingresa");
         btn_Registrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -133,7 +131,6 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_mostrar.setBackground(new java.awt.Color(51, 51, 51));
         btn_mostrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_mostrar.setForeground(new java.awt.Color(255, 255, 255));
         btn_mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoMostrar.png"))); // NOI18N
         btn_mostrar.setText("Mostrar");
         btn_mostrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -141,7 +138,7 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_Eliminar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Eliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Eliminar.setForeground(new java.awt.Color(51, 51, 51));
         btn_Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -149,7 +146,6 @@ public class VPuesto extends javax.swing.JFrame {
 
         btn_Limpiar.setBackground(new java.awt.Color(51, 51, 51));
         btn_Limpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Limpiar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
         btn_Limpiar.setText("Limpiar");
         btn_Limpiar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -192,7 +188,7 @@ public class VPuesto extends javax.swing.JFrame {
             tblPuestos.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP2.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
