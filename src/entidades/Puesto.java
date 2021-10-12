@@ -1,7 +1,5 @@
 package entidades;
 
-import java.util.UUID;
-
 public class Puesto {
 
     private String tipo;
