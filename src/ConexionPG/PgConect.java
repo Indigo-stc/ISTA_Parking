@@ -1,14 +1,11 @@
 package ConexionPG;
 
-import entidades.Persona;
-import entidades.Empleado;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.management.Query;
@@ -224,6 +221,11 @@ public class PgConect {
         }
     }
     
+    public ResultSet roles() {
+        String query = "SELECT * FROM roles";
+        return query(query);
+    }
+    
     public ResultSet pkCli(String cedula) {
         String query = "SELECT idcliente "
                 + "FROM clientes "
@@ -240,18 +242,12 @@ public class PgConect {
         return query(query);
     }
 
-    public ResultSet mostrarEmp() throws SQLException {
+    public ResultSet mostrarEmp() {
         String query = "SELECT idempleado, empleados.cedula, nombre, apellido, "
                 + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
                 + "FROM empleados, personas, roles "
                 + "WHERE personas.cedula = empleados.cedula AND empleados.idrol = roles.idrol AND activo = "+ true +";";
-        ResultSet rs = query(query);
-        if (rs == null) {
-            System.out.println("No se han encontrado datos");
-            return null;
-        } else {
-            return rs;
-        }
+        return query(query);
     }
 
     public boolean elimEmp(String idempleado) {
@@ -311,33 +307,6 @@ public class PgConect {
         }
     }
 
-    public ArrayList searchPer(String nombre, String apellido) throws SQLException {
-        ArrayList<Persona> listaPersonas = new ArrayList<>();
-
-        String query = "SELECT cedula, nombre, apellido, fechanac, celular, correo, genero "
-                + "FROM personas\n"
-                + "WHERE nombre = '" + nombre + "' AND apellido = '" + apellido + "';";
-        Persona per;
-        if (query(query) == null) {
-            System.out.println("No se han encontrado datos");
-            return null;
-        } else {
-            ResultSet rs = query(query);
-            while (rs.next()) {
-                System.out.println(rs);
-                per = new Persona(rs.getString("cedula"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido"),
-                        rs.getDate("fechanac"),
-                        rs.getString("celular"),
-                        rs.getString("correo"),
-                        rs.getString("genero"));
-                listaPersonas.add(per);
-            }
-            return listaPersonas;
-        }
-    }
-
     public ResultSet mostrarCli() throws SQLException {
         String query = "SELECT idcliente, personas.cedula, nombre, apellido, fechanac, correo, celular, genero "
                 + "FROM clientes, personas "
@@ -378,7 +347,7 @@ public class PgConect {
         }
     }
 
-    public ResultSet mostrarPuest() throws SQLException {
+    public ResultSet mostrarPue() throws SQLException {
         String query = "SELECT idpuesto, tipo, ocupado"
                 + " FROM puestos ";
         ResultSet rs = query(query);
@@ -390,7 +359,7 @@ public class PgConect {
         }
     }
 
-    public void modificarPuesto(String idpuesto, String tipo, boolean ocupado) {
+    public void modiificarPue(String idpuesto, String tipo, boolean ocupado) {
         String noquery = "UPDATE puestos "
                 + "SET  tipo = '" + tipo + "', ocupado ='" + ocupado + "' "
                 + "WHERE idpuesto = '"+ idpuesto +"';";
