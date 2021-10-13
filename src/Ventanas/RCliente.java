@@ -6,7 +6,7 @@ import Validaciones.Val;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.Date;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -529,8 +529,10 @@ public class RCliente extends javax.swing.JFrame {
                     || !Val.edad(fechaNa.getDate())) {
                 JOptionPane.showMessageDialog(null, "Datos incorrctos");
             } else {
+                long form = fechaNa.getDate().getTime();
+                java.sql.Date time = new java.sql.Date(form);
                 Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
-                        txtApellidos.getText(), (java.sql.Date) fechaNa.getDate(), txtCelular.getText(),
+                        txtApellidos.getText(), time, txtCelular.getText(),
                         txtCorreo.getText(), genero);
 
                 if (conect.pkPerson(cli.getCedula())) {

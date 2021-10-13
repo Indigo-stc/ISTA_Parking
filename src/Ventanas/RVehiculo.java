@@ -29,14 +29,10 @@ public class RVehiculo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        try {
-//            tblModelo();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
 
     }
-    
+
     public RVehiculo(String idcli, String placa) {
         initComponents();
         txt_IDCli.setText(idcli);
@@ -48,15 +44,10 @@ public class RVehiculo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        try {
-//            tblModelo();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-//        }
 
     }
-    
-    public RVehiculo()  {
+
+    public RVehiculo() {
         initComponents();
         setLocationRelativeTo(null);
         try {
@@ -64,11 +55,7 @@ public class RVehiculo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        try {
-//            tblModelo();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -235,7 +222,7 @@ public class RVehiculo extends javax.swing.JFrame {
             String tipo = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 3).toString();
 
             PgConect con = new PgConect();
-            con.modificarVeh(placa, modelo, tipo);
+            con.modificarVeh(placa, modelo, Integer.parseInt(tipo));
         }
     }//GEN-LAST:event_tbl_vehiculoKeyReleased
 
@@ -247,16 +234,19 @@ public class RVehiculo extends javax.swing.JFrame {
             if (conect.pkVehiculo(txt_Placa.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (Val.hollow(txt_Placa.getText()) || Val.hollow(txt_Model.getText())
-                || cb_Tipo.getSelectedIndex() == 0) {
+                    || cb_Tipo.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
                 Vehiculo vh = new Vehiculo(txt_Placa.getText(), txt_Model.getText(),
-                    cb_Tipo.getSelectedItem().toString());
-                conect.insVehi(vh.getPlaca(), vh.getModelo(), vh.getTipo());
-                conect.insDuenio(txt_IDCli.getText(), vh.getPlaca());
-                JOptionPane.showMessageDialog(rootPane, "Vehiculo guardado");
-                tblModelo();
-                limpiar();
+                        cb_Tipo.getSelectedItem().toString());
+                ResultSet idtipo = conect.tipo(vh.getTipo());
+                if (idtipo.next()) {
+                    conect.insVehi(vh.getPlaca(), vh.getModelo(), idtipo.getInt("idtipo"));
+                    conect.insDuenio(txt_IDCli.getText(), vh.getPlaca());
+                    JOptionPane.showMessageDialog(rootPane, "Vehículo guardado");
+                    tblModelo();
+                    limpiar();
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
@@ -270,7 +260,14 @@ public class RVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        Eliminar();
+        try {
+            String placa = tbl_vehiculo.getValueAt(tbl_vehiculo.getSelectedRow(), 0).toString();
+            PgConect con = new PgConect();
+            con.elimVeh(placa);
+            tblModelo();
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txt_PlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_PlacaFocusLost
@@ -293,8 +290,6 @@ public class RVehiculo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtBuscarVKeyReleased
 
-
-
     public void tblModelo() throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
         tbl_vehiculo.setModel(modelo);
@@ -306,7 +301,7 @@ public class RVehiculo extends javax.swing.JFrame {
         modelo.addColumn("Placa");
         modelo.addColumn("ID Cliente");
         modelo.addColumn("Modelo");
-        modelo.addColumn("Tipo");
+        modelo.addColumn("ID Tipo");
 
         while (vehiculo.next()) {
             Object[] filas = new Object[columns];
@@ -338,7 +333,7 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli.setText(null);
         cb_Tipo.setSelectedItem(null);
     }
-    
+
     public void buscar(String placa) throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
         PgConect conec = new PgConect();
@@ -347,19 +342,21 @@ public class RVehiculo extends javax.swing.JFrame {
         modelo.addColumn("Placa");
         modelo.addColumn("ID Cliente");
         modelo.addColumn("Modelo");
-        modelo.addColumn("Tipo");
+        modelo.addColumn("ID Tipo");
 
         tbl_vehiculo.setModel(modelo);
         String sql = " ";
         if (placa.equals(" ")) {
-            sql = "SELECT vehiculo.placa, due_v.idcliente, modelo, tipo "
-                    + "FROM vehiculo, due_v, clientes "
-                    + "WHERE vehiculo.placa = due_v.placa AND activo = TRUE AND "
-                    + "clientes.idcliente = due_v.idcliente;";
+            sql = "SELECT vehiculos.placa, propietarios.idcliente, modelo, idtipo "
+                    + "FROM vehiculos, propietarios, clientes "
+                    + "WHERE vehiculos.placa = propietarios.placa AND vehiculos.activo = TRUE AND "
+                    + "clientes.idcliente = propietarios.idcliente;";
         } else {
-            sql = "SELECT vehiculo.placa, idcliente, modelo, tipo "
-                    + "FROM vehiculo, due_v "
-                    + "WHERE vehiculo.placa = due_v.placa AND vehiculo.placa like '%" + placa + "%';";
+            sql = "SELECT vehiculos.placa, propietarios.idcliente, modelo, idtipo "
+                    + "FROM vehiculos, propietarios, clientes "
+                    + "WHERE vehiculos.placa = propietarios.placa AND vehiculos.activo = TRUE AND "
+                    + "clientes.idcliente = propietarios.idcliente AND vehiculos.placa like '%" + placa + "%';";
+                    
         }
         String Usuarios[] = new String[11];
         Statement set;
