@@ -44,6 +44,10 @@ public class VReserva extends javax.swing.JFrame {
         txtPlaca = new javax.swing.JTextField();
         fechaIngreso = new com.toedter.calendar.JDateChooser();
         fechaSalida = new com.toedter.calendar.JDateChooser();
+        btnRegistrar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         txtFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -112,6 +116,25 @@ public class VReserva extends javax.swing.JFrame {
         getContentPane().add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 210, 200, -1));
         getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 270, 200, -1));
 
+        btnRegistrar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
+        btnRegistrar.setText("REGISTRAR");
+        getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 600, 170, -1));
+
+        btnLimpiar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
+        btnLimpiar.setText("CANCELAR");
+        getContentPane().add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 600, 170, -1));
+
+        btnEliminar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
+        btnEliminar.setText("ELIMINAR");
+        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 600, 180, -1));
+
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
+        btnSalir.setText("SALIR");
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 90, 30));
+
         txtFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reserva.png"))); // NOI18N
         getContentPane().add(txtFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -154,6 +177,10 @@ public class VReserva extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnSalir;
     private com.toedter.calendar.JDateChooser fechaIngreso;
     private com.toedter.calendar.JDateChooser fechaSalida;
     private javax.swing.JLabel jLabel1;
