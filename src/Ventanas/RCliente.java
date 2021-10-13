@@ -43,7 +43,7 @@ public class RCliente extends javax.swing.JFrame {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -284,7 +284,7 @@ public class RCliente extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Cédula", "Nombres", "Apellidos", "Fecha N.", "Celular", "Correo", "Género"
+                "ID", "Cédula", "Nombres", "Apellidos", "Fecha N.", "Celular", "Correo", "Género", "activo"
             }
         ));
         tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -321,7 +321,7 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_rbFMouseClicked
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
-        
+
     }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
@@ -368,7 +368,7 @@ public class RCliente extends javax.swing.JFrame {
                     java.util.Date utilDate = new java.util.Date(fsql.getTime());
                     if (gen.equalsIgnoreCase("M")) {
                         b_GroupClientes.setSelected(rbM.getModel(), true);
-                    }  else if (gen.equalsIgnoreCase("F")) {
+                    } else if (gen.equalsIgnoreCase("F")) {
                         b_GroupClientes.setSelected(rbF.getModel(), true);
                     }
                     fechaNa.setDate(utilDate);
@@ -452,7 +452,7 @@ public class RCliente extends javax.swing.JFrame {
 
 
     private void tablaClientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaClientesKeyReleased
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String idcliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
             String cedula = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
             String nombre = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString();
@@ -461,14 +461,14 @@ public class RCliente extends javax.swing.JFrame {
             String email = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 5).toString();
             String celular = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 6).toString();
             String genero = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 7).toString();
-            
-            if (!genero.equalsIgnoreCase("m") || !genero.equalsIgnoreCase("f") || 
-                    !Val.isNumber(celular) ||
-                    !Val.email(email) ||
-                    nombre == null ||
-                    apellido == null ||
-                    email == null ||
-                    celular == null) {
+
+            if (!genero.equalsIgnoreCase("m") || !genero.equalsIgnoreCase("f")
+                    || !Val.isNumber(celular)
+                    || !Val.email(email)
+                    || nombre == null
+                    || apellido == null
+                    || email == null
+                    || celular == null) {
                 JOptionPane.showMessageDialog(rootPane, """
                                                         1. Llenar todos los campos
                                                         2. Celular: Solo 10 digitos
@@ -480,11 +480,11 @@ public class RCliente extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
-           } else {
+            } else {
                 PgConect con = new PgConect();
                 con.modificarPer(cedula, nombre, apellido, (java.sql.Date) fechanac, celular, email, genero);
             }
-           
+
         }
     }//GEN-LAST:event_tablaClientesKeyReleased
 
@@ -515,7 +515,11 @@ public class RCliente extends javax.swing.JFrame {
         try {
             PgConect conect = new PgConect();
             if (conect.usuario(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");         
+                 if (conect.usuario(txtCedula.getText())) {
+                      conect.actualizarestadoCli( true);
+                      tblModelo();
+                 }                  
             } else if (!Val.isNumber(txtCedula.getText())
                     || Val.hollow(txtNombres.getText())
                     || Val.hollow(txtApellidos.getText())
@@ -531,15 +535,15 @@ public class RCliente extends javax.swing.JFrame {
 
                 if (conect.pkPerson(cli.getCedula())) {
                     System.out.println("solo cliente");
-                    conect.insCli(cli.getIdCli(), cli.getCedula());
+                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
                 } else {
                     System.out.println("Cliente y Persona");
                     conect.insPer(cli.getCedula(), cli.getNombres(),
-                        cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
-                        cli.getCorreo(), cli.getGenero());
-                    conect.insCli(cli.getIdCli(), cli.getCedula());
+                    cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                    cli.getCorreo(), cli.getGenero());
+                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
                 }
-                
+
                 String idcliente = cli.getIdCli();
                 JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
                 tblModelo();
@@ -560,7 +564,7 @@ public class RCliente extends javax.swing.JFrame {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void tblModelo() throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
         tablaClientes.setModel(modelo);
@@ -577,6 +581,7 @@ public class RCliente extends javax.swing.JFrame {
         modelo.addColumn("Correo");
         modelo.addColumn("Celular");
         modelo.addColumn("Genero");
+        modelo.addColumn("Activo");
 
         while (clientes.next()) {
             Object[] filas = new Object[columns];
