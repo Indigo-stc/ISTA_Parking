@@ -126,7 +126,7 @@ public class RVehiculo extends javax.swing.JFrame {
         jLabel6.setText("Tipo:");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, -1, -1));
 
-        cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Vehiculo", "Moto", "Camioneta", "Camión" }));
+        cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Auto-Camioneta", "Camion", "Moto" }));
         jPanel1.add(cb_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 270, 182, -1));
         jPanel1.add(txt_IDCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 160, -1));
 
