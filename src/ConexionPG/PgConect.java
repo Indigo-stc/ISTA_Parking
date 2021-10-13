@@ -58,7 +58,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            stat.close();
+           // stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,7 +163,7 @@ public class PgConect {
         }
     }
 
-    public boolean insCli(String idCli, String cedula) {
+    public boolean insCli(String idCli, String cedula,boolean activo) {
         String nquery = "INSERT INTO clientes ("
                 + "idcliente, idpersona, activo)"
                 + "VALUES ('" + idCli + "', '" + cedula + "', "+ true +");";
@@ -339,7 +339,7 @@ public class PgConect {
     }
 
     public ResultSet mostrarCli() throws SQLException {
-        String query = "SELECT idcliente, personas.cedula, nombre, apellido, fechanac, correo, celular, genero "
+        String query = "SELECT idcliente, personas.cedula, nombre, apellido, fechanac, correo, celular, genero,clientes.activo "
                 + "FROM clientes, personas "
                 + "WHERE personas.cedula= clientes.idpersona AND activo = "+ true +";";
         ResultSet rs = query(query);
@@ -444,6 +444,17 @@ public class PgConect {
        return conect; 
     }
        
- 
+ public boolean actualizarestadoCli( boolean activo) {
+        String noquery = "UPDATE clientes"
+                +"  SET  activo='"+true+"' ";
+                
+        if (noQuery(noquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR UPDATE cliente");
+            return false;
+        }
+    }
+
        
 }
