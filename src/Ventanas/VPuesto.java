@@ -226,7 +226,7 @@ public class VPuesto extends javax.swing.JFrame {
             if ((ocupado != true || ocupado != false) && !cmbTipo.equals((Object) tipo)) {
                 try {
                     PgConect con = new PgConect();
-                    con.modificarPuesto(idpuesto, tipo, ocupado );
+                    con.modiificarPue(idpuesto, tipo, ocupado );
                     tblModelo();
                 } catch (SQLException ex) {
                     Logger.getLogger(VPuesto.class.getName()).log(Level.SEVERE, null, ex);
@@ -257,7 +257,7 @@ public class VPuesto extends javax.swing.JFrame {
         DefaultTableModel modelo = new DefaultTableModel();
         tblPuesto.setModel(modelo);
         PgConect con = new PgConect();
-        ResultSet puesto = con.mostrarPuest();
+        ResultSet puesto = con.mostrarPue();
         ResultSetMetaData rsmd = puesto.getMetaData();
         int columns = rsmd.getColumnCount();
 

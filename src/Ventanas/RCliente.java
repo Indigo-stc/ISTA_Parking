@@ -9,11 +9,9 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
-import java.util.List;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
@@ -21,7 +19,6 @@ public class RCliente extends javax.swing.JFrame {
 
     PgConect conec = new PgConect();
     Connection conectar = conec.Conectar();
-    public static List<Cliente> listaClientes = new ArrayList();
 
     String genero = null;
 
@@ -528,10 +525,8 @@ public class RCliente extends javax.swing.JFrame {
                     || !Val.edad(fechaNa.getDate())) {
                 JOptionPane.showMessageDialog(null, "Datos incorrctos");
             } else {
-                long jtime = fechaNa.getDate().getTime();
-                java.sql.Date sqltime = new java.sql.Date(jtime);
                 Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
-                        txtApellidos.getText(), sqltime, txtCelular.getText(),
+                        txtApellidos.getText(), (java.sql.Date) fechaNa.getDate(), txtCelular.getText(),
                         txtCorreo.getText(), genero);
 
                 if (conect.pkPerson(cli.getCedula())) {
@@ -640,11 +635,7 @@ public class RCliente extends javax.swing.JFrame {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
 
-     
-  
-     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -710,6 +701,4 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombres;
     private javax.swing.JTextField txt_buscar;
     // End of variables declaration//GEN-END:variables
-  public static ArrayList<Cliente> clie = new ArrayList<>();
-    public static ArrayList<PgConect> pg = new ArrayList<>();
 }

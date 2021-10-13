@@ -1,6 +1,5 @@
 package Ventanas;
 
-
 import ConexionPG.PgConect;
 import entidades.Empleado;
 import Validaciones.Val;
@@ -8,15 +7,13 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.Date;
-
+import java.util.Date;
 
 public class REmpleado extends javax.swing.JFrame {
 
@@ -38,7 +35,7 @@ public class REmpleado extends javax.swing.JFrame {
         }
     }
     
-    public void tblModelo() throws SQLException {
+    private void tblModelo() throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel();
         tblEmpleados.setModel(modelo);
         PgConect con = new PgConect();
@@ -65,6 +62,10 @@ public class REmpleado extends javax.swing.JFrame {
             }
             modelo.addRow(filas);
         }
+    }
+    
+    private void cbxModel() {
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -421,7 +422,8 @@ public class REmpleado extends javax.swing.JFrame {
                                 emp.getApellidos(), emp.getFechaNacimiento(), emp.getCelular(),
                                 emp.getCorreo(), emp.getGenero());
                         conect.insEmp(emp.getId_Emp(), idRol.getString("idrol"), emp.getCedula(),
-                                emp.getUsuario(), emp.getContraseña());
+                                (emp.getUsuario() == null ? "   " : emp.getUsuario()), 
+                                (emp.getContraseña() == null ? "   " : emp.getContraseña()));
                         JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
                         tblModelo();
                         limpiar();
@@ -578,7 +580,7 @@ public class REmpleado extends javax.swing.JFrame {
 
 
     private void tblEmpleadosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadosKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
               
             String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
             String cedula =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
@@ -593,7 +595,7 @@ public class REmpleado extends javax.swing.JFrame {
             String genero =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
             
             PgConect con = new PgConect();
-            con.modificarPer(cedula, nombre, apellido, fechanac, celular, correo, genero);
+            con.modificarPer(cedula, nombre, apellido, (java.sql.Date) fechanac, celular, correo, genero);
             con.modificarEmp(idEmp, usuario, contraseña);
             
         }
