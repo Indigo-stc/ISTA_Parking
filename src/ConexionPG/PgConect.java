@@ -111,6 +111,14 @@ public class PgConect {
         return persona;
     }
 
+    public ResultSet vehiculos(String placa){
+    
+        String query = "SELECT * FROM vehiculos "
+                + "WHERE placa = '"+ placa +"';";
+        ResultSet vehiculos = query(query);
+        return vehiculos;
+    }
+    
     public boolean pkVehiculo(String placa) throws SQLException {
         String query = "SELECT placa "
                 + "FROM vehiculos "
@@ -121,7 +129,19 @@ public class PgConect {
             System.out.println("No hay vehiculos registrados");
             return false;
         }
-
+    }
+    
+    public boolean pkAlquiler(String idalquiler) throws SQLException{
+        String query = "SELECT idalquiler "
+                + "FROM alquileres "
+                + "WHERE idalquiler = '" + idalquiler + "';";
+        
+        if (query(query).next()){
+            return true;
+        }else{
+            System.out.println("No hay alquileres registrados");
+            return false;
+        }
     }
 
     public boolean pkPropietarios(String idcliente) throws SQLException {
@@ -174,7 +194,7 @@ public class PgConect {
         }
     }
 
-    public boolean insCli(String idCli, String cedula,boolean activo) {
+    public boolean insCli(String idCli, String cedula, boolean activo) {
         String nquery = "INSERT INTO clientes ("
                 + "idcliente, idpersona, activo)"
                 + "VALUES ('" + idCli + "', '" + cedula + "', " + true + ");";
@@ -184,6 +204,19 @@ public class PgConect {
             System.out.println("ERROR INSERT cliente");
             return false;
         }
+    }
+    
+    public boolean insReserva(String idalquiler, String idcliente, String idempleado, Date fechaIngreso, Date fechaSalida){
+            String nquery = "INSERT INTO alquileres ("
+                    + "idalquiler, idcliente, idempleado, fechaing, fechasal)"
+                    + "VALUES ('" + idalquiler + "', '"+ idcliente +"', '" + idempleado + "'," + fechaIngreso 
+                    + "'," + fechaSalida+ "');";
+            if(noQuery(nquery) == null){
+                return true;
+            }else{
+                System.out.println("ERROR INSERT alquiler");
+                return false;
+            }
     }
 
     public boolean insVehi(String placa, String modelo, int tipo) {
@@ -265,7 +298,7 @@ public class PgConect {
                 + "FROM clientes, propietarios, vehiculos, personas "
                 + "WHERE cedula = '" + cedula + "' AND  cedula = idpersona AND clientes.idcliente = propietarios.idcliente "
                 + "AND propietarios.placa = '" + placa + "' AND propietarios.placa = vehiculos.placa "
-                + "AND activo = TRUE;";
+                + "AND vehiculos.activo = TRUE;";
         return query(query);
     }
 
@@ -288,19 +321,19 @@ public class PgConect {
             return false;
         }
     }
-    
-    public boolean elimVeh (String placa){
+
+    public boolean elimVeh(String placa) {
         String noquery = "UPDATE vehiculos "
                 + "SET activo = " + false + " "
-                + "WHERE placa = '" +placa+ "';";
-        if(noQuery(noquery) ==  null){
+                + "WHERE placa = '" + placa + "';";
+        if (noQuery(noquery) == null) {
             return true;
-        }else{
+        } else {
             System.out.println("ERROR");
             return false;
         }
     }
-    
+
 //    public boolean elimVeh (String placa){
 //        String noquery = "DELETE FROM vehiculos CASCADE"
 //                            +" WHERE placa = '"+placa+"';";
@@ -312,7 +345,6 @@ public class PgConect {
 //            return false;
 //        }
 //    }
-
     public boolean elimCli(String idcliente) {
         String noquery = "UPDATE clientes "
                 + "SET activo = " + false + " "
@@ -373,9 +405,9 @@ public class PgConect {
     public ResultSet mostrarVeh() throws SQLException {
 
         String query = "SELECT vehiculos.placa, propietarios.idcliente, modelo, idtipo "
-                    + "FROM vehiculos, propietarios, clientes "
-                    + "WHERE vehiculos.placa = propietarios.placa AND vehiculos.activo = TRUE AND "
-                    + "clientes.idcliente = propietarios.idcliente;";
+                + "FROM vehiculos, propietarios, clientes "
+                + "WHERE vehiculos.placa = propietarios.placa AND vehiculos.activo = TRUE AND "
+                + "clientes.idcliente = propietarios.idcliente;";
         ResultSet rs = query(query);
         if (rs == null) {
             System.out.println("No se han encontrado datos");
@@ -462,11 +494,11 @@ public class PgConect {
         }
         return conect;
     }
-       
- public boolean actualizarestadoCli( boolean activo) {
+
+    public boolean actualizarestadoCli(boolean activo) {
         String noquery = "UPDATE clientes"
-                +"  SET  activo='"+true+"' ";
-                
+                + "  SET  activo='" + true + "' ";
+
         if (noQuery(noquery) == null) {
             return true;
         } else {
@@ -475,5 +507,4 @@ public class PgConect {
         }
     }
 
-       
 }

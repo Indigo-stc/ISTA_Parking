@@ -78,6 +78,7 @@ public class RCliente extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaClientes = new javax.swing.JTable();
         fechaNa = new com.toedter.calendar.JDateChooser();
+        btnVehiculos = new javax.swing.JButton();
         lblFondoCli = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -302,6 +303,14 @@ public class RCliente extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 920, 190));
         getContentPane().add(fechaNa, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 180, -1));
 
+        btnVehiculos.setText("Vehículos");
+        btnVehiculos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVehiculosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, 90, 30));
+
         lblFondoCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoR.png"))); // NOI18N
         getContentPane().add(lblFondoCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
@@ -500,6 +509,10 @@ public class RCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_buscarActionPerformed
 
+    private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVehiculosActionPerformed
+
     public void limpiar() {
         txtCedula.setText(null);
         txtNombres.setText(null);
@@ -515,11 +528,11 @@ public class RCliente extends javax.swing.JFrame {
         try {
             PgConect conect = new PgConect();
             if (conect.usuario(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Registro existente");         
-                 if (conect.usuario(txtCedula.getText())) {
-                      conect.actualizarestadoCli( true);
-                      tblModelo();
-                 }                  
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+                if (conect.usuario(txtCedula.getText())) {
+                    conect.actualizarestadoCli(true);
+                    tblModelo();
+                }
             } else if (!Val.isNumber(txtCedula.getText())
                     || Val.hollow(txtNombres.getText())
                     || Val.hollow(txtApellidos.getText())
@@ -541,8 +554,8 @@ public class RCliente extends javax.swing.JFrame {
                 } else {
                     System.out.println("Cliente y Persona");
                     conect.insPer(cli.getCedula(), cli.getNombres(),
-                    cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
-                    cli.getCorreo(), cli.getGenero());
+                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                            cli.getCorreo(), cli.getGenero());
                     conect.insCli(cli.getIdCli(), cli.getCedula(), true);
                 }
 
@@ -583,7 +596,6 @@ public class RCliente extends javax.swing.JFrame {
         modelo.addColumn("Correo");
         modelo.addColumn("Celular");
         modelo.addColumn("Genero");
-        
 
         while (clientes.next()) {
             Object[] filas = new Object[columns];
@@ -610,11 +622,13 @@ public class RCliente extends javax.swing.JFrame {
         tablaClientes.setModel(modelo);
         String sql = "";
         if (cedula.equals("") && nombre.equals("")) {
-            sql = "SELECT clientes.idcliente,personas.cedula,personas.nombre,personas.apellido,personas.fechanac,personas.celular,personas.correo,personas.genero"
+            sql = "SELECT clientes.idcliente,personas.cedula,personas.nombre,personas.apellido,personas.fechanac,"
+                    + "personas.celular,personas.correo,personas.genero"
                     + " FROM clientes,personas "
                     + " WHERE clientes.idpersona = personas.cedula ";
         } else {
-            sql = "SELECT clientes.idcliente,personas.cedula,personas.nombre,personas.apellido,personas.fechanac,personas.celular,personas.correo,personas.genero"
+            sql = "SELECT clientes.idcliente,personas.cedula,personas.nombre,personas.apellido,personas.fechanac,"
+                    + "personas.celular,personas.correo,personas.genero"
                     + " FROM clientes,personas "
                     + " WHERE (clientes.idpersona = personas.cedula AND cedula  LIKE '%" + cedula + "%') OR  "
                     + " clientes.idpersona = personas.cedula AND nombre LIKE  '%" + nombre + "%';";
@@ -681,6 +695,7 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JButton botonLimpiar;
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JButton botonSalir;
+    private javax.swing.JButton btnVehiculos;
     private com.toedter.calendar.JDateChooser fechaNa;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
