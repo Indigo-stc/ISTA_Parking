@@ -5,26 +5,26 @@ import java.util.UUID;
 
 public class Empleado extends Persona {
 
-    private String cargo;
+    private short idrol;
     private final String id_Emp;
     private String usuario;
     private String contraseña;
 
     public Empleado(String cedula, String nombres, String apellidos, 
-            String usuario, String contraseña, Date fechaNacimiento, String celular, String correo, String genero, String cargo) {
+            String usuario, String contraseña, Date fechaNacimiento, String celular, String correo, String genero, short idrol) {
         super(cedula, nombres, apellidos, fechaNacimiento, celular, correo, genero);
-        this.cargo = cargo;
+        this.idrol = idrol;
         this.usuario = usuario;
         this.contraseña = contraseña;
-        this.id_Emp = "Emp-" + UUID.randomUUID().toString().substring(0, 4);
+        this.id_Emp = "Emp-" + UUID.randomUUID().toString().substring(0, 12);
     }
     
-    public String getCargo() {
-        return cargo;
+    public short getIdrol() {
+        return idrol;
     }
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setIdrol(short idrol) {
+        this.idrol = idrol;
     }
 
     public String getId_Emp() {

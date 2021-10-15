@@ -24,12 +24,16 @@ public class Val {
     }
     
     public static boolean edad(Date birth) {
-        Date current = new Date();
-        SimpleDateFormat format_current = new SimpleDateFormat("YYYY");
-        String año_current = format_current.format(current);
-        SimpleDateFormat manner2 = new SimpleDateFormat("YYYY");
-        String año_nac = manner2.format(birth);
-        return (Integer.parseInt(año_current) - Integer.parseInt(año_nac)) >= 18;
+        if (birth != null) {
+            Date current = new Date();
+            SimpleDateFormat format_current = new SimpleDateFormat("YYYY");
+            String año_current = format_current.format(current);
+            SimpleDateFormat manner2 = new SimpleDateFormat("YYYY");
+            String año_nac = manner2.format(birth);
+            return (Integer.parseInt(año_current) - Integer.parseInt(año_nac)) >= 18;
+        } else {
+            return false;
+        }      
     }
     
     public static boolean ID(String id) {

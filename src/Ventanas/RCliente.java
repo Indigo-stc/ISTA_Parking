@@ -519,7 +519,7 @@ public class RCliente extends javax.swing.JFrame {
                  if (conect.usuario(txtCedula.getText())) {
                       conect.actualizarestadoCli( true);
                       tblModelo();
-                 }                  
+                 }  
             } else if (!Val.isNumber(txtCedula.getText())
                     || Val.hollow(txtNombres.getText())
                     || Val.hollow(txtApellidos.getText())
