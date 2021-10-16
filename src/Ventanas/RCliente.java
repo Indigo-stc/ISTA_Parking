@@ -608,7 +608,6 @@ public class RCliente extends javax.swing.JFrame {
         modelo.addColumn("Celular");
         modelo.addColumn("Genero");
 
-
         while (clientes.next()) {
             Object[] filas = new Object[columns];
             for (int i = 0; i < columns; i++) {
