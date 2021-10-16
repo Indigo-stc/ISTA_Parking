@@ -103,6 +103,23 @@ public class PgConect {
             return false;
         }
     }
+    
+    public ResultSet trueEmp(String cedula) {
+        String query = "SELECT * FROM empleados "
+                + "WHERE cedula = '" + cedula + "' AND activo = TRUE";
+        return query(query);
+    }
+    
+    public void activarEmp(String cedula, short idrol, String usuario, String contraseña) {
+        String noquery = "UPDATE empleados "
+                + "SET idrol = '"+ idrol +"', activo = " + true + ", usuario = '"+ usuario +"',"
+                + "contraseña = '"+ contraseña +"' "
+                + "WHERE cedula = '" + cedula + "';";
+        if (noQuery(noquery) == null) {
+        } else {
+            System.out.println("ERROR");
+        }
+    }
 
     public ResultSet personas(String cedula) {
         String query = "SELECT * FROM personas "
@@ -162,7 +179,7 @@ public class PgConect {
         }
     }
 
-    public boolean insEmp(String id_Emp, String rol, String cedula, String usuario, String contraseña) {
+    public boolean insEmp(String id_Emp, short rol, String cedula, String usuario, String contraseña) {
         String nquery = "INSERT INTO empleados ("
                 + "idempleado, idrol, cedula, usuario, contraseña, activo) "
                 + "VALUES ('" + id_Emp + "', '" + rol + "', '" + cedula + "', '" + usuario + "', '" + contraseña + "', " + true + ");";
@@ -222,17 +239,11 @@ public class PgConect {
         }
     }
 
-    public ResultSet rol(String rolnombre) throws SQLException {
+    public ResultSet getIdRol(String rolnombre) {
         String query = "SELECT idrol"
                 + " FROM roles"
                 + " WHERE rolnombre IN ('" + rolnombre + "');";
-        ResultSet idRol = query(query);
-        if (idRol == null) {
-            System.out.println("no hay datos");
-            return null;
-        } else {
-            return idRol;
-        }
+        return query(query);
     }
 
     public ResultSet tipo(String denominacion) {
@@ -248,8 +259,9 @@ public class PgConect {
         }
     }
 
-    public ResultSet roles() {
-        String query = "SELECT * FROM roles";
+    public ResultSet cbxRoles() {
+        String query = "SELECT * FROM roles "
+                + "ORDER BY rolnombre ASC;";
         return query(query);
     }
 
@@ -326,9 +338,10 @@ public class PgConect {
     }
 
     public void modificarEmp(String idempleado, String usuario,
-            String contraseña) {
+            String contraseña, short idrol) {
         String noquery = "UPDATE empleados "
-                + "SET usuario = '" + usuario + "', contraseña = '" + contraseña + "'\n"
+                + "SET usuario = '" + usuario + "', contraseña = '" + contraseña + "',"
+                + "idrol = '"+ idrol +"'"
                 + "WHERE idempleado = '" + idempleado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
