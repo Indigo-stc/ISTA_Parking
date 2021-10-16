@@ -301,6 +301,27 @@ public class PgConect {
                 + "AND vehiculos.activo = TRUE;";
         return query(query);
     }
+    
+    public ResultSet DetR(String placa) throws SQLException {
+        String query = "SELECT puestos.idpuesto, vehiculos.placa, tipos.denominacion "
+                + "FROM puestos, vehiculos, tipos "
+                + "WHERE vehiculos.placa = '" + placa + "' AND puestos.idpuesto = detallealquiler.idpuesto "
+                + "AND propietarios.placa = vehiculos.placa; ";
+        return query(query);
+    }
+    
+    public boolean insRva(String idcliente, String idempleado, Date fechaIngreso, Date fechaSalida) {
+        String nquery = "INSERT INTO alquileres ("
+                + "idalquiler, idcliente, idempleado, fechaing, fechasal)"
+                + "VALUES ('" + idcliente + "', '" + idempleado + "'," + fechaIngreso
+                + "'," + fechaSalida + "');";
+        if (noQuery(nquery) == null) {
+            return true;
+        } else {
+            System.out.println("ERROR INSERT alquiler");
+            return false;
+        }
+    }
 
     public ResultSet mostrarEmp() {
         String query = "SELECT idempleado, empleados.cedula, nombre, apellido, "
@@ -417,11 +438,11 @@ public class PgConect {
         }
     }
 
-    public boolean insPuesto(String tipo, boolean ocupado) {
+    public boolean insPuesto(int tipo, boolean ocupado) {
 
         String nquery = "INSERT INTO puestos ("
-                + "idpuesto, tipo, ocupado)"
-                + "VALUES (default, '" + tipo + "', '" + ocupado + "');";
+                + "idpuesto, idtipo, ocupado)"
+                + "VALUES (default, " + tipo + ", '" + ocupado + "');";
         if (noQuery(nquery) == null) {
             return true;
         } else {
@@ -431,7 +452,7 @@ public class PgConect {
     }
 
     public ResultSet mostrarPue() throws SQLException {
-        String query = "SELECT idpuesto, tipo, ocupado"
+        String query = "SELECT idpuesto, idtipo, ocupado"
                 + " FROM puestos ";
         ResultSet rs = query(query);
         if (rs == null) {
@@ -444,7 +465,7 @@ public class PgConect {
 
     public void modiificarPue(String idpuesto, String tipo, boolean ocupado) {
         String noquery = "UPDATE puestos "
-                + "SET  tipo = '" + tipo + "', ocupado ='" + ocupado + "' "
+                + "SET  idtipo = '" + tipo + "', ocupado ='" + ocupado + "' "
                 + "WHERE idpuesto = '" + idpuesto + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");

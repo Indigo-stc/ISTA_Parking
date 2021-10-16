@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSetMetaData;
 
 /**
  *
@@ -23,6 +24,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VReserva extends javax.swing.JFrame {
 
+    String idempleado = null;
+    String idcliente = null;
     /**
      * Creates new form VReserva
      */
@@ -35,7 +38,18 @@ public class VReserva extends javax.swing.JFrame {
             Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public VReserva(String idempleado) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.idempleado = idempleado;
+        try {
+            buscar(" ");
+        } catch (SQLException ex) {
+            Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,10 +75,6 @@ public class VReserva extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblVfyCedula = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        txtIDCli = new javax.swing.JTextField();
-        txtIDemp = new javax.swing.JTextField();
         txtFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -73,12 +83,12 @@ public class VReserva extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("¡REGISTRAR ALQUILER!");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cédula:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -111,21 +121,21 @@ public class VReserva extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Fecha Salida: ");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 170, -1, 20));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 260, -1, 20));
 
         jLabel7.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Fecha Ingreso:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, -1, 20));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, 20));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCedulaFocusLost(evt);
             }
         });
-        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 180, -1));
-        getContentPane().add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 90, 200, 20));
-        getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 170, 200, 20));
+        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 180, -1));
+        getContentPane().add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 170, 200, 20));
+        getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 260, 200, 20));
 
         btnRegistrar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
@@ -149,22 +159,10 @@ public class VReserva extends javax.swing.JFrame {
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
         btnSalir.setText("SALIR");
-        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 90, 30));
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 100, 30));
 
         lblVfyCedula.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 180, 10));
-
-        jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("ID Cliente:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, -1, -1));
-
-        jLabel9.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("ID Empleado:");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, -1, -1));
-        getContentPane().add(txtIDCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, 180, -1));
-        getContentPane().add(txtIDemp, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, 180, -1));
+        getContentPane().add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, 180, 10));
 
         txtFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reserva.png"))); // NOI18N
         getContentPane().add(txtFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -194,36 +192,59 @@ public class VReserva extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         PgConect conect = new PgConect();
 
-//        try {
-//            if (conect.usuario(txtCedula.getText())) {
-//                JOptionPane.showMessageDialog(rootPane, "Registro existente");
-//            } else if (Val.hollow(txtPlaca.getText()) || !Val.isNumber(txtCedula.getText())) {
-//                JOptionPane.showMessageDialog(null, "Datos incorrectos");
-//            } else {
-//                Reserva rv = new Reserva(txfechaIngreso.getDate(), fechaSalida.getDate());
-//                
-//                    conect.insReserva(rv.getIdAlquiler(), rv., idempleado, fechaIngreso, fechaSalida);
-//                    conect.insDuenio(txt_IDCli.getText(), vh.getPlaca());
-//                    JOptionPane.showMessageDialog(rootPane, "Vehículo guardado");
-//                    tblModelo();
-//                    limpiar();
-//                
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            if (conect.usuario(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+            } else if (!Val.isNumber(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+            } else {
+                ResultSet idcli = conect.pkCli(txtCedula.getText());
+                if(idcli.next()){
+                Reserva rv = new Reserva(idcli.getString("idcliente"), idempleado, fechaIngreso.getDate(), fechaSalida.getDate());
+                long form = fechaIngreso.getDate().getTime();
+                java.sql.Date time = new java.sql.Date(form);
+                long form2 = fechaSalida.getDate().getTime();
+                java.sql.Date time2 = new java.sql.Date(form);
+                
+                conect.insRva(rv.getIdcliente(), rv.getIdempleado(), time, time2);
+                JOptionPane.showMessageDialog(rootPane, "Vehículo guardado");
+                buscar(" ");
+                limpiar();
+                DetalleReserva dr = new DetalleReserva(idcli.getString("idcliente"));
+                dr.setVisible(true);
+                this.setVisible(false);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void txtBuscarAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAKeyReleased
         try {
-            buscar(txtCedula.getText());
+            buscar(txtBuscarA.getText());
         } catch (SQLException ex) {
             Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_txtBuscarAKeyReleased
 
+    public void limpiar (){
+        txtCedula.setText(null);
+        fechaIngreso.setDate(null);
+        fechaSalida.setDate(null);
+    }
+    
     public void buscar(String idpersona) throws SQLException {
-        DefaultTableModel modelo = new DefaultTableModel();
+        DefaultTableModel modelo = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if(column == 3 || column ==4){
+                    return true;
+                }else {
+                    return false;
+                }
+            }
+        };
         PgConect conec = new PgConect();
         Connection conectar = conec.Conectar();
 
@@ -244,10 +265,10 @@ public class VReserva extends javax.swing.JFrame {
             sql = "SELECT idalquiler, clientes.idpersona, empleados.idempleado, fechaing, fechasal "
                     + "FROM alquileres, clientes, empleados "
                     + "WHERE clientes.idcliente = alquileres.idcliente "
-                    + "AND empleados.idempleado = alquileres.idempleado AND idpersona like '%" + idpersona + "%';";
+                    + "AND empleados.idempleado = alquileres.idempleado AND idpersona like '%" + idpersona + "%';";;
 
         }
-        String Usuarios[] = new String[6];
+        String Usuarios[] = new String[5];
         Statement set;
         try {
             set = conectar.createStatement();
@@ -309,18 +330,14 @@ public class VReserva extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser fechaSalida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblVfyCedula;
     private javax.swing.JTable tblReserva;
     private javax.swing.JTextField txtBuscarA;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JLabel txtFondo;
-    private javax.swing.JTextField txtIDCli;
-    private javax.swing.JTextField txtIDemp;
     // End of variables declaration//GEN-END:variables
 }

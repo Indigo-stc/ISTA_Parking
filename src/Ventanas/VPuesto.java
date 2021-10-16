@@ -1,7 +1,9 @@
 package Ventanas;
 
 import ConexionPG.PgConect;
+import Validaciones.Val;
 import entidades.Puesto;
+import entidades.Vehiculo;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -74,14 +76,13 @@ public class VPuesto extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         lbl_VTipo = new javax.swing.JLabel();
         btn_Reegresar = new javax.swing.JButton();
-        btn_Registrar = new javax.swing.JButton();
-        btn_Eliminar = new javax.swing.JButton();
-        btn_Limpiar = new javax.swing.JButton();
-        cmbTipo = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPuesto = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
+        btnRegistrar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        cmbTipo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -112,38 +113,6 @@ public class VPuesto extends javax.swing.JFrame {
         });
         jPanel1.add(btn_Reegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 100, -1));
 
-        btn_Registrar.setBackground(new java.awt.Color(51, 51, 51));
-        btn_Registrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Registrar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Registrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
-        btn_Registrar.setText("Ingresa");
-        btn_Registrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btn_Registrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_RegistrarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_Registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 570, 190, 51));
-
-        btn_Eliminar.setBackground(new java.awt.Color(51, 51, 51));
-        btn_Eliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
-        btn_Eliminar.setText("Eliminar");
-        btn_Eliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btn_Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 570, 200, 52));
-
-        btn_Limpiar.setBackground(new java.awt.Color(51, 51, 51));
-        btn_Limpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btn_Limpiar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
-        btn_Limpiar.setText("Cancelar");
-        btn_Limpiar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(btn_Limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 570, 210, 52));
-
-        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Automovil-camioneta", "Moto", "Camion" }));
-        jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, 230, 30));
-
         tblPuesto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -162,7 +131,7 @@ public class VPuesto extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblPuesto);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 910, 260));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 910, 260));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -182,6 +151,22 @@ public class VPuesto extends javax.swing.JFrame {
         });
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 230, 350, 30));
 
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 570, 150, 50));
+
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 570, 150, 50));
+
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Auto-camioneta", "Moto", "Camion" }));
+        jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 270, 30));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
@@ -195,23 +180,6 @@ public class VPuesto extends javax.swing.JFrame {
         m.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_ReegresarActionPerformed
-
-    private void btn_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegistrarActionPerformed
-        PgConect conect = new PgConect();
-        Puesto puest;
-        if (cmbTipo.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "seleccione un tipo");
-        } else {
-            puest = new Puesto(cmbTipo.getSelectedItem().toString());
-            try {
-                conect.insPuesto(puest.getTipo(), puest.isOcupado());
-                tblModelo();
-                limpiar();
-            } catch (SQLException ex) {
-                Logger.getLogger(VPuesto.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_btn_RegistrarActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
@@ -247,6 +215,26 @@ public class VPuesto extends javax.swing.JFrame {
             Logger.getLogger(VPuesto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        PgConect conect = new PgConect();
+        try {
+            if (Val.hollow(cmbTipo.getSelectedItem().toString())){
+                JOptionPane.showMessageDialog(null, "Seleccione un tipo");
+            } else {
+                Puesto pt = new Puesto(cmbTipo.getSelectedItem().toString());
+                ResultSet idtipo = conect.tipo(pt.getTipo());
+                if (idtipo.next()) {
+                    conect.insPuesto(idtipo.getInt("idtipo"), pt.isOcupado());
+                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
+                    tblModelo();
+                    limpiar();
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     public void limpiar() {
         cmbTipo.setSelectedIndex(0);
@@ -308,10 +296,9 @@ public class VPuesto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Eliminar;
-    private javax.swing.JButton btn_Limpiar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btn_Reegresar;
-    private javax.swing.JButton btn_Registrar;
     private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

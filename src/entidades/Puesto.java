@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public class Puesto {
 
+    private short idpuesto;
     private String tipo;
     private boolean ocupado;
 
@@ -27,5 +28,23 @@ public class Puesto {
     public void setOcupado(boolean ocupado) {
         this.ocupado = ocupado;
     }
-    
+
+    /**
+     * @return the idpuesto
+     */
+    public short getIdpuesto() {
+        return idpuesto;
+    }
+
+    /**
+     * @param idpuesto the idpuesto to set
+     */
+    public void setIdpuesto(short idpuesto) {
+        this.idpuesto = idpuesto;
+    }
+
+    @Override
+    public String toString() {
+        return "Puesto{" + "idpuesto=" + idpuesto + '}';
+    }
 }

@@ -105,6 +105,11 @@ public class Menu extends javax.swing.JFrame {
 
         mniReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniReserva.setText("Reserva");
+        mniReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniReservaActionPerformed(evt);
+            }
+        });
         jMenu1.add(mniReserva);
 
         mniPuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
@@ -187,6 +192,13 @@ public class Menu extends javax.swing.JFrame {
         vp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_mniPuestoActionPerformed
+
+    private void mniReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniReservaActionPerformed
+        // TODO add your handling code here:
+        VReserva vr = new VReserva();
+        vr.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_mniReservaActionPerformed
 
     /**
      * @param args the command line arguments

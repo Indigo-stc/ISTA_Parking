@@ -78,17 +78,14 @@ public class CTicketIngreso extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Placa");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, 20));
 
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Puesto");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("F. Ingreso");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
 
@@ -119,6 +116,11 @@ public class CTicketIngreso extends javax.swing.JFrame {
         jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 250, -1));
 
         cbTipoPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo", "Camioneta-Auto", "Camioneta", "Camion" }));
+        cbTipoPue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTipoPueActionPerformed(evt);
+            }
+        });
         jPanel1.add(cbTipoPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
 
         cbNnmPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Numero" }));
@@ -149,7 +151,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelFondo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 600, 50));
@@ -224,6 +226,14 @@ public class CTicketIngreso extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPlacaFocusLost
 
+    private void cbTipoPueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoPueActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbTipoPueActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
