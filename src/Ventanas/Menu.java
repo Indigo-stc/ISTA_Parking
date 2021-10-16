@@ -1,8 +1,11 @@
 package Ventanas;
 
+import ConexionPG.PgConect;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -194,7 +197,19 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mniPuestoActionPerformed
 
     private void mniReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniReservaActionPerformed
-        // TODO add your handling code here:
+        PgConect conect = new PgConect();
+//        ResultSet idempleado = conect.;
+//            if (rolnombre.next()) {
+//                String rol = rolnombre.getString("idrol");
+//                Menu menu = new Menu(rol);
+//                menu.setVisible(true);
+//                this.setVisible(false); 
+//            } else {
+//                JOptionPane.showMessageDialog(rootPane, "Usuario o contraseña incorrectos");
+//            }
+        
+        
+        
         VReserva vr = new VReserva();
         vr.setVisible(true);
         this.setVisible(false);

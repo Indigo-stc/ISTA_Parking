@@ -79,6 +79,7 @@ public class RCliente extends javax.swing.JFrame {
         tablaClientes = new javax.swing.JTable();
         fechaNa = new com.toedter.calendar.JDateChooser();
         btnVehiculos = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         lblFondoCli = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -311,6 +312,14 @@ public class RCliente extends javax.swing.JFrame {
         });
         getContentPane().add(btnVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, 90, 30));
 
+        btnSalir.setText("SALIR");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 80, -1));
+
         lblFondoCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoR.png"))); // NOI18N
         getContentPane().add(lblFondoCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
@@ -509,21 +518,6 @@ public class RCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_buscarActionPerformed
 
-    private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnVehiculosActionPerformed
-
-    public void limpiar() {
-        txtCedula.setText(null);
-        txtNombres.setText(null);
-        txtApellidos.setText(null);
-        txtCelular.setText(null);
-        txtCorreo.setText(null);
-        fechaNa.setDate(null);
-        b_GroupClientes.setSelected(rbM.getModel(), false);
-        b_GroupClientes.setSelected(rbF.getModel(), false);
-    }
-
     public void crearEmp() {
         try {
             PgConect conect = new PgConect();
@@ -558,7 +552,68 @@ public class RCliente extends javax.swing.JFrame {
                             cli.getCorreo(), cli.getGenero());
                     conect.insCli(cli.getIdCli(), cli.getCedula(), true);
                 }
+                String idcliente = cli.getIdCli();
+                JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
+                tblModelo();
+                limpiar();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculosActionPerformed
+        pasarVeh();
+    }//GEN-LAST:event_btnVehiculosActionPerformed
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        pasarRe();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    public void limpiar() {
+        txtCedula.setText(null);
+        txtNombres.setText(null);
+        txtApellidos.setText(null);
+        txtCelular.setText(null);
+        txtCorreo.setText(null);
+        fechaNa.setDate(null);
+        b_GroupClientes.setSelected(rbM.getModel(), false);
+        b_GroupClientes.setSelected(rbF.getModel(), false);
+    }
+
+    public void pasarVeh() {
+        try {
+            PgConect conect = new PgConect();
+            if (conect.usuario(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+                if (conect.usuario(txtCedula.getText())) {
+                    conect.actualizarestadoCli(true);
+                    tblModelo();
+                }
+            } else if (!Val.isNumber(txtCedula.getText())
+                    || Val.hollow(txtNombres.getText())
+                    || Val.hollow(txtApellidos.getText())
+                    || !Val.email(txtCorreo.getText())
+                    || !(rbM.isSelected() || rbF.isSelected())
+                    || !Val.isNumber(txtCelular.getText())
+                    || !Val.edad(fechaNa.getDate())) {
+                JOptionPane.showMessageDialog(null, "Datos incorrctos");
+            } else {
+                long form = fechaNa.getDate().getTime();
+                java.sql.Date time = new java.sql.Date(form);
+                Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
+                        txtApellidos.getText(), time, txtCelular.getText(),
+                        txtCorreo.getText(), genero);
+
+                if (conect.pkPerson(cli.getCedula())) {
+                    System.out.println("solo cliente");
+                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
+                } else {
+                    System.out.println("Cliente y Persona");
+                    conect.insPer(cli.getCedula(), cli.getNombres(),
+                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                            cli.getCorreo(), cli.getGenero());
+                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
+                }
                 String idcliente = cli.getIdCli();
                 JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
                 tblModelo();
@@ -567,17 +622,27 @@ public class RCliente extends javax.swing.JFrame {
                         "WARNING", JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE);
                 if (JOptionPane.OK_OPTION == si) {
-
                     RVehiculo rve = new RVehiculo(idcliente);
                     rve.setVisible(true);
                     this.setVisible(false);
-                } else {
-
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void pasarRe() {
+       
+                int si = JOptionPane.showConfirmDialog(null, "¿Pasar a la ventana reserva?",
+                        "WARNING", JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+                if (JOptionPane.OK_OPTION == si) {
+                    pasarRe();
+                }else{
+                    
+                }
+           
     }
 
     public void tblModelo() throws SQLException {
@@ -695,6 +760,7 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JButton botonLimpiar;
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JButton botonSalir;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVehiculos;
     private com.toedter.calendar.JDateChooser fechaNa;
     private javax.swing.JLabel jLabel10;

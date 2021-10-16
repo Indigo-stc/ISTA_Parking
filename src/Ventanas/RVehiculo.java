@@ -29,9 +29,8 @@ public class RVehiculo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-    
+
     public RVehiculo(String idcli, String placa) {
         initComponents();
         txt_IDCli.setText(idcli);

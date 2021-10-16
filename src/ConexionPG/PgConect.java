@@ -181,6 +181,20 @@ public class PgConect {
             return false;
         }
     }
+    
+    public boolean pkalquiler(String idalquiler) throws SQLException{
+    
+        String query = "SELECT idalquiler "
+                + "FROM alquileres "
+                + "WHERE idalquilers = '" + idalquiler + "';";
+        
+        if(query(query).next()){
+            return true;
+        }else{
+            System.out.println("No hay registros");
+            return false;
+        }
+    }
 
     public boolean insEmp(String id_Emp, String rol, String cedula, String usuario, String contraseña) {
         String nquery = "INSERT INTO empleados ("
@@ -206,18 +220,7 @@ public class PgConect {
         }
     }
     
-    public boolean insReserva(String idalquiler, String idcliente, String idempleado, Date fechaIngreso, Date fechaSalida){
-            String nquery = "INSERT INTO alquileres ("
-                    + "idalquiler, idcliente, idempleado, fechaing, fechasal)"
-                    + "VALUES ('" + idalquiler + "', '"+ idcliente +"', '" + idempleado + "'," + fechaIngreso 
-                    + "'," + fechaSalida+ "');";
-            if(noQuery(nquery) == null){
-                return true;
-            }else{
-                System.out.println("ERROR INSERT alquiler");
-                return false;
-            }
-    }
+
 
     public boolean insVehi(String placa, String modelo, int tipo) {
         String nquery = "INSERT INTO vehiculos ("
@@ -310,11 +313,11 @@ public class PgConect {
         return query(query);
     }
     
-    public boolean insRva(String idcliente, String idempleado, Date fechaIngreso, Date fechaSalida) {
-        String nquery = "INSERT INTO alquileres ("
+    public boolean insRva(String idalquiler, String idcliente, String idempleado, Date fechaIngreso, Date fechaSalida) {
+        String nquery = "INSERT INTO alquileres ( "
                 + "idalquiler, idcliente, idempleado, fechaing, fechasal)"
-                + "VALUES ('" + idcliente + "', '" + idempleado + "'," + fechaIngreso
-                + "'," + fechaSalida + "');";
+                + " VALUES ('" + idalquiler + "', '" + idcliente + "', '" + idempleado + "', '" + fechaIngreso
+                + "', '" + fechaSalida + "');";
         if (noQuery(nquery) == null) {
             return true;
         } else {
