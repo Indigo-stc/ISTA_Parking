@@ -12,7 +12,9 @@ public class Reserva {
     private Date fechaSalida;
 
     public Reserva(String idcliente, String idempleado, Date fechaIngreso, Date fechaSalida) {
-        this.idAlquiler = "Alq-" + UUID.randomUUID().toString().substring(0, 8);
+        this.idAlquiler = "Alq-" + UUID.randomUUID().toString().substring(0, 12);
+        this.idcliente = idcliente;
+        this.idempleado = idempleado;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
     }
@@ -52,6 +54,4 @@ public class Reserva {
     public void setIdempleado(String idempleado) {
         this.idempleado = idempleado;
     }
-    
-    
 }

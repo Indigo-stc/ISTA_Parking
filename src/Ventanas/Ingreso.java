@@ -97,10 +97,11 @@ public class Ingreso extends javax.swing.JFrame {
     private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
         PgConect conect = new PgConect();
         try {
-            ResultSet rolnombre = conect.login(txtUsuarioM.getText(), txtContraseñaM.getText());
-            if (rolnombre.next()) {
-                String rol = rolnombre.getString("idrol");
-                Menu menu = new Menu(rol);
+            ResultSet empleado = conect.login(txtUsuarioM.getText(), txtContraseñaM.getText());
+            if (empleado.next()) {
+                String rol = empleado.getString("idrol");
+                String idempleado = empleado.getString("idempleado");
+                Menu menu = new Menu(rol,idempleado);
                 menu.setVisible(true);
                 this.setVisible(false); 
             } else {

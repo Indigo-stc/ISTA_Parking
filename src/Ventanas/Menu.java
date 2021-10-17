@@ -10,16 +10,18 @@ import javax.swing.JOptionPane;
 public class Menu extends javax.swing.JFrame {
 
     String rol;
+    String idempleado;
     
     public Menu() {
         initComponents();
         setLocationRelativeTo(null);
     }
     
-    public Menu(String nombre) {
+    public Menu(String nombre, String idempleado) {
         initComponents();
         setLocationRelativeTo(null);
         this.rol = nombre;
+        this.idempleado= idempleado;
         switch (rol) {
             case "1" -> {
                                 
@@ -197,22 +199,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mniPuestoActionPerformed
 
     private void mniReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniReservaActionPerformed
-        PgConect conect = new PgConect();
-//        ResultSet idempleado = conect.;
-//            if (rolnombre.next()) {
-//                String rol = rolnombre.getString("idrol");
-//                Menu menu = new Menu(rol);
-//                menu.setVisible(true);
-//                this.setVisible(false); 
-//            } else {
-//                JOptionPane.showMessageDialog(rootPane, "Usuario o contraseña incorrectos");
-//            }
-        
-        
-        
-        VReserva vr = new VReserva();
-        vr.setVisible(true);
-        this.setVisible(false);
+        VReserva rsv = new VReserva(idempleado);
+        rsv.setVisible(true);
+        this.setVisible(false); 
     }//GEN-LAST:event_mniReservaActionPerformed
 
     /**

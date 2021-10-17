@@ -191,7 +191,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
     private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
         if (Val.digVfy(txtCedula.getText())) {
             PgConect con = new PgConect();
-            ResultSet exisCli = con.pkCli(txtCedula.getText());
+            ResultSet exisCli = con.pkCedCli(txtCedula.getText());
             try {
                 if (!exisCli.next()) {
                     JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
@@ -211,7 +211,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
         if (Val.placa(txtPlaca.getText())) {
             try {
                 PgConect con = new PgConect();
-                ResultSet exisCli = con.pkCli(txtCedula.getText());
+                ResultSet exisCli = con.pkCedCli(txtCedula.getText());
                 exisCli.next();
                 ResultSet crv = con.CrV(txtCedula.getText(), txtPlaca.getText());
                 if (!crv.next()) {

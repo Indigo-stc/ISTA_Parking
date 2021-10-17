@@ -4,10 +4,10 @@ public class Vehiculo {
 
     private final String placa;
     private String modelo;
-    private String tipo;
+    private short tipo;
     
 
-    public Vehiculo(String placa, String modelo, String tipo) {
+    public Vehiculo(String placa, String modelo, short tipo) {
         this.placa = placa;
         this.modelo = modelo;
         this.tipo = tipo;
@@ -21,11 +21,11 @@ public class Vehiculo {
         this.modelo = modelo;
     }
 
-    public String getTipo() {
+    public short getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(short tipo) {
         this.tipo = tipo;
     }
 

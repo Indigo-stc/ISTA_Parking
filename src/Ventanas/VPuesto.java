@@ -3,6 +3,7 @@ package Ventanas;
 import ConexionPG.PgConect;
 import Validaciones.Val;
 import entidades.Puesto;
+import entidades.Tipo;
 import entidades.Vehiculo;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -59,6 +61,7 @@ public class VPuesto extends javax.swing.JFrame {
     public VPuesto() {
         initComponents();
         setLocationRelativeTo(null);
+        cbxModel();
         try {
             //tblModelo();
             buscar(" ");
@@ -164,7 +167,6 @@ public class VPuesto extends javax.swing.JFrame {
         btnCancelar.setText("Cancelar");
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 570, 150, 50));
 
-        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Auto-camioneta", "Moto", "Camion" }));
         jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 270, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
@@ -218,19 +220,12 @@ public class VPuesto extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         PgConect conect = new PgConect();
+        Tipo tipo = (Tipo) this.cmbTipo.getSelectedItem();
         try {
-            if (Val.hollow(cmbTipo.getSelectedItem().toString())){
-                JOptionPane.showMessageDialog(null, "Seleccione un tipo");
-            } else {
-                Puesto pt = new Puesto(cmbTipo.getSelectedItem().toString());
-                ResultSet idtipo = conect.tipo(pt.getTipo());
-                if (idtipo.next()) {
-                    conect.insPuesto(idtipo.getInt("idtipo"), pt.isOcupado());
-                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
-                    tblModelo();
-                    limpiar();
-                }
-            }
+            conect.insPuesto(tipo.getIdtipo());
+            JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
+            tblModelo();
+            limpiar();  
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -238,6 +233,24 @@ public class VPuesto extends javax.swing.JFrame {
 
     public void limpiar() {
         cmbTipo.setSelectedIndex(0);
+        
+    }
+    
+    private void cbxModel() {
+        try {
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            PgConect con = new PgConect();
+            Tipo tp = new Tipo((short) 0, "Seleccionar");
+            cmbTipo.setModel(model);
+            ResultSet tipos = con.tipo();
+            
+            
+            while(tipos.next()) {
+                model.addElement(new Tipo(tipos.getShort("idtipo"), tipos.getString("denominacion")));
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(VPuesto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         
     }
 

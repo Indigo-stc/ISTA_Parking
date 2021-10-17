@@ -3,6 +3,7 @@ package Ventanas;
 import ConexionPG.PgConect;
 import entidades.Vehiculo;
 import Validaciones.Val;
+import entidades.Tipo;
 import java.sql.Connection;
 import java.awt.event.KeyEvent;
 import java.sql.Statement;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +26,7 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli.setText(idcliente);
         txt_IDCli.setEnabled(false);
         setLocationRelativeTo(null);
+        cbxModel();
         try {
             buscar(" ");
         } catch (SQLException ex) {
@@ -37,6 +40,7 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_Placa.setText(placa);
         txt_IDCli.setEnabled(false);
         setLocationRelativeTo(null);
+        cbxModel();
         try {
             buscar(" ");
         } catch (SQLException ex) {
@@ -48,6 +52,7 @@ public class RVehiculo extends javax.swing.JFrame {
     public RVehiculo() {
         initComponents();
         setLocationRelativeTo(null);
+        cbxModel();
         try {
             buscar(" ");
         } catch (SQLException ex) {
@@ -230,22 +235,21 @@ public class RVehiculo extends javax.swing.JFrame {
         PgConect conect = new PgConect();
 
         try {
-            if (conect.pkVehiculo(txt_Placa.getText())) {
+            if (conect.pkVehiculo(txt_Placa.getText()).next()) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (Val.hollow(txt_Placa.getText()) || Val.hollow(txt_Model.getText())
                     || cb_Tipo.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
+                Tipo tipo = (Tipo) this.cb_Tipo.getSelectedItem();
                 Vehiculo vh = new Vehiculo(txt_Placa.getText(), txt_Model.getText(),
-                        cb_Tipo.getSelectedItem().toString());
-                ResultSet idtipo = conect.tipo(vh.getTipo());
-                if (idtipo.next()) {
-                    conect.insVehi(vh.getPlaca(), vh.getModelo(), idtipo.getInt("idtipo"));
-                    conect.insDuenio(txt_IDCli.getText(), vh.getPlaca());
-                    JOptionPane.showMessageDialog(rootPane, "Vehículo guardado");
-                    tblModelo();
-                    limpiar();
-                }
+                        tipo.getIdtipo());
+                
+                conect.insVehi(vh.getPlaca(), vh.getModelo(), vh.getTipo());
+                conect.insDuenio(txt_IDCli.getText(), vh.getPlaca());
+                JOptionPane.showMessageDialog(rootPane, "Vehículo guardado");
+                tblModelo();
+                limpiar();
             }
         } catch (SQLException ex) {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
@@ -309,6 +313,24 @@ public class RVehiculo extends javax.swing.JFrame {
             }
             modelo.addRow(filas);
         }
+    }
+    
+     private void cbxModel() {
+        try {
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            PgConect con = new PgConect();
+            Tipo tp = new Tipo((short) 0, "Seleccionar");
+            cb_Tipo.setModel(model);
+            ResultSet tipos = con.tipo();
+            
+            
+            while(tipos.next()) {
+                model.addElement(new Tipo(tipos.getShort("idtipo"), tipos.getString("denominacion")));
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(RVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
     }
 
     private void Eliminar() {

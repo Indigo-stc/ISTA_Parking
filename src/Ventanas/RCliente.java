@@ -78,7 +78,6 @@ public class RCliente extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaClientes = new javax.swing.JTable();
         fechaNa = new com.toedter.calendar.JDateChooser();
-        btnVehiculos = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblFondoCli = new javax.swing.JLabel();
 
@@ -304,21 +303,13 @@ public class RCliente extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 920, 190));
         getContentPane().add(fechaNa, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 180, -1));
 
-        btnVehiculos.setText("Vehículos");
-        btnVehiculos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVehiculosActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 10, 90, 30));
-
         btnSalir.setText("SALIR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 80, -1));
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 90, 30));
 
         lblFondoCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoR.png"))); // NOI18N
         getContentPane().add(lblFondoCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
@@ -561,12 +552,8 @@ public class RCliente extends javax.swing.JFrame {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculosActionPerformed
-        pasarVeh();
-    }//GEN-LAST:event_btnVehiculosActionPerformed
-
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        pasarRe();
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     public void limpiar() {
@@ -618,14 +605,10 @@ public class RCliente extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
                 tblModelo();
                 limpiar();
-                int si = JOptionPane.showConfirmDialog(null, "¿Pasar al registro de vehiculos?",
-                        "WARNING", JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE);
-                if (JOptionPane.OK_OPTION == si) {
-                    RVehiculo rve = new RVehiculo(idcliente);
-                    rve.setVisible(true);
-                    this.setVisible(false);
-                }
+                RVehiculo rve = new RVehiculo(idcliente);
+                rve.setVisible(true);
+                this.setVisible(false);
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -633,16 +616,48 @@ public class RCliente extends javax.swing.JFrame {
     }
 
     public void pasarRe() {
-       
-                int si = JOptionPane.showConfirmDialog(null, "¿Pasar a la ventana reserva?",
-                        "WARNING", JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE);
-                if (JOptionPane.OK_OPTION == si) {
-                    pasarRe();
-                }else{
-                    
+        try {
+            PgConect conect = new PgConect();
+            if (conect.usuario(txtCedula.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Registro existente");
+                if (conect.usuario(txtCedula.getText())) {
+                    conect.actualizarestadoCli(true);
+                    tblModelo();
                 }
-           
+            } else if (!Val.isNumber(txtCedula.getText())
+                    || Val.hollow(txtNombres.getText())
+                    || Val.hollow(txtApellidos.getText())
+                    || !Val.email(txtCorreo.getText())
+                    || !(rbM.isSelected() || rbF.isSelected())
+                    || !Val.isNumber(txtCelular.getText())
+                    || !Val.edad(fechaNa.getDate())) {
+                JOptionPane.showMessageDialog(null, "Datos incorrctos");
+            } else {
+                long form = fechaNa.getDate().getTime();
+                java.sql.Date time = new java.sql.Date(form);
+                Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
+                        txtApellidos.getText(), time, txtCelular.getText(),
+                        txtCorreo.getText(), genero);
+
+                if (conect.pkPerson(cli.getCedula())) {
+                    System.out.println("solo cliente");
+                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
+                } else {
+                    System.out.println("Cliente y Persona");
+                    conect.insPer(cli.getCedula(), cli.getNombres(),
+                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                            cli.getCorreo(), cli.getGenero());
+                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
+                }
+                String idcliente = cli.getIdCli();
+                JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
+                tblModelo();
+                limpiar();
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void tblModelo() throws SQLException {
@@ -761,7 +776,6 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JButton botonSalir;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton btnVehiculos;
     private com.toedter.calendar.JDateChooser fechaNa;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

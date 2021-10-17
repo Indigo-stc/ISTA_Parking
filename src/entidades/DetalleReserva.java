@@ -13,14 +13,12 @@ import java.util.UUID;
  */
 public class DetalleReserva {
     private final String iddetalle;
-    private String idalquiler;
     private String placa;
-    private String puesto;
-    private Double costo;
+    private short puesto;
+    private int costo;
 
-    public DetalleReserva(String idalquiler, String placa, String puesto, Double costo) {
-        this.iddetalle = "Alq-" +UUID.randomUUID().toString().substring(0, 8);
-        this.idalquiler = idalquiler;
+    public DetalleReserva(String placa, short puesto, int costo) {
+        this.iddetalle = "FAC-" +UUID.randomUUID().toString().substring(0, 8);
         this.placa = placa;
         this.puesto = puesto;
         this.costo = costo;
@@ -30,11 +28,6 @@ public class DetalleReserva {
         return iddetalle;
     }
 
-    public String getIdalquiler() {
-        return idalquiler;
-    }
-
-
     public String getPlaca() {
         return placa;
     }
@@ -43,19 +36,19 @@ public class DetalleReserva {
         this.placa = placa;
     }
 
-    public String getPuesto() {
+    public short getPuesto() {
         return puesto;
     }
 
-    public void setPuesto(String puesto) {
+    public void setPuesto(short puesto) {
         this.puesto = puesto;
     }
 
-    public Double getCosto() {
+    public int getCosto() {
         return costo;
     }
 
-    public void setCosto(Double costo) {
+    public void setCosto(int costo) {
         this.costo = costo;
     }
 }

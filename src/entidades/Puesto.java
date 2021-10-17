@@ -5,19 +5,28 @@ import java.util.UUID;
 public class Puesto {
 
     private short idpuesto;
-    private String tipo;
+    private short tipo;
     private boolean ocupado;
 
-    public Puesto(String tipo) {
+    public Puesto(short idpuesto, short tipo, boolean ocupado) {
+        this.idpuesto = idpuesto;
         this.tipo = tipo;
-        this.ocupado = false;
+        this.ocupado = ocupado;
     }
 
-    public String getTipo() {
+    public short getIdpuesto() {
+        return idpuesto;
+    }
+
+    public void setIdpuesto(short idpuesto) {
+        this.idpuesto = idpuesto;
+    }
+
+    public short getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(short tipo) {
         this.tipo = tipo;
     }
 
@@ -29,22 +38,8 @@ public class Puesto {
         this.ocupado = ocupado;
     }
 
-    /**
-     * @return the idpuesto
-     */
-    public short getIdpuesto() {
-        return idpuesto;
-    }
-
-    /**
-     * @param idpuesto the idpuesto to set
-     */
-    public void setIdpuesto(short idpuesto) {
-        this.idpuesto = idpuesto;
-    }
-
     @Override
     public String toString() {
-        return "Puesto{" + "idpuesto=" + idpuesto + '}';
+        return String.valueOf(idpuesto);
     }
 }
