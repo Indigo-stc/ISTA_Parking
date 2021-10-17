@@ -2,47 +2,46 @@ package Ventanas;
 
 import ConexionPG.PgConect;
 import Validaciones.Val;
+import entidades.Puesto;
+import entidades.TicketIngreso;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 public class CTicketIngreso extends javax.swing.JFrame {
 
+    String idempleado;
+    
     public CTicketIngreso() {
         initComponents();
         setLocationRelativeTo(null);
-//        try {
-//            tblModel();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
     
-//    public void tblModel() throws SQLException {
-//        DefaultTableModel modelo = new DefaultTableModel();
-//        tblTicketI.setModel(modelo);
-//        PgConect con = new PgConect();
-//        ResultSet ticks = con.ticketsI();
-//        ResultSetMetaData rsmd = ticks.getMetaData();
-//        int columns = rsmd.getColumnCount(); 
-//        
-//        modelo.addColumn("ID Ticket");
-//        modelo.addColumn("ID Cliente");
-//        modelo.addColumn("ID Puesto");
-//        modelo.addColumn("F. Ingreso");
-//        
-//        while(ticks.next()) {
-//            Object[] filas = new Object[columns];
-//            for (int i = 0; i < columns; i++) {
-//                filas[i] = ticks.getObject(i+1);
-//            }
-//            modelo.addRow(filas);
-//        }
-//    }
+    public CTicketIngreso(String idempleado) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.idempleado = idempleado;
+    }
+    
+    private void cbxModel(String placa) {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        PgConect con = new PgConect();
+        cbPuesto.setModel(model);
+        ResultSet places = con.cbxPuestos(placa);
+        try {
+            while(places.next()) {
+                model.addElement(new Puesto(places.getShort(1), places.getShort(2), places.getBoolean(3)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -59,8 +58,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
-        cbTipoPue = new javax.swing.JComboBox<>();
-        cbNnmPue = new javax.swing.JComboBox<>();
+        cbPuesto = new javax.swing.JComboBox<>();
         lblVfyCedula = new javax.swing.JLabel();
         lblVfyPlaca = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -99,6 +97,11 @@ public class CTicketIngreso extends javax.swing.JFrame {
 
         btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnGenerar.setText("Generar");
+        btnGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, 110, 40));
 
         btnBuscar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
@@ -115,16 +118,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
         });
         jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 250, -1));
 
-        cbTipoPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo", "Camioneta-Auto", "Camioneta", "Camion" }));
-        cbTipoPue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbTipoPueActionPerformed(evt);
-            }
-        });
-        jPanel1.add(cbTipoPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
-
-        cbNnmPue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Numero" }));
-        jPanel1.add(cbNnmPue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 110, -1));
+        jPanel1.add(cbPuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 120, -1));
         jPanel1.add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 210, 20));
         jPanel1.add(lblVfyPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 116, 240, 20));
 
@@ -190,8 +184,9 @@ public class CTicketIngreso extends javax.swing.JFrame {
 
     private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
         if (Val.digVfy(txtCedula.getText())) {
+            lblVfyCedula.setText(null);
             PgConect con = new PgConect();
-            ResultSet exisCli = con.pkCli(txtCedula.getText());
+            ResultSet exisCli = con.pkCedCli(txtCedula.getText());
             try {
                 if (!exisCli.next()) {
                     JOptionPane.showMessageDialog(rootPane, "Debe registrar al cliente");
@@ -201,7 +196,6 @@ public class CTicketIngreso extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
             }
- 
         } else {
             lblVfyCedula.setText("No es una cedula");
         }
@@ -209,14 +203,24 @@ public class CTicketIngreso extends javax.swing.JFrame {
 
     private void txtPlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPlacaFocusLost
         if (Val.placa(txtPlaca.getText())) {
+            lblVfyPlaca.setText(null);
             try {
                 PgConect con = new PgConect();
-                ResultSet exisCli = con.pkCli(txtCedula.getText());
-                exisCli.next();
-                ResultSet crv = con.CrV(txtCedula.getText(), txtPlaca.getText());
-                if (!crv.next()) {
-                    RVehiculo ve = new RVehiculo(exisCli.getString("idcliente"), txtPlaca.getText());
-                    ve.setVisible(true);
+                ResultSet relacion = con.owner(txtCedula.getText(), txtPlaca.getText());
+                ResultSet idcliente = con.pkCedCli(txtCedula.getText());
+                if (relacion.next()) {
+                    cbxModel(txtPlaca.getText());
+                } else {
+                    if (con.pkVehiculo(txtPlaca.getText()).next()) {
+                        idcliente.next();
+                        con.insDuenio(idcliente.getString("idcliente"), txtPlaca.getText());
+                        cbxModel(txtPlaca.getText());
+                    } else {
+                        idcliente.next();
+                        RVehiculo veh = new RVehiculo(idcliente.getString("idcliente"), 
+                        txtPlaca.getText());
+                        veh.setVisible(true);
+                    }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
@@ -226,10 +230,29 @@ public class CTicketIngreso extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPlacaFocusLost
 
-    private void cbTipoPueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoPueActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_cbTipoPueActionPerformed
+    private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
+        Date current = new Date();
+        PgConect con = new PgConect();
+        ResultSet exisCli = con.pkCedCli(txtCedula.getText());
+        try {
+            if (exisCli.next()) {
+                ResultSet exisVeh = con.pkVehiculo(txtPlaca.getText());
+                if (exisVeh.next()) {
+                    Puesto puesto = (Puesto) this.cbPuesto.getSelectedItem();
+                    TicketIngreso ticket = new TicketIngreso(puesto.getIdpuesto(),
+                            txtPlaca.getText(), current);
+                    con.insTIng(ticket.getIdTicked(), idempleado, exisCli.getString("idcliente"), 
+                            txtPlaca.getText(), ticket.getIdPuesto(), (java.sql.Date) ticket.getF_Ingreso());
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Ingresar vehiculo!!!");
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Ingresar cliente!!!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnGenerarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,8 +299,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnGenerar;
-    private javax.swing.JComboBox<String> cbNnmPue;
-    private javax.swing.JComboBox<String> cbTipoPue;
+    private javax.swing.JComboBox<String> cbPuesto;
     private com.toedter.calendar.JDateChooser fechaIngreso;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;

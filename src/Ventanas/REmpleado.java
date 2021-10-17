@@ -26,7 +26,7 @@ public class REmpleado extends javax.swing.JFrame {
     public REmpleado() {
         initComponents();
         setLocationRelativeTo(null);
-        buscar(" ", " ");
+        buscar(" ");
         cbxModel();
     }
     
@@ -375,11 +375,15 @@ public class REmpleado extends javax.swing.JFrame {
                 } else {
                     if (cbRol.getSelectedIndex() != 0) {
                         Rol rol = (Rol) this.cbRol.getSelectedItem();
-                        System.out.println("holaaaa");
                         conect.activarEmp(txtCedula.getText(), rol.getIdrol(),
                                 txtContra.getText(), txtUsuario.getText());
+                        long form = fecha.getDate().getTime();
+                        java.sql.Date time = new java.sql.Date(form);
+                        conect.modificarPer(txtCedula.getText(), txtNombres.getText(),
+                              txtApellidos.getText(), time, txtCelular.getText(),
+                              txtCorreo.getText(), genero);
                         limpiar();
-                        buscar(" ", " ");
+                        buscar(" ");
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Seleccione un cargo");
                     }
@@ -404,7 +408,7 @@ public class REmpleado extends javax.swing.JFrame {
                     conect.insEmp(emp.getId_Emp(), emp.getIdrol(), emp.getCedula(),
                             emp.getUsuario(), emp.getContraseña());
                     JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
-                    buscar(" ", " ");
+                    buscar(" ");
                     limpiar();
                 } else {
                     System.out.println("persona y empleado");
@@ -415,10 +419,13 @@ public class REmpleado extends javax.swing.JFrame {
                             (emp.getUsuario() == null ? "" : emp.getUsuario()),
                             (emp.getContraseña() == null ? "" : emp.getContraseña()));
                     JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
-                    buscar(" ", " ");
+                    buscar(" ");
                     limpiar();
                 }
             }
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Error por meter muchos datos en el campo de la tabla");
+            buscar(" ");
         } catch (ClassCastException ex) {
             System.out.println("Error por combobox");
         } catch (SQLException ex) {
@@ -438,7 +445,7 @@ public class REmpleado extends javax.swing.JFrame {
         String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
         PgConect con = new PgConect();
         con.elimEmp(idEmp);
-        buscar(" ", " ");
+        buscar(" ");
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -557,7 +564,6 @@ public class REmpleado extends javax.swing.JFrame {
                 String nombre = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
                 String apellido = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
                 String rol = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
-                
                 String usuario = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5).toString();
                 String contraseña = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
                 String fechanac = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7).toString();
@@ -584,9 +590,9 @@ public class REmpleado extends javax.swing.JFrame {
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "Cargo no existente");
                         }
-                        buscar(" ", " ");
+                        buscar(" ");
                     } else {
-                        buscar(" ", " ");
+                        buscar(" ");
                         JOptionPane.showMessageDialog(rootPane, """
                                                                 1. Celular: Solo 10 digitos
                                                                 2. Solo correos validos
@@ -609,9 +615,9 @@ public class REmpleado extends javax.swing.JFrame {
                             } else {
                                 JOptionPane.showMessageDialog(rootPane, "Cargo no existente");
                             }
-                            buscar(" ", " ");
+                            buscar(" ");
                         } else {
-                            buscar(" ", " ");
+                            buscar(" ");
                             JOptionPane.showMessageDialog(rootPane, """
                                                                     1. Celular: Solo 10 digitos
                                                                     2. Solo correos validos
@@ -626,7 +632,7 @@ public class REmpleado extends javax.swing.JFrame {
             } catch (ParseException ex) {
                 ex.getMessage();
                 JOptionPane.showMessageDialog(rootPane, "Fecha invalida");
-                buscar(" ", " ");
+                buscar(" ");
             } catch (SQLException ex) {
                 Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -634,7 +640,7 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_tblEmpleadosKeyReleased
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        buscar(txtBuscar.getText(), txtBuscar.getText());
+        buscar(txtBuscar.getText());
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void cbRolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbRolItemStateChanged
@@ -697,7 +703,7 @@ public class REmpleado extends javax.swing.JFrame {
         txtContra.setEnabled(true);
     }
     
-    private void buscar(String nombre, String cedula) {
+    private void buscar(String search) {
         DefaultTableModel modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -723,7 +729,7 @@ public class REmpleado extends javax.swing.JFrame {
         modelo.addColumn("Genero");
         tblEmpleados.setModel(modelo);
         String sql = " ";
-        if (nombre.equals(" ")) {
+        if (search.equals(" ")) {
             sql = " SELECT idempleado, empleados.cedula, nombre, apellido, "
                     + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
                     + " FROM empleados, personas, roles "
@@ -731,9 +737,13 @@ public class REmpleado extends javax.swing.JFrame {
         } else {
             sql = " SELECT idempleado, empleados.cedula, nombre, apellido, "
                     + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
-                    + " FROM empleados, personas, roles "
-                    + " WHERE personas.cedula = empleados.cedula AND "
-                    + "empleados.idrol = roles.idrol AND nombre like '%" + nombre + "%';";
+                    + "FROM empleados, personas, roles "
+                    + "WHERE personas.cedula = empleados.cedula AND "
+                    + "empleados.idrol = roles.idrol AND (LOWER(nombre) like LOWER('%" + search + "%') OR "
+                    + "empleados.cedula like '%"+ search +"%' OR "
+                    + "LOWER(apellido) like LOWER('%" + search + "%') OR "
+                    + "correo like '%" + search + "%' OR "
+                    + "LOWER(rolnombre) like LOWER('%" + search + "%'));";
         }
         String Usuarios[] = new String[11];
         Statement set;
@@ -753,7 +763,6 @@ public class REmpleado extends javax.swing.JFrame {
                 Usuarios[9] = resul.getString(10);
                 Usuarios[10] = resul.getString(11);
                 modelo.addRow(Usuarios);
-
             }
             tblEmpleados.setModel(modelo);
         } catch (SQLException ex) {

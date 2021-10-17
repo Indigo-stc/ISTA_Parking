@@ -30,7 +30,6 @@ public class RVehiculo extends javax.swing.JFrame {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
     }
 
     public RVehiculo(String idcli, String placa) {
@@ -231,7 +230,7 @@ public class RVehiculo extends javax.swing.JFrame {
         PgConect conect = new PgConect();
 
         try {
-            if (conect.pkVehiculo(txt_Placa.getText())) {
+            if (conect.pkVehiculo(txt_Placa.getText()).next()) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (Val.hollow(txt_Placa.getText()) || Val.hollow(txt_Model.getText())
                     || cb_Tipo.getSelectedIndex() == 0) {

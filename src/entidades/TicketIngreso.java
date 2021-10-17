@@ -3,13 +3,14 @@ package entidades;
 import java.util.Date;
 import java.util.UUID;
 
-public class Ticket_ingreso {
+public class TicketIngreso {
     
-    private String idTicked,idPuesto,Placa;
+    private String idTicked, Placa;
+    private short idPuesto;
     private Date  f_Ingreso;
 
-    public Ticket_ingreso(String idTicked, String idPuesto, String Placa, Date f_Ingreso) {
-        this.idTicked = "N-"+UUID.randomUUID().toString().substring(0, 6);
+    public TicketIngreso(short idPuesto, String Placa, Date f_Ingreso) {
+        this.idTicked = "N-"+UUID.randomUUID().toString().substring(0, 12);
         this.idPuesto = idPuesto;
         this.Placa = Placa;
         this.f_Ingreso = f_Ingreso;
@@ -23,11 +24,11 @@ public class Ticket_ingreso {
         this.idTicked = idTicked;
     }
 
-    public String getIdPuesto() {
+    public short getIdPuesto() {
         return idPuesto;
     }
 
-    public void setIdPuesto(String idPuesto) {
+    public void setIdPuesto(short idPuesto) {
         this.idPuesto = idPuesto;
     }
 

@@ -217,23 +217,23 @@ public class VPuesto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        PgConect conect = new PgConect();
-        try {
-            if (Val.hollow(cmbTipo.getSelectedItem().toString())){
-                JOptionPane.showMessageDialog(null, "Seleccione un tipo");
-            } else {
-                Puesto pt = new Puesto(cmbTipo.getSelectedItem().toString());
-                ResultSet idtipo = conect.tipo(pt.getTipo());
-                if (idtipo.next()) {
-                    conect.insPuesto(idtipo.getInt("idtipo"), pt.isOcupado());
-                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
-                    tblModelo();
-                    limpiar();
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        PgConect conect = new PgConect();
+//        try {
+//            if (Val.hollow(cmbTipo.getSelectedItem().toString())){
+//                JOptionPane.showMessageDialog(null, "Seleccione un tipo");
+//            } else {
+//                Puesto pt = new Puesto(cmbTipo.getSelectedItem().toString());
+//                ResultSet idtipo = conect.tipo(pt.getTipo());
+//                if (idtipo.next()) {
+//                    conect.insPuesto(idtipo.getInt("idtipo"), pt.isOcupado());
+//                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
+//                    tblModelo();
+//                    limpiar();
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void limpiar() {

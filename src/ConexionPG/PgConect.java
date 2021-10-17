@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.management.Query;
 
 public class PgConect {
 
@@ -55,7 +54,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            //stat.close();
+            stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -128,17 +127,11 @@ public class PgConect {
         return persona;
     }
 
-    public boolean pkVehiculo(String placa) throws SQLException {
+    public ResultSet pkVehiculo(String placa) throws SQLException {
         String query = "SELECT placa "
                 + "FROM vehiculos "
                 + "WHERE placa = '" + placa + "';";
-        if (query(query).next()) {
-            return true;
-        } else {
-            System.out.println("No hay vehiculos registrados");
-            return false;
-        }
-
+        return query(query);
     }
 
     public boolean pkPropietarios(String idcliente) throws SQLException {
@@ -258,6 +251,12 @@ public class PgConect {
             return idtipo;
         }
     }
+    
+    public ResultSet cbxTipos() {
+        String query = "SELECT idtipo FROM tipos "
+                + "ORDER BY denominacion" ;
+        return query(query);
+    }
 
     public ResultSet cbxRoles() {
         String query = "SELECT * FROM roles "
@@ -265,7 +264,7 @@ public class PgConect {
         return query(query);
     }
 
-    public ResultSet pkCli(String cedula) {
+    public ResultSet pkCedCli(String cedula) {
         String query = "SELECT idcliente "
                 + "FROM clientes "
                 + "WHERE idpersona = '" + cedula + "' AND activo = TRUE";
@@ -277,7 +276,16 @@ public class PgConect {
                 + "FROM clientes, propietarios, vehiculos, personas "
                 + "WHERE cedula = '" + cedula + "' AND  cedula = idpersona AND clientes.idcliente = propietarios.idcliente "
                 + "AND propietarios.placa = '" + placa + "' AND propietarios.placa = vehiculos.placa "
-                + "AND activo = TRUE;";
+                + "AND vehiculos.activo = TRUE;";
+        return query(query);
+    }
+    
+    public ResultSet owner(String cedula, String placa) {
+        String query = "SELECT DISTINCT idpersona, clientes.idcliente, vehiculos.placa "
+                + "FROM clientes, propietarios, vehiculos "
+                + "WHERE idpersona = '"+ cedula +"' AND clientes.idcliente = propietarios.idcliente "
+                + "AND vehiculos.placa = '"+ placa +"' AND propietarios.placa = vehiculos.placa "
+                + "AND vehiculos.activo = TRUE; ";
         return query(query);
     }
 
@@ -476,10 +484,10 @@ public class PgConect {
         return conect;
     }
        
- public boolean actualizarestadoCli( boolean activo) {
+    public boolean actualizarestadoCli(String cedula) {
         String noquery = "UPDATE clientes"
-                +"  SET  activo='"+true+"' ";
-                
+                +"  SET  activo = TRUE "
+                + "WHERE idpersona = '"+ cedula +"'";  
         if (noQuery(noquery) == null) {
             return true;
         } else {
@@ -488,5 +496,21 @@ public class PgConect {
         }
     }
 
-       
+    public ResultSet cbxPuestos(String placa) {
+        String sql = "SELECT DISTINCT puestos.idpuesto, puestos.idpuesto, ocupado "
+                + "FROM puestos, vehiculos, tipos "
+                + "WHERE vehiculos.placa = '"+ placa +"' AND puestos.idtipo = vehiculos.idtipo "
+                + "AND puestos.idtipo = tipos.idtipo AND tipos.idtipo = vehiculos.idtipo "
+                + "AND puestos.ocupado = FALSE;";
+        return query(sql);
+    }
+    
+    public boolean insTIng(String idticketing, String idempleado, String idcliente,
+            String placa, short idpuesto, Date ingreso) {
+        String nquery = "INSERT INTO public.ticketsing("
+                + "idticketing, idempleado, idcliente, placa, idpuesto, fechaing) "
+                + "VALUES ('"+ idticketing +"', '"+ idempleado +"', '"+ idcliente +"',"
+                + " '"+ placa +"', '"+ idpuesto +"', '"+ ingreso +"');";
+        return noQuery(nquery) == null;
+    }
 }
