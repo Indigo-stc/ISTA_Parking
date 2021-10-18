@@ -48,8 +48,8 @@ public class Val {
         }
     }
     
-    public static boolean Fecha(Date fecha_Rsrv, Date fechaIngreso){
-        return fecha_Rsrv.getTime()<fechaIngreso.getTime();
+    public static boolean Fecha(Date fechaingreso, Date fechaSalida){
+        return fechaingreso.getTime()>fechaSalida.getTime();
     }
     
     public static boolean digVfy(String cedula) {

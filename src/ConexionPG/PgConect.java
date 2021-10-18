@@ -650,6 +650,25 @@ public class PgConect {
         return query(sql);
     }
     
+    public ResultSet buscarDetalle(String placa){
+        String sql;
+         if (placa.trim().equals(" ")) {
+            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
+                    + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
+                    + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                    + "AND vehiculos.placa = detallesalquiler.placa AND puestos.idpuesto = detallesalquiler.idpuesto "
+                    + "AND tarifas.idtarifa = detallesalquiler.costo;";
+        } else {
+            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
+                    + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
+                    + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                    + "AND vehiculos.placa = detallesalquiler.placa AND puestos.idpuesto = detallesalquiler.idpuesto "
+                    + "AND tarifas.idtarifa = detallesalquiler.costo AND detallesalquiler.placa LIKE '%" + placa + "%';";
+
+        }
+        return query(sql);
+    }
+    
     
     public ResultSet buscarTicketsSal(String cedula) {
         String sql;
@@ -658,8 +677,8 @@ public class PgConect {
                     + " FROM ticketssal,ticketsing,tarifas "
                     + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa;";
         } else {
-            sql = " SELECT ticketsing.idticketing, ticketssal.idticketsal, tarifas.costo_hora, clientes.idcliente"
-                    + "  FROM ticketssal,ticketsing,tarifas,clientes "
+            sql = " SELECT ticketsing.idticketing, ticketssal.idticketsal, tarifas.costo_hora, clientes.idcliente "
+                    + "  FROM ticketssal, ticketsing, tarifas, clientes "
                     + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
                     + "   AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing LIKE '" + cedula + "%';";
         }
