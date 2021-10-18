@@ -74,7 +74,6 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_Model = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        cb_Tipo = new javax.swing.JComboBox<>();
         txt_IDCli = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -86,6 +85,7 @@ public class RVehiculo extends javax.swing.JFrame {
         tbl_vehiculo = new javax.swing.JTable();
         lblBusqueda = new javax.swing.JLabel();
         txtBuscarV = new javax.swing.JTextField();
+        cb_Tipo = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo.png"))); // NOI18N
@@ -107,7 +107,6 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 640, 160, 40));
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("¡REGISTRO VEHÍCULO!");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
@@ -120,26 +119,19 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(txt_Model, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 150, 300, -1));
 
         jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Modelo");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 110, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Tipo");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 250, -1, -1));
-
-        cb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Auto-Camioneta", "Camion", "Moto" }));
-        jPanel1.add(cb_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 280, 300, -1));
         jPanel1.add(txt_IDCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 270, -1));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("ID Cliente");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Placa");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, -1, -1));
 
@@ -193,7 +185,6 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 920, 200));
 
         lblBusqueda.setFont(new java.awt.Font("Cascadia Code", 0, 18)); // NOI18N
-        lblBusqueda.setForeground(new java.awt.Color(0, 0, 0));
         lblBusqueda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         lblBusqueda.setText("Busqueda");
         jPanel1.add(lblBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 120, -1));
@@ -204,6 +195,8 @@ public class RVehiculo extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txtBuscarV, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 370, 450, -1));
+
+        jPanel1.add(cb_Tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 280, 300, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoV.png"))); // NOI18N
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
@@ -238,7 +231,7 @@ public class RVehiculo extends javax.swing.JFrame {
             if (conect.pkVehiculo(txt_Placa.getText()).next()) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (Val.hollow(txt_Placa.getText()) || Val.hollow(txt_Model.getText())
-                    || cb_Tipo.getSelectedIndex() == 0) {
+                    || cb_Tipo.getSelectedIndex() == 4) {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
                 Tipo tipo = (Tipo) this.cb_Tipo.getSelectedItem();
@@ -319,7 +312,7 @@ public class RVehiculo extends javax.swing.JFrame {
         try {
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             PgConect con = new PgConect();
-            Tipo tp = new Tipo((short) 0, "Seleccionar");
+            Tipo tp = new Tipo((short) 4, "Seleccionar");
             cb_Tipo.setModel(model);
             ResultSet tipos = con.tipo();
             

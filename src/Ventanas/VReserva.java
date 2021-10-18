@@ -33,18 +33,6 @@ public class VReserva extends javax.swing.JFrame {
     /**
      * Creates new form VReserva
      */
-    public VReserva(String idalquiler, String idempleado) {
-        initComponents();
-        setLocationRelativeTo(null);
-        this.idalquiler = idalquiler;
-        this.idempleado = idempleado;
-        try {
-            buscar(" ");
-        } catch (SQLException ex) {
-            Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public VReserva(String idempleado) {
         initComponents();
         setLocationRelativeTo(null);
@@ -109,7 +97,7 @@ public class VReserva extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cédula:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -142,21 +130,21 @@ public class VReserva extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Fecha Salida: ");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, 20));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, 20));
 
         jLabel7.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Fecha Ingreso:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, -1, 20));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, -1, 20));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCedulaFocusLost(evt);
             }
         });
-        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 200, -1));
-        getContentPane().add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 200, 30));
-        getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 200, 30));
+        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, 200, -1));
+        getContentPane().add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, 200, 30));
+        getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 200, 200, 30));
 
         btnRegistrar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
@@ -286,26 +274,28 @@ public class VReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPlacaRFocusLost
 
     private void btnAgregarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPActionPerformed
-        try {
-            PgConect conect = new PgConect();
-            Puesto puesto = (Puesto) this.cmbPuestoR.getSelectedItem();
-            DetalleReserva dr = new DetalleReserva(txtPlacaR.getText(), puesto.getIdpuesto(), 0);
-            ResultSet idcliente = conect.pkCedCli(txtCedula.getText());
-            if(idcliente.next()){
-                conect.insDetR(dr.getIddetalle(), idalquiler, idcliente.getString("idcliente"), dr.getPuesto(), 0);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
         
+        RDetalle();
+//        try {
+//            PgConect conect = new PgConect();
+//            Puesto puesto = (Puesto) this.cmbPuestoR.getSelectedItem();
+//            DetalleReserva dr = new DetalleReserva(txtPlacaR.getText(), puesto.getIdpuesto(), 0);
+//            ResultSet idcliente = conect.pkCedCli(txtCedula.getText());
+//            ResultSet idalq = conect.pkAlq(idalquiler);
+//            if(idcliente.next() && idalq.next()){
+//                conect.insDetR(dr.getIddetalle(), idalq.getString("idalquiler"), idcliente.getString("idcliente"), dr.getPuesto(), 0);
+////                limpiar();
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnAgregarPActionPerformed
 
-    public void limpiar() {
-        txtCedula.setText(null);
-        fechaIngreso.setDate(null);
-        fechaSalida.setDate(null);
-    }
+//    public void limpiar() {
+//        txtCedula.setText(null);
+//        fechaIngreso.setDate(null);
+//        fechaSalida.setDate(null);
+//    }
     
     public void RDetalle(){
         PgConect conect = new PgConect();
@@ -316,16 +306,24 @@ public class VReserva extends javax.swing.JFrame {
             } else {
                 ResultSet idcli = conect.pkCedCli(txtCedula.getText());
                 if (idcli.next()) {
+                    Puesto puesto = (Puesto) this.cmbPuestoR.getSelectedItem();
+                    DetalleReserva dr = new DetalleReserva(txtPlacaR.getText(), puesto.getIdpuesto(), 0);
                     Reserva rv = new Reserva(idcli.getString("idcliente"), idempleado, fechaIngreso.getDate(), fechaSalida.getDate());
+                    this.idalquiler = rv.getIdAlquiler();
                     long form = fechaIngreso.getDate().getTime();
                     java.sql.Date time = new java.sql.Date(form);
                     long form2 = fechaSalida.getDate().getTime();
                     java.sql.Date time2 = new java.sql.Date(form2);
-                    conect.insRva(rv.getIdAlquiler(),rv.getIdcliente(), rv.getIdempleado(), time, time2);
-                    String idalquiler = rv.getIdAlquiler();
+                    conect.insRva(rv.getIdAlquiler(),rv.getIdcliente(), rv.getIdempleado(), time, time2); 
+                    conect.insDetR(dr.getIddetalle(), rv.getIdAlquiler(), idcli.getString("idcliente"), dr.getPuesto(), 0);
                     JOptionPane.showMessageDialog(rootPane, "Alquiler guardado");
-                    buscar(" ");
-                    limpiar();   
+                    buscar(" ");  
+                    ResultSet idalquiler = conect.pkAlq(rv.getIdAlquiler());
+                    if(idalquiler.next()){
+                        this.idalquiler = idalquiler.getString("idalquiler");
+                    }else{
+                        this.idalquiler = rv.getIdAlquiler();
+                    }
                 }
             }
         } catch (SQLException ex) {

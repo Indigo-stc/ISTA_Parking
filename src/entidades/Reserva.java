@@ -5,14 +5,14 @@ import java.util.UUID;
 
 public class Reserva {
     
-    private final String idAlquiler;
+    private final String idalquiler;
     private String idcliente;
     private String idempleado;
     private Date fechaIngreso;
     private Date fechaSalida;
 
     public Reserva(String idcliente, String idempleado, Date fechaIngreso, Date fechaSalida) {
-        this.idAlquiler = "Alq-" + UUID.randomUUID().toString().substring(0, 12);
+        this.idalquiler = "Alq-" + UUID.randomUUID().toString().substring(0, 12);
         this.idcliente = idcliente;
         this.idempleado = idempleado;
         this.fechaIngreso = fechaIngreso;
@@ -20,7 +20,7 @@ public class Reserva {
     }
 
     public String getIdAlquiler() {
-        return idAlquiler;
+        return idalquiler;
     }
 
     public Date getFechaIngreso() {

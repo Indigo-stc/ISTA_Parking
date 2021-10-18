@@ -214,7 +214,7 @@ public class PgConect {
     public boolean insDetR(String iddetalle, String idalquiler, String placa, short idpuesto, int costo) {
         String nquery = "INSERT INTO detallesalquiler ("
                 + "iddetalle, idalquiler, placa, idpuesto, costo) "
-                + "VALUES ('" + iddetalle + "', '" + idalquiler + "', '" + placa + "', '" + idpuesto + "', '" + costo + ");";
+                + "VALUES ('" + iddetalle + "', '" + idalquiler + "', '" + placa + "', '" + idpuesto + "', " + costo + ");";
         if (noQuery(nquery) == null) {
             return true;
         } else {
