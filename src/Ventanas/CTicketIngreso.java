@@ -4,22 +4,32 @@ import ConexionPG.PgConect;
 import Validaciones.Val;
 import entidades.Puesto;
 import entidades.Ticket_Ingreso;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 
 public class CTicketIngreso extends javax.swing.JFrame {
 
     String idempleado;
+    String cedula;
     
     public CTicketIngreso() {
         initComponents();
@@ -92,117 +102,29 @@ public class CTicketIngreso extends javax.swing.JFrame {
     private void initComponents() {
 
         panelFondo = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txtPlaca = new javax.swing.JTextField();
-        btnGenerar = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        txtCedula = new javax.swing.JTextField();
-        cbPuesto = new javax.swing.JComboBox<>();
-        lblVfyCedula = new javax.swing.JLabel();
-        lblVfyPlaca = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTicketI = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
+        cbPuesto = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        txtPlaca = new javax.swing.JTextField();
+        lblVfyPlaca = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblVfyCedula = new javax.swing.JLabel();
+        txtCedula = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnGenerar = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
+        lbliconxd = new javax.swing.JLabel();
+        pdf = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setUndecorated(true);
 
         panelFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel2.setText("Placa");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, 20));
-
-        jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel3.setText("Puesto");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
-
-        txtPlaca.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtPlacaFocusLost(evt);
-            }
-        });
-        jPanel1.add(txtPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 220, 20));
-
-        btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
-        btnGenerar.setText("Generar");
-        btnGenerar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGenerarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, 110, 40));
-
-        btnBuscar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 50, 50));
-
-        jLabel1.setText("Cedula");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
-
-        txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCedulaFocusLost(evt);
-            }
-        });
-        jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 250, -1));
-
-        cbPuesto.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                cbPuestoFocusGained(evt);
-            }
-        });
-        jPanel1.add(cbPuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 120, -1));
-        jPanel1.add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 210, 20));
-        jPanel1.add(lblVfyPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 116, 240, 20));
-
-        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtBuscarKeyReleased(evt);
-            }
-        });
-        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 190, -1));
-
-        jLabel4.setText("Buscar");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, -1));
-
-        panelFondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 590, 280));
-
-        jPanel3.setBackground(new java.awt.Color(255, 102, 51));
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("TICKET DE INGRESO ");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(177, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(156, 156, 156))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panelFondo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 600, 50));
 
         tblTicketI.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -217,10 +139,95 @@ public class CTicketIngreso extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblTicketI);
 
-        panelFondo.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 600, 140));
+        panelFondo.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 840, 150));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/10.jpg"))); // NOI18N
-        panelFondo.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 500));
+        jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("¡TICKET DE INGRESO! ");
+        panelFondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
+        jLabel4.setText("Busqueda");
+        panelFondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 130, -1));
+
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+        });
+        panelFondo.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 460, -1));
+
+        cbPuesto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbPuestoFocusGained(evt);
+            }
+        });
+        panelFondo.add(cbPuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, 240, -1));
+
+        jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Puesto:");
+        panelFondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, 90, -1));
+
+        txtPlaca.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPlacaFocusLost(evt);
+            }
+        });
+        panelFondo.add(txtPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 140, 240, 30));
+        panelFondo.add(lblVfyPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 180, 240, 10));
+
+        jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Placa:");
+        panelFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, -1, 20));
+        panelFondo.add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 220, 10));
+
+        txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCedulaFocusLost(evt);
+            }
+        });
+        panelFondo.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 220, 30));
+
+        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Cédula:");
+        panelFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, -1));
+
+        btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
+        btnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_add.png"))); // NOI18N
+        btnGenerar.setText("Generar");
+        btnGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarActionPerformed(evt);
+            }
+        });
+        panelFondo.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 520, 130, 40));
+
+        btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+        panelFondo.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 20, 20));
+
+        lbliconxd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/gnome_panel_window_menu.png"))); // NOI18N
+        panelFondo.add(lbliconxd, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 130, 130));
+
+        pdf.setText("PDF");
+        pdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pdfActionPerformed(evt);
+            }
+        });
+        panelFondo.add(pdf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, -1, -1));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR8.png"))); // NOI18N
+        panelFondo.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 600));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -302,7 +309,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
                                 txtPlaca.getText(), ticket.getIdPuesto(), ticket.getF_Ingreso());
                         con.ocupaPue(puesto.getIdpuesto());
                         buscar("");
-                        limpiar();
+                       
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Verifique la placa!!!");
                     }
@@ -312,6 +319,16 @@ public class CTicketIngreso extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Cedula o placa incorrectas");
             }
+            int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...",JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.OK_OPTION == si){
+                crearPDF();
+                limpiar();
+            }else{
+            
+            }
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -327,12 +344,124 @@ public class CTicketIngreso extends javax.swing.JFrame {
         buscar(txtBuscar.getText());
     }//GEN-LAST:event_txtBuscarKeyReleased
 
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdfActionPerformed
+        
+    }//GEN-LAST:event_pdfActionPerformed
+
     private void limpiar() {
         txtCedula.setText(null);
         txtPlaca.setText(null);
         cbPuesto.removeAllItems();
     }
   
+    public void crearPDF(){
+        PDDocument doc = null;
+       try
+       {
+           doc = new PDDocument();
+           PDPage page = new PDPage();
+           doc.addPage(page);
+           PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+
+           PDFont pdfFont = PDType1Font.TIMES_ROMAN;
+           float fontSize = 25;
+           float leading = 1.5f * fontSize;
+
+           PDRectangle mediabox = page.getMediaBox();
+           float margin = 28;
+           float width = mediabox.getWidth() - 2*margin;
+           float startX = mediabox.getLowerLeftX() + margin;
+           float startY = mediabox.getUpperRightY() - margin;
+           PgConect con = new PgConect();
+           ResultSet prueba = con.buscarTicketsIng(txtCedula.getText());
+           String text = null;
+           if(prueba.next()){
+               text = "                          --TICKET INGRESO--                  ID TICKET: "+ prueba.getString("idticketing") + "                           CÉDULA: "+prueba.getString("idpersona") + "                                        PLACA: " +prueba.getString("placa") 
+                   + "                                               PUESTO: " + prueba.getString("idpuesto") + "                                                     F.INGRESO: " +prueba.getString("fechaing");
+           }
+           
+           
+            List<String> lines = new ArrayList<String>();
+           int lastSpace = -1;
+           while (text.length() > 0)
+           {
+               int spaceIndex = text.indexOf(' ', lastSpace + 1);
+               if (spaceIndex < 0)
+                   spaceIndex = text.length();
+               String subString = text.substring(0, spaceIndex);
+               float size = fontSize * pdfFont.getStringWidth(subString) / 1000;
+               System.out.printf("'%s' - %f of %f\n", subString, size, width);
+               if (size > width)
+               {
+                   if (lastSpace < 0)
+                       lastSpace = spaceIndex;
+                   subString = text.substring(0, lastSpace);
+                   lines.add(subString);
+                   text = text.substring(lastSpace).trim();
+                   System.out.printf("'%s' is line\n", subString);
+                   lastSpace = -1;
+               }
+               else if (spaceIndex == text.length())
+               {
+                   lines.add(text);
+                   System.out.printf("'%s' is line\n", text);
+                   text = "";
+               }
+               else
+               {
+                   lastSpace = spaceIndex;
+               }
+           }
+
+           contentStream.beginText();
+           contentStream.setFont(pdfFont, fontSize);
+           contentStream.newLineAtOffset(startX, startY);
+           float currentY=startY;
+           for (String line: lines)
+           {
+               currentY -=leading;
+
+               if(currentY<=margin)
+               {
+
+                   contentStream.endText(); 
+                   contentStream.close();
+                   PDPage new_Page = new PDPage();
+                   doc.addPage(new_Page);
+                   contentStream = new PDPageContentStream(doc, new_Page);
+                   contentStream.beginText();
+                   contentStream.setFont(pdfFont, fontSize);
+                   contentStream.newLineAtOffset(startX, startY);
+                   currentY=startY;
+               }
+               contentStream.showText(line);
+               contentStream.newLineAtOffset(0, -leading);
+           }
+           contentStream.endText(); 
+           contentStream.close();
+
+           doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\prueba.pdf");
+       }
+        catch (IOException ex) {
+            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+        }       finally
+       {
+           if (doc != null)
+           {
+               try {
+                   doc.close();
+               } catch (IOException ex) {
+                   Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+               }
+           }
+       }
+    }
     /**
      * @param args the command line arguments
      */
@@ -376,7 +505,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGenerar;
     private javax.swing.JComboBox<String> cbPuesto;
     private javax.swing.JLabel fondo;
@@ -385,12 +514,12 @@ public class CTicketIngreso extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblVfyCedula;
     private javax.swing.JLabel lblVfyPlaca;
+    private javax.swing.JLabel lbliconxd;
     private javax.swing.JPanel panelFondo;
+    private javax.swing.JButton pdf;
     private javax.swing.JTable tblTicketI;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCedula;
