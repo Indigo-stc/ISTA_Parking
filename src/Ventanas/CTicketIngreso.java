@@ -332,6 +332,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
         txtPlaca.setText(null);
         cbPuesto.removeAllItems();
     }
+  
     /**
      * @param args the command line arguments
      */

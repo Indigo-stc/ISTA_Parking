@@ -3,6 +3,7 @@ package Ventanas;
 import ConexionPG.PgConect;
 import Validaciones.Val;
 import entidades.Puesto;
+import entidades.Tipo;
 import entidades.Vehiculo;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -59,6 +61,7 @@ public class VPuesto extends javax.swing.JFrame {
     public VPuesto() {
         initComponents();
         setLocationRelativeTo(null);
+        cbxModel();
         try {
             //tblModelo();
             buscar(" ");
@@ -80,8 +83,8 @@ public class VPuesto extends javax.swing.JFrame {
         tblPuesto = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         cmbTipo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
 
@@ -151,20 +154,18 @@ public class VPuesto extends javax.swing.JFrame {
         });
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 230, 350, 30));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
-        jButton1.setText("Registrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRegistrarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 570, 150, 50));
+        jPanel1.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 570, 150, 50));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
-        jButton2.setText("Cancelar");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 570, 150, 50));
-
-        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Auto-camioneta", "Moto", "Camion" }));
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 570, 150, 50));
         jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 270, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
@@ -216,28 +217,38 @@ public class VPuesto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        PgConect conect = new PgConect();
-//        try {
-//            if (Val.hollow(cmbTipo.getSelectedItem().toString())){
-//                JOptionPane.showMessageDialog(null, "Seleccione un tipo");
-//            } else {
-//                Puesto pt = new Puesto(cmbTipo.getSelectedItem().toString());
-//                ResultSet idtipo = conect.tipo(pt.getTipo());
-//                if (idtipo.next()) {
-//                    conect.insPuesto(idtipo.getInt("idtipo"), pt.isOcupado());
-//                    JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
-//                    tblModelo();
-//                    limpiar();
-//                }
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        PgConect conect = new PgConect();
+        Tipo tipo = (Tipo) this.cmbTipo.getSelectedItem();
+        try {
+            conect.insPuesto(tipo.getIdtipo());
+            JOptionPane.showMessageDialog(rootPane, "Puesto guardado");
+            tblModelo();
+            limpiar();  
+        } catch (SQLException ex) {
+            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     public void limpiar() {
-        cmbTipo.setSelectedIndex(0);
+        cmbTipo.removeAllItems();
+    }
+    
+    private void cbxModel() {
+        try {
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            PgConect con = new PgConect();
+            Tipo tp = new Tipo((short) 0, "Seleccionar");
+            cmbTipo.setModel(model);
+            ResultSet tipos = con.tipo();
+            
+            
+            while(tipos.next()) {
+                model.addElement(new Tipo(tipos.getShort("idtipo"), tipos.getString("denominacion")));
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(VPuesto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         
     }
 
@@ -296,10 +307,11 @@ public class VPuesto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btn_Reegresar;
     private javax.swing.JComboBox<String> cmbTipo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

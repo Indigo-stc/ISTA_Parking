@@ -1,7 +1,7 @@
 package entidades;
 
 public class Puesto {
-    
+
     private short idpuesto;
     private short tipo;
     private boolean ocupado;
@@ -40,5 +40,5 @@ public class Puesto {
     public String toString() {
         return String.valueOf(idpuesto);
     }
-
+  
 }
