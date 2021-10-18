@@ -21,15 +21,25 @@ public class VDetalles extends javax.swing.JFrame {
     String cedula="hola";
     
     public VDetalles() {
-        initComponents();
-        setLocationRelativeTo(null);
+        try {
+            initComponents();
+            setLocationRelativeTo(null);
+            buscar("");
+        } catch (SQLException ex) {
+            Logger.getLogger(VDetalles.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public VDetalles(String idalquiler, String cedula) {
-        initComponents();
-        setLocationRelativeTo(null);
-        this.idalquiler = idalquiler;
-        this.cedula = cedula;
+        try {
+            initComponents();
+            setLocationRelativeTo(null);
+            this.idalquiler = idalquiler;
+            this.cedula = cedula;
+            buscar("");
+        } catch (SQLException ex) {
+            Logger.getLogger(VDetalles.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void cbxModel(String placa) {
@@ -64,6 +74,7 @@ public class VDetalles extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblBuscarDR = new javax.swing.JLabel();
         txtBuscarDR = new javax.swing.JTextField();
+        lblListaD = new javax.swing.JLabel();
         FondoDet = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -103,7 +114,7 @@ public class VDetalles extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, -1, -1));
+        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 540, -1, -1));
 
         btnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
         btnGenerar.setText("Generar");
@@ -112,7 +123,7 @@ public class VDetalles extends javax.swing.JFrame {
                 btnGenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, -1, -1));
+        getContentPane().add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 540, -1, -1));
 
         tblDetReserva.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,7 +138,7 @@ public class VDetalles extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblDetReserva);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 760, 170));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, 760, 170));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("DETALLES RESERVA");
@@ -136,17 +147,18 @@ public class VDetalles extends javax.swing.JFrame {
         lblBuscarDR.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         lblBuscarDR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         lblBuscarDR.setText("BUSCAR");
-        getContentPane().add(lblBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
+        getContentPane().add(lblBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, -1, -1));
 
         txtBuscarDR.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarDRKeyReleased(evt);
             }
         });
-        getContentPane().add(txtBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, 380, 20));
+        getContentPane().add(txtBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, 380, 30));
+        getContentPane().add(lblListaD, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, 250, 320));
 
         FondoDet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoDR.png"))); // NOI18N
-        getContentPane().add(FondoDet, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
+        getContentPane().add(FondoDet, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -198,6 +210,11 @@ public class VDetalles extends javax.swing.JFrame {
                 DetalleReserva dr = new DetalleReserva(txtPlaca.getText(), pt.getIdpuesto(), tarifa.getShort("idtarifa"));
                 dt.add(dr);
                 limpiar();
+                for (int i = 0; i < dt.size(); i++) {
+                    String m = String.format("%s, %s, %s, %s, %n", dt.get(i).getIddetalle(), dt.get(i).getIdtarifa(), dt.get(i).getPlaca(), dt.get(i).getPuesto());
+                    lblListaD.setText(m);
+                    buscar("");
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(VDetalles.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,11 +225,16 @@ public class VDetalles extends javax.swing.JFrame {
         if(dt.isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Ingresar Detalle");
         }else {
-            PgConect con = new PgConect();
+            try {
+                PgConect con = new PgConect();
                 for (int i = 0; i < dt.size(); i++) {
                     con.insDetR(dt.get(i).getIddetalle(), idalquiler, dt.get(i).getPlaca(), dt.get(i).getPuesto(), dt.get(i).getIdtarifa());
                 }
-            limpiar();
+                buscar("");
+                limpiar();
+            } catch (SQLException ex) {
+                Logger.getLogger(VDetalles.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnGenerarActionPerformed
 
@@ -224,7 +246,7 @@ public class VDetalles extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtBuscarDRKeyReleased
 
-    private void buscar(String idpersona) throws SQLException {
+    private void buscar(String placa) throws SQLException {
         DefaultTableModel modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -246,16 +268,18 @@ public class VDetalles extends javax.swing.JFrame {
 
         tblDetReserva.setModel(modelo);
         String sql = " ";
-        if (idpersona.trim().equals(" ")) {
-            sql = "SELECT idalquiler, clientes.idpersona, empleados.idempleado, fechaing, fechasal "
-                    + "FROM alquileres, clientes, empleados "
-                    + "WHERE clientes.idcliente = alquileres.idcliente "
-                    + "AND empleados.idempleado = alquileres.idempleado;";
+        if (placa.trim().equals(" ")) {
+            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
+                    + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
+                    + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                    + "AND vehiculos.placa = detallesalquiler.placa AND puestos.idpuesto = detallesalquiler.idpuesto "
+                    + "AND tarifas.idtarifa = detallesalquiler.costo;";
         } else {
-            sql = "SELECT idalquiler, clientes.idpersona, empleados.idempleado, fechaing, fechasal "
-                    + "FROM alquileres, clientes, empleados "
-                    + "WHERE clientes.idcliente = alquileres.idcliente "
-                    + "AND empleados.idempleado = alquileres.idempleado AND idpersona like '%" + idpersona + "%';";;
+            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
+                    + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
+                    + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                    + "AND vehiculos.placa = detallesalquiler.placa AND puestos.idpuesto = detallesalquiler.idpuesto "
+                    + "AND tarifas.idtarifa = detallesalquiler.costo AND detallesalquiler.placa LIKE '%" + placa + "%';";
 
         }
         String Usuarios[] = new String[5];
@@ -331,6 +355,7 @@ public class VDetalles extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscarDR;
     private javax.swing.JLabel lblIDPuestoR;
+    private javax.swing.JLabel lblListaD;
     private javax.swing.JLabel lblPlacaR;
     private javax.swing.JLabel lblVfyPlaca;
     private javax.swing.JTable tblDetReserva;
