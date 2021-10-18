@@ -666,10 +666,10 @@ public class PgConect {
         if (cadena.trim().equals("")) {
             sql = "";
         } else {
-            sql = "SELECT idticketing, idpersona, placa, idpuesto, fechaing "
-                    + "FROM ticketsing, clientes "
-                    + "WHERE (idpersona LIKE '%" + cadena + "%' OR placa LIKE '%" + cadena + "%') AND ticketsing.idcliente = clientes.idcliente "
-                    + "AND clientes.activo = TRUE";
+            sql = " SELECT idticketing, idpersona, placa, idpuesto, fechaing "
+                    + " FROM ticketsing, clientes "
+                    + " WHERE (idpersona LIKE '%" + cadena + "%' OR placa LIKE '%" + cadena + "%') AND ticketsing.idcliente = clientes.idcliente "
+                    + " AND clientes.activo = TRUE";
         }
         return query(sql);
     }
