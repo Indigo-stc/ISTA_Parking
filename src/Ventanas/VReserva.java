@@ -101,28 +101,28 @@ public class VReserva extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("¡REGISTRAR ALQUILER!");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cédula:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         jLabel6.setText("Busqueda");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 330, 140, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, 140, -1));
 
         txtBuscarA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarAKeyReleased(evt);
             }
         });
-        getContentPane().add(txtBuscarA, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 490, -1));
+        getContentPane().add(txtBuscarA, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, 490, -1));
 
         tblReserva.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -142,21 +142,21 @@ public class VReserva extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Fecha Salida: ");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, 20));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, 20));
 
         jLabel7.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Fecha Ingreso:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, -1, 20));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, 20));
 
         txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCedulaFocusLost(evt);
             }
         });
-        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 200, -1));
-        getContentPane().add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 200, 30));
-        getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 200, 30));
+        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 200, -1));
+        getContentPane().add(fechaIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 200, 30));
+        getContentPane().add(fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, 200, 30));
 
         btnRegistrar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
@@ -166,24 +166,28 @@ public class VReserva extends javax.swing.JFrame {
                 btnRegistrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 600, 170, -1));
+        getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 560, 170, -1));
 
         btnLimpiar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
-        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
         btnLimpiar.setText("CANCELAR");
-        getContentPane().add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 600, 170, -1));
+        getContentPane().add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 560, 170, 40));
 
         btnEliminar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
         btnEliminar.setText("ELIMINAR");
-        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 600, 180, -1));
+        getContentPane().add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 560, 180, -1));
 
-        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
-        btnSalir.setText("SALIR");
-        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 100, 30));
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 10, 20, 20));
 
         lblVfyCedula.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 180, 10));
+        getContentPane().add(lblVfyCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 200, 10));
         getContentPane().add(txtCostoR, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 260, 160, -1));
 
         txtPlacaR.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -195,13 +199,13 @@ public class VReserva extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnAgregarP.setText("+");
+        btnAgregarP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_add.png"))); // NOI18N
         btnAgregarP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregarP, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, 40, 40));
+        jPanel1.add(btnAgregarP, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 40, 40));
 
         lblPlacaR.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         lblPlacaR.setText("Placa:");
@@ -209,17 +213,17 @@ public class VReserva extends javax.swing.JFrame {
 
         lblIDPuestoR.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         lblIDPuestoR.setText("ID Puesto:");
-        jPanel1.add(lblIDPuestoR, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        jPanel1.add(lblIDPuestoR, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
         lblCostoR.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         lblCostoR.setText("Costo:");
         jPanel1.add(lblCostoR, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
         jPanel1.add(lblVfyPlacaR, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 160, 10));
 
-        jPanel1.add(cmbPuestoR, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 160, -1));
-        jPanel1.add(lblFondoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 210));
+        jPanel1.add(cmbPuestoR, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 160, -1));
+        jPanel1.add(lblFondoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 210));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 100, 460, 210));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 100, 440, 210));
 
         txtFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reserva.png"))); // NOI18N
         getContentPane().add(txtFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -298,6 +302,10 @@ public class VReserva extends javax.swing.JFrame {
             Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnAgregarPActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     public void limpiar() {
         txtCedula.setText(null);
