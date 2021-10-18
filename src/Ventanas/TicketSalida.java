@@ -5,7 +5,6 @@ import entidades.Ticket_Salida;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ public class TicketSalida extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtbuscar = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        xdxdxdxd = new javax.swing.JLabel();
         lblfondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,22 +60,22 @@ public class TicketSalida extends javax.swing.JFrame {
                 txtTicketSalidaActionPerformed(evt);
             }
         });
-        getContentPane().add(txtTicketSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 360, -1));
+        getContentPane().add(txtTicketSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 360, -1));
 
         jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Ticket Ingreso:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, -1));
 
         btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
-        btnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_add.png"))); // NOI18N
+        btnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pdf.png"))); // NOI18N
         btnGenerar.setText("Generar");
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 520, 150, -1));
+        getContentPane().add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 520, 180, -1));
 
         tblTisalida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,7 +98,7 @@ public class TicketSalida extends javax.swing.JFrame {
         getContentPane().add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 20, 20));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/gnome_panel_window_menu.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 50, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 40, -1, -1));
 
         txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -112,6 +112,9 @@ public class TicketSalida extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         jLabel3.setText("Busqueda");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 130, 30));
+
+        xdxdxdxd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/kmenuedit.png"))); // NOI18N
+        getContentPane().add(xdxdxdxd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         lblfondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR8.png"))); // NOI18N
         getContentPane().add(lblfondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 600));
@@ -359,5 +362,6 @@ public class TicketSalida extends javax.swing.JFrame {
     private javax.swing.JTable tblTisalida;
     private javax.swing.JTextField txtTicketSalida;
     private javax.swing.JTextField txtbuscar;
+    private javax.swing.JLabel xdxdxdxd;
     // End of variables declaration//GEN-END:variables
 }

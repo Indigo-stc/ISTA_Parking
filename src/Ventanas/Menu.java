@@ -1,12 +1,5 @@
 package Ventanas;
 
-import ConexionPG.PgConect;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-
 public class Menu extends javax.swing.JFrame {
 
     String rol;
@@ -36,6 +29,7 @@ public class Menu extends javax.swing.JFrame {
                 mniPuesto.setVisible(false);
                 mniReserva.setVisible(false);
                 mniVehiculo.setVisible(false);
+                
             } 
             default -> {System.out.println("no valeeeeee");
                 System.out.println(rol);
@@ -69,12 +63,12 @@ public class Menu extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 60)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 80)); // NOI18N
         jLabel1.setText("SAAK");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 500, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR6.jpg"))); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 500));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR13.jpg"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 750));
 
         jMenuBar1.setBackground(new java.awt.Color(45, 54, 73));
         jMenuBar1.setForeground(new java.awt.Color(0, 153, 204));

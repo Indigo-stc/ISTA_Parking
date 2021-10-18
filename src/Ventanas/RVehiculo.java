@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -19,26 +18,15 @@ import javax.swing.table.DefaultTableModel;
 
 public class RVehiculo extends javax.swing.JFrame {
 
-    DefaultTableModel vhi;
+   
 
-    public RVehiculo(String idcliente) {
-        initComponents();
-        txt_IDCli.setText(idcliente);
-        txt_IDCli.setEnabled(false);
-        setLocationRelativeTo(null);
-        cbxModel();
-        try {
-            buscar(" ");
-        } catch (SQLException ex) {
-            Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public RVehiculo(String idcli, String placa) {
         initComponents();
         txt_IDCli.setText(idcli);
         txt_Placa.setText(placa);
         txt_IDCli.setEnabled(false);
+        txt_Placa.setEnabled(false);
         setLocationRelativeTo(null);
         cbxModel();
         try {

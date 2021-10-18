@@ -1,10 +1,7 @@
 package Ventanas;
 
 import ConexionPG.PgConect;
-import Validaciones.Val;
-import entidades.Puesto;
 import entidades.Tipo;
-import entidades.Vehiculo;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -650,6 +650,25 @@ public class PgConect {
         return query(sql);
     }
     
+    public ResultSet buscarDetalle(String placa){
+        String sql;
+         if (placa.trim().equals(" ")) {
+            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
+                    + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
+                    + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                    + "AND vehiculos.placa = detallesalquiler.placa AND puestos.idpuesto = detallesalquiler.idpuesto "
+                    + "AND tarifas.idtarifa = detallesalquiler.costo;";
+        } else {
+            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
+                    + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
+                    + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                    + "AND vehiculos.placa = detallesalquiler.placa AND puestos.idpuesto = detallesalquiler.idpuesto "
+                    + "AND tarifas.idtarifa = detallesalquiler.costo AND detallesalquiler.placa LIKE '%" + placa + "%';";
+
+        }
+        return query(sql);
+    }
+    
     
     public ResultSet buscarTicketsSal(String cedula) {
         String sql;

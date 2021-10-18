@@ -5,11 +5,9 @@ import Validaciones.Val;
 import entidades.Puesto;
 import entidades.Ticket_Ingreso;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -117,7 +115,6 @@ public class CTicketIngreso extends javax.swing.JFrame {
         btnGenerar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         lbliconxd = new javax.swing.JLabel();
-        pdf = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -197,14 +194,14 @@ public class CTicketIngreso extends javax.swing.JFrame {
         panelFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, -1));
 
         btnGenerar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
-        btnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_add.png"))); // NOI18N
+        btnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pdf.png"))); // NOI18N
         btnGenerar.setText("Generar");
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarActionPerformed(evt);
             }
         });
-        panelFondo.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 520, 130, 40));
+        panelFondo.add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 520, 160, 50));
 
         btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -216,14 +213,6 @@ public class CTicketIngreso extends javax.swing.JFrame {
 
         lbliconxd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/gnome_panel_window_menu.png"))); // NOI18N
         panelFondo.add(lbliconxd, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 130, 130));
-
-        pdf.setText("PDF");
-        pdf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pdfActionPerformed(evt);
-            }
-        });
-        panelFondo.add(pdf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR8.png"))); // NOI18N
         panelFondo.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 600));
@@ -344,10 +333,6 @@ public class CTicketIngreso extends javax.swing.JFrame {
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
-
-    private void pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdfActionPerformed
-
-    }//GEN-LAST:event_pdfActionPerformed
 
     private void limpiar() {
         txtCedula.setText(null);
@@ -507,7 +492,6 @@ public class CTicketIngreso extends javax.swing.JFrame {
     private javax.swing.JLabel lblVfyPlaca;
     private javax.swing.JLabel lbliconxd;
     private javax.swing.JPanel panelFondo;
-    private javax.swing.JButton pdf;
     private javax.swing.JTable tblTicketI;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCedula;
