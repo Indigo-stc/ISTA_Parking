@@ -25,28 +25,27 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-
 public class CTicketIngreso extends javax.swing.JFrame {
 
     String idempleado;
     String cedula;
-    
+
     public CTicketIngreso() {
         initComponents();
         setLocationRelativeTo(null);
         buscar("");
     }
-    
+
     public CTicketIngreso(String idempleado) {
         initComponents();
         setLocationRelativeTo(null);
         this.idempleado = idempleado;
         buscar("");
     }
-    
+
     private void buscar(String search) {
         try {
-            
+
             DefaultTableModel modelo = new DefaultTableModel() {
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -54,21 +53,21 @@ public class CTicketIngreso extends javax.swing.JFrame {
                             || column == 5;
                 }
             };
-            
+
             modelo.addColumn("ID Ticket");
             modelo.addColumn("Cedula");
             modelo.addColumn("Placa");
             modelo.addColumn("Puesto");
             modelo.addColumn("F. Ingreso");
-            
+
             tblTicketI.setModel(modelo);
-            
+
             PgConect con = new PgConect();
-            
+
             ResultSet buscar = con.buscarTicketsIng(search);
             ResultSetMetaData rsmd = buscar.getMetaData();
             int columns = rsmd.getColumnCount();
-            
+
             while (buscar.next()) {
                 Object[] filas = new Object[columns];
                 for (int i = 0; i < columns; i++) {
@@ -76,26 +75,26 @@ public class CTicketIngreso extends javax.swing.JFrame {
                 }
                 modelo.addRow(filas);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
     }
-    
+
     private void cbxModel(String placa) {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         PgConect con = new PgConect();
         cbPuesto.setModel(model);
         ResultSet places = con.cbxPuestos(placa);
         try {
-            while(places.next()) {
+            while (places.next()) {
                 model.addElement(new Puesto(places.getShort(1), places.getShort(2), places.getBoolean(3)));
             }
         } catch (SQLException ex) {
             Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } 
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -270,17 +269,17 @@ public class CTicketIngreso extends javax.swing.JFrame {
                 ResultSet relacion = con.owner(txtCedula.getText(), txtPlaca.getText());
                 ResultSet idcliente = con.pkCedCli(txtCedula.getText());
                 if (relacion.next()) {
-                    
+
                 } else {
                     if (con.pkVehiculo(txtPlaca.getText()).next()) {
                         if (idcliente.next()) {
                             con.insDuenio(idcliente.getString("idcliente"), txtPlaca.getText());
-                        } 
+                        }
                     } else {
                         if (idcliente.next()) {
                             JOptionPane.showMessageDialog(rootPane, "Debe registrar al vehiculo");
-                            RVehiculo veh = new RVehiculo(idcliente.getString("idcliente"), 
-                            txtPlaca.getText());
+                            RVehiculo veh = new RVehiculo(idcliente.getString("idcliente"),
+                                    txtPlaca.getText());
                             veh.setVisible(true);
                         }
                     }
@@ -305,11 +304,18 @@ public class CTicketIngreso extends javax.swing.JFrame {
                         Puesto puesto = (Puesto) this.cbPuesto.getSelectedItem();
                         Ticket_Ingreso ticket = new Ticket_Ingreso(puesto.getIdpuesto(),
                                 txtPlaca.getText(), current);
-                        con.insTIng(ticket.getIdTicked(), idempleado, exisCli.getString("idcliente"), 
+                        con.insTIng(ticket.getIdTicked(), idempleado, exisCli.getString("idcliente"),
                                 txtPlaca.getText(), ticket.getIdPuesto(), ticket.getF_Ingreso());
                         con.ocupaPue(puesto.getIdpuesto());
                         buscar("");
-                       
+                        int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...", JOptionPane.YES_NO_CANCEL_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE);
+                        if (JOptionPane.OK_OPTION == si) {
+                            crearPDF(ticket.getIdTicked());
+                            limpiar();
+                        } else {
+
+                        }
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Verifique la placa!!!");
                     }
@@ -319,16 +325,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Cedula o placa incorrectas");
             }
-            int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...",JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE);
-            if(JOptionPane.OK_OPTION == si){
-                crearPDF();
-                limpiar();
-            }else{
-            
-            }
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -349,7 +346,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdfActionPerformed
-        
+
     }//GEN-LAST:event_pdfActionPerformed
 
     private void limpiar() {
@@ -357,111 +354,102 @@ public class CTicketIngreso extends javax.swing.JFrame {
         txtPlaca.setText(null);
         cbPuesto.removeAllItems();
     }
-  
-    public void crearPDF(){
+
+    public void crearPDF(String ticketing) {
+        
         PDDocument doc = null;
-       try
-       {
-           doc = new PDDocument();
-           PDPage page = new PDPage();
-           doc.addPage(page);
-           PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+        try {
+            doc = new PDDocument();
+            PDPage page = new PDPage();
+            doc.addPage(page);
+            PDPageContentStream contentStream = new PDPageContentStream(doc, page);
 
-           PDFont pdfFont = PDType1Font.TIMES_ROMAN;
-           float fontSize = 25;
-           float leading = 1.5f * fontSize;
+            PDFont pdfFont = PDType1Font.TIMES_ROMAN;
+            float fontSize = 25;
+            float leading = 1.5f * fontSize;
 
-           PDRectangle mediabox = page.getMediaBox();
-           float margin = 28;
-           float width = mediabox.getWidth() - 2*margin;
-           float startX = mediabox.getLowerLeftX() + margin;
-           float startY = mediabox.getUpperRightY() - margin;
-           PgConect con = new PgConect();
-           ResultSet prueba = con.buscarTicketsIng(txtCedula.getText());
-           String text = null;
-           if(prueba.next()){
-               text = "                          --TICKET INGRESO--                  ID TICKET: "+ prueba.getString("idticketing") + "                           CÉDULA: "+prueba.getString("idpersona") + "                                        PLACA: " +prueba.getString("placa") 
-                   + "                                               PUESTO: " + prueba.getString("idpuesto") + "                                                     F.INGRESO: " +prueba.getString("fechaing");
-           }
-           
-           
+            PDRectangle mediabox = page.getMediaBox();
+            float margin = 28;
+            float width = mediabox.getWidth() - 2 * margin;
+            float startX = mediabox.getLowerLeftX() + margin;
+            float startY = mediabox.getUpperRightY() - margin;
+            PgConect con = new PgConect();
+            ResultSet prueba = con.buscarTicketsIngpdf(ticketing);
+            String text = null;
+            if (prueba.next()) {
+                text = "                         -- TICKET ENTRADA --                       ID TICKET: " + prueba.getString("idticketing") + "                               CÉDULA: " + prueba.getString("idpersona") + "                                        "
+                        + "       PLACA: " + prueba.getString("placa")
+                        + "                                                    PUESTO: " + prueba.getString("idpuesto") + "                                                          F.INGRESO: " + prueba.getString("fechaing");
+            }
             List<String> lines = new ArrayList<String>();
-           int lastSpace = -1;
-           while (text.length() > 0)
-           {
-               int spaceIndex = text.indexOf(' ', lastSpace + 1);
-               if (spaceIndex < 0)
-                   spaceIndex = text.length();
-               String subString = text.substring(0, spaceIndex);
-               float size = fontSize * pdfFont.getStringWidth(subString) / 1000;
-               System.out.printf("'%s' - %f of %f\n", subString, size, width);
-               if (size > width)
-               {
-                   if (lastSpace < 0)
-                       lastSpace = spaceIndex;
-                   subString = text.substring(0, lastSpace);
-                   lines.add(subString);
-                   text = text.substring(lastSpace).trim();
-                   System.out.printf("'%s' is line\n", subString);
-                   lastSpace = -1;
-               }
-               else if (spaceIndex == text.length())
-               {
-                   lines.add(text);
-                   System.out.printf("'%s' is line\n", text);
-                   text = "";
-               }
-               else
-               {
-                   lastSpace = spaceIndex;
-               }
-           }
+            int lastSpace = -1;
+            while (text.length() > 0) {
+                int spaceIndex = text.indexOf(' ', lastSpace + 1);
+                if (spaceIndex < 0) {
+                    spaceIndex = text.length();
+                }
+                String subString = text.substring(0, spaceIndex);
+                float size = fontSize * pdfFont.getStringWidth(subString) / 1000;
+                System.out.printf("'%s' - %f of %f\n", subString, size, width);
+                if (size > width) {
+                    if (lastSpace < 0) {
+                        lastSpace = spaceIndex;
+                    }
+                    subString = text.substring(0, lastSpace);
+                    lines.add(subString);
+                    text = text.substring(lastSpace).trim();
+                    System.out.printf("'%s' is line\n", subString);
+                    lastSpace = -1;
+                } else if (spaceIndex == text.length()) {
+                    lines.add(text);
+                    System.out.printf("'%s' is line\n", text);
+                    text = "";
+                } else {
+                    lastSpace = spaceIndex;
+                }
+            }
 
-           contentStream.beginText();
-           contentStream.setFont(pdfFont, fontSize);
-           contentStream.newLineAtOffset(startX, startY);
-           float currentY=startY;
-           for (String line: lines)
-           {
-               currentY -=leading;
+            contentStream.beginText();
+            contentStream.setFont(pdfFont, fontSize);
+            contentStream.newLineAtOffset(startX, startY);
+            float currentY = startY;
+            for (String line : lines) {
+                currentY -= leading;
 
-               if(currentY<=margin)
-               {
+                if (currentY <= margin) {
 
-                   contentStream.endText(); 
-                   contentStream.close();
-                   PDPage new_Page = new PDPage();
-                   doc.addPage(new_Page);
-                   contentStream = new PDPageContentStream(doc, new_Page);
-                   contentStream.beginText();
-                   contentStream.setFont(pdfFont, fontSize);
-                   contentStream.newLineAtOffset(startX, startY);
-                   currentY=startY;
-               }
-               contentStream.showText(line);
-               contentStream.newLineAtOffset(0, -leading);
-           }
-           contentStream.endText(); 
-           contentStream.close();
+                    contentStream.endText();
+                    contentStream.close();
+                    PDPage new_Page = new PDPage();
+                    doc.addPage(new_Page);
+                    contentStream = new PDPageContentStream(doc, new_Page);
+                    contentStream.beginText();
+                    contentStream.setFont(pdfFont, fontSize);
+                    contentStream.newLineAtOffset(startX, startY);
+                    currentY = startY;
+                }
+                contentStream.showText(line);
+                contentStream.newLineAtOffset(0, -leading);
+            }
+            contentStream.endText();
+            contentStream.close();
 
-           doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\prueba.pdf");
-       }
-        catch (IOException ex) {
+            doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\TICKETINGRESO.pdf");
+        } catch (IOException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-        }       finally
-       {
-           if (doc != null)
-           {
-               try {
-                   doc.close();
-               } catch (IOException ex) {
-                   Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
-               }
-           }
-       }
+        } finally {
+            if (doc != null) {
+                try {
+                    doc.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
+
     /**
      * @param args the command line arguments
      */
