@@ -616,6 +616,13 @@ public class PgConect {
     
     public boolean ocupaPue(short idpuesto) {
         String sql = "UPDATE puestos "
+                + "SET ocupado = TRUE "
+                + "WHERE idpuesto = '"+ idpuesto +"';";
+        return noQuery(sql) == null;
+    }
+    
+    public boolean desOcupaPue(short idpuesto) {
+        String sql = "UPDATE puestos "
                 + "SET ocupado = FALSE "
                 + "WHERE idpuesto = '"+ idpuesto +"';";
         return noQuery(sql) == null;
@@ -670,18 +677,14 @@ public class PgConect {
     }
     
     
-    public ResultSet buscarTicketsSal(String cedula) {
-        String sql;
-        if (cedula.trim().equals("")) {
-            sql = "SELECT ticketsing.idticketing,ticketssal.idticketsal,tarifas.costo_hora "
-                    + " FROM ticketssal,ticketsing,tarifas "
-                    + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa;";
-        } else {
-            sql = " SELECT ticketsing.idticketing, ticketssal.idticketsal, tarifas.costo_hora, clientes.idcliente "
-                    + "  FROM ticketssal, ticketsing, tarifas, clientes "
-                    + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
-                    + "   AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing LIKE '" + cedula + "%';";
-        }
+    public ResultSet buscarTicketsSal(String cadena) {
+        String sql = "SELECT ticketssal.idticketsal, ticketsing.idticketing, clientes.idpersona, tarifas.costo_hora,  "
+                + "fechaing::time, fechasal::time, "
+                + "extract(min from (fechasal - fechaing)) as Tiempo, "
+                + "extract(min from (fechasal - fechaing))*(costo_hora/60) as CostoTolatal "
+                + "FROM ticketssal, ticketsing, tarifas, clientes "
+                + "WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
+                + "AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing = '"+ cadena +"';";
         return query(sql);
     }
        
