@@ -23,16 +23,18 @@ public class Reserva {
         return idAlquiler;
     }
 
-    public Date getFechaIngreso() {
-        return fechaIngreso;
+    public java.sql.Date getFechaIngreso() {
+        java.sql.Date sqlTS = new java.sql.Date(fechaIngreso.getTime());
+        return sqlTS;
     }
 
     public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public Date getFechaSalida() {
-        return fechaSalida;
+    public java.sql.Date getFechaSalida() {
+        java.sql.Date sqlTS = new java.sql.Date(fechaSalida.getTime());
+        return sqlTS;
     }
 
     public void setFechaSalida(Date fechaSalida) {
