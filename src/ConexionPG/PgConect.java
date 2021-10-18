@@ -635,6 +635,36 @@ public class PgConect {
         }
         return query(sql);
     }
+    public ResultSet buscarTicketsIngpdf(String idalquiler) {
+        String sql;
+        if (idalquiler.trim().equals("")) {
+            sql = "SELECT idticketing, idpersona, placa, idpuesto, fechaing "
+                    + "FROM ticketsing, clientes "
+                    + "WHERE ticketsing.idcliente = clientes.idcliente;";
+        } else {
+            sql = "SELECT idticketing, idpersona, placa, idpuesto, fechaing "
+                    + " FROM ticketsing, clientes "
+                    + "WHERE idticketing  = '" + idalquiler + "' AND ticketsing.idcliente = clientes.idcliente "
+                    + "AND clientes.activo = TRUE ";
+        }
+        return query(sql);
+    }
+    
+    
+    public ResultSet buscarTicketsSal(String cedula) {
+        String sql;
+        if (cedula.trim().equals("")) {
+            sql = "SELECT ticketsing.idticketing,ticketssal.idticketsal,tarifas.costo_hora "
+                    + " FROM ticketssal,ticketsing,tarifas "
+                    + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa;";
+        } else {
+            sql = " SELECT ticketsing.idticketing, ticketssal.idticketsal, tarifas.costo_hora, clientes.idcliente"
+                    + "  FROM ticketssal,ticketsing,tarifas,clientes "
+                    + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
+                    + "   AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing LIKE '" + cedula + "%';";
+        }
+        return query(sql);
+    }
        
     public ResultSet pkTicketIng(String ticket) {
         String sql = "SELECT * FROM ticketsing "
@@ -661,7 +691,7 @@ public class PgConect {
         }
     }
     
-    public ResultSet buscarTicketsSal(String cadena) {
+    public ResultSet buscarTicketsSal1(String cadena) {
         String sql;
         if (cadena.trim().equals("")) {
             sql = "";

@@ -2,26 +2,33 @@ package Ventanas;
 
 import ConexionPG.PgConect;
 import entidades.Ticket_Salida;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 public class TicketSalida extends javax.swing.JFrame {
-
 
     public TicketSalida() {
         initComponents();
         setLocationRelativeTo(null);
         buscar("");
     }
- 
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -68,7 +75,7 @@ public class TicketSalida extends javax.swing.JFrame {
                 btnGenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 510, 150, -1));
+        getContentPane().add(btnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 520, 150, -1));
 
         tblTisalida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -80,7 +87,7 @@ public class TicketSalida extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblTisalida);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 830, 120));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 830, 160));
 
         btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -98,10 +105,13 @@ public class TicketSalida extends javax.swing.JFrame {
                 txtbuscarKeyReleased(evt);
             }
         });
-        getContentPane().add(txtbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 290, 250, -1));
+        getContentPane().add(txtbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 290, 440, -1));
 
-        jLabel3.setText("Buscar");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 226, 170, 80));
+        jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
+        jLabel3.setText("Busqueda");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 130, 30));
 
         lblfondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR8.png"))); // NOI18N
         getContentPane().add(lblfondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 600));
@@ -117,7 +127,7 @@ public class TicketSalida extends javax.swing.JFrame {
         try {
             PgConect con = new PgConect();
             ResultSet idingreso = con.pkTicketIng(txtTicketSalida.getText());
-  
+
             if (idingreso.next()) {
                 int si = JOptionPane.showConfirmDialog(null, "Confirmar accion",
                         "WARNING", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -127,10 +137,12 @@ public class TicketSalida extends javax.swing.JFrame {
                     if (idTarifa.next()) {
                         if (!con.tixts(idingreso.getString("idticketing"))) {
                             Date current = new Date();
-                            Ticket_Salida tick = new Ticket_Salida(current, idingreso.getString("idticketing"), 
-                            idTarifa.getShort("idtarifa"));
+                            Ticket_Salida tick = new Ticket_Salida(current, idingreso.getString("idticketing"),
+                                    idTarifa.getShort("idtarifa"));
                             con.insTSal(tick.getId_tsalida(), tick.getId_tinicio(),
                                     tick.getIdTarifa(), tick.getFecha_salida());
+                            
+                            
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "A un T. Salida le corresponde un solo T. Ingreso");
                         }
@@ -139,6 +151,15 @@ public class TicketSalida extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Ticket no existente");
             }
+            int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...",JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
+            if(JOptionPane.OK_OPTION == si){
+                crearPDF();
+                
+            }else{
+            
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(TicketSalida.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -167,16 +188,16 @@ public class TicketSalida extends javax.swing.JFrame {
         modelo.addColumn("Costo por hora");
 
         tblTisalida.setModel(modelo);
-        String sql =  "";
+        String sql = "";
         if (cedula.trim().equals("")) {
             sql = "SELECT ticketsing.idticketing,ticketssal.idticketsal,tarifas.costo_hora "
                     + " FROM ticketssal,ticketsing,tarifas "
                     + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa;";
         } else {
             sql = " SELECT ticketsing.idticketing,ticketssal.idticketsal,tarifas.costo_hora,clientes.idcliente"
-             +  "  FROM ticketssal,ticketsing,tarifas,clientes"
-              +  " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
-              +"   AND clientes.idcliente = ticketsing.idcliente AND( idpersona LIKE '"+cedula+"%');";
+                    + "  FROM ticketssal,ticketsing,tarifas,clientes"
+                    + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
+                    + "   AND clientes.idcliente = ticketsing.idcliente AND( idpersona LIKE '" + cedula + "%');";
 
         }
 
@@ -196,9 +217,101 @@ public class TicketSalida extends javax.swing.JFrame {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /**
-     * @param args the command line arguments
-     */
+
+    public void crearPDF() {
+        PDDocument doc = null;
+        try {
+            doc = new PDDocument();
+            PDPage page = new PDPage();
+            doc.addPage(page);
+            PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+
+            PDFont pdfFont = PDType1Font.TIMES_ROMAN;
+            float fontSize = 25;
+            float leading = 1.5f * fontSize;
+
+            PDRectangle mediabox = page.getMediaBox();
+            float margin = 28;
+            float width = mediabox.getWidth() - 2 * margin;
+            float startX = mediabox.getLowerLeftX() + margin;
+            float startY = mediabox.getUpperRightY() - margin;
+            PgConect con = new PgConect();
+            ResultSet prueba = con.buscarTicketsSal(txtTicketSalida.getText());
+            String text = null;
+            if (prueba.next()) {
+                text = "                          --TICKET SALIDA--                  TICKET INGRESO: " + prueba.getString("idticketing") + "                  TICKET SALIDA: " + prueba.getString("idticketsal") 
+                        + "                       COSTO : " + prueba.getString("costo_hora");
+            }
+
+            List<String> lines = new ArrayList<String>();
+            int lastSpace = -1;
+            while (text.length() > 0) {
+                int spaceIndex = text.indexOf(' ', lastSpace + 1);
+                if (spaceIndex < 0) {
+                    spaceIndex = text.length();
+                }
+                String subString = text.substring(0, spaceIndex);
+                float size = fontSize * pdfFont.getStringWidth(subString) / 1000;
+                System.out.printf("'%s' - %f of %f\n", subString, size, width);
+                if (size > width) {
+                    if (lastSpace < 0) {
+                        lastSpace = spaceIndex;
+                    }
+                    subString = text.substring(0, lastSpace);
+                    lines.add(subString);
+                    text = text.substring(lastSpace).trim();
+                    System.out.printf("'%s' is line\n", subString);
+                    lastSpace = -1;
+                } else if (spaceIndex == text.length()) {
+                    lines.add(text);
+                    System.out.printf("'%s' is line\n", text);
+                    text = "";
+                } else {
+                    lastSpace = spaceIndex;
+                }
+            }
+
+            contentStream.beginText();
+            contentStream.setFont(pdfFont, fontSize);
+            contentStream.newLineAtOffset(startX, startY);
+            float currentY = startY;
+            for (String line : lines) {
+                currentY -= leading;
+
+                if (currentY <= margin) {
+
+                    contentStream.endText();
+                    contentStream.close();
+                    PDPage new_Page = new PDPage();
+                    doc.addPage(new_Page);
+                    contentStream = new PDPageContentStream(doc, new_Page);
+                    contentStream.beginText();
+                    contentStream.setFont(pdfFont, fontSize);
+                    contentStream.newLineAtOffset(startX, startY);
+                    currentY = startY;
+                }
+                contentStream.showText(line);
+                contentStream.newLineAtOffset(0, -leading);
+            }
+            contentStream.endText();
+            contentStream.close();
+
+            doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\TicketSalida.pdf");
+        } catch (IOException ex) {
+            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (doc != null) {
+                try {
+                    doc.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
