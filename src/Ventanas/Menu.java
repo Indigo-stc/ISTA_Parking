@@ -57,7 +57,6 @@ public class Menu extends javax.swing.JFrame {
         mniEmpleado = new javax.swing.JMenuItem();
         mniReserva = new javax.swing.JMenuItem();
         mniPuesto = new javax.swing.JMenuItem();
-        mniServicio = new javax.swing.JMenuItem();
         mniVehiculo = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -71,7 +70,6 @@ public class Menu extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 60)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("SAAK");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, -1, -1));
 
@@ -125,10 +123,6 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(mniPuesto);
-
-        mniServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
-        mniServicio.setText("Uso de Servicio");
-        jMenu1.add(mniServicio);
 
         mniVehiculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniVehiculo.setText("Vehículo");
@@ -283,7 +277,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniEmpleado;
     private javax.swing.JMenuItem mniPuesto;
     private javax.swing.JMenuItem mniReserva;
-    private javax.swing.JMenuItem mniServicio;
     private javax.swing.JMenuItem mniVehiculo;
     // End of variables declaration//GEN-END:variables
 }

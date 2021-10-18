@@ -249,7 +249,7 @@ public class RVehiculo extends javax.swing.JFrame {
             if (conect.pkVehiculo(txt_Placa.getText()).next()) {
                 JOptionPane.showMessageDialog(rootPane, "Registro existente");
             } else if (Val.hollow(txt_Placa.getText()) || Val.hollow(txt_Model.getText())
-                    || cb_Tipo.getSelectedIndex() == 0) {
+                    || cb_Tipo.getSelectedIndex() == 4) {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
                 Tipo tipo = (Tipo) this.cb_Tipo.getSelectedItem();
@@ -323,7 +323,7 @@ public class RVehiculo extends javax.swing.JFrame {
         try {
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             PgConect con = new PgConect();
-            Tipo tp = new Tipo((short) 0, "Seleccionar");
+            Tipo tp = new Tipo((short) 4, "Seleccionar");
             cb_Tipo.setModel(model);
             ResultSet tipos = con.tipo();
             
