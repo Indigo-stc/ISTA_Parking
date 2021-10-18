@@ -635,7 +635,7 @@ public class PgConect {
         }
         return query(sql);
     }
-    
+       
     public ResultSet pkTicketIng(String ticket) {
         String sql = "SELECT * FROM ticketsing "
                 + "WHERE idticketing = '"+ ticket +"'";
