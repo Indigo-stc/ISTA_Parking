@@ -677,8 +677,8 @@ public class PgConect {
                     + " FROM ticketssal,ticketsing,tarifas "
                     + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa;";
         } else {
-            sql = " SELECT ticketsing.idticketing, ticketssal.idticketsal, tarifas.costo_hora, clientes.idcliente"
-                    + "  FROM ticketssal,ticketsing,tarifas,clientes "
+            sql = " SELECT ticketsing.idticketing, ticketssal.idticketsal, tarifas.costo_hora, clientes.idcliente "
+                    + "  FROM ticketssal, ticketsing, tarifas, clientes "
                     + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
                     + "   AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing LIKE '" + cedula + "%';";
         }
