@@ -526,66 +526,8 @@ public class RCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_buscarActionPerformed
 
-    public void crearEmp() {
+     public void crearCli() {
         try {
-            PgConect conect = new PgConect();
-            if (conect.usuario(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Registro existente");
-                if (conect.usuario(txtCedula.getText())) {
-                    conect.actualizarestadoCli(true);
-                    tblModelo();
-                }
-            } else if (!Val.isNumber(txtCedula.getText())
-                    || Val.hollow(txtNombres.getText())
-                    || Val.hollow(txtApellidos.getText())
-                    || !Val.email(txtCorreo.getText())
-                    || !(rbM.isSelected() || rbF.isSelected())
-                    || !Val.isNumber(txtCelular.getText())
-                    || !Val.edad(fechaNa.getDate())) {
-                JOptionPane.showMessageDialog(null, "Datos incorrctos");
-            } else {
-                long form = fechaNa.getDate().getTime();
-                java.sql.Date time = new java.sql.Date(form);
-                Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
-                        txtApellidos.getText(), time, txtCelular.getText(),
-                        txtCorreo.getText(), genero);
-
-                if (conect.pkPerson(cli.getCedula())) {
-                    System.out.println("solo cliente");
-                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
-                } else {
-                    System.out.println("Cliente y Persona");
-                    conect.insPer(cli.getCedula(), cli.getNombres(),
-                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
-                            cli.getCorreo(), cli.getGenero());
-                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
-                }
-                String idcliente = cli.getIdCli();
-                JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
-                tblModelo();
-                limpiar();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
-
-    public void limpiar() {
-        txtCedula.setText(null);
-        txtNombres.setText(null);
-        txtApellidos.setText(null);
-        txtCelular.setText(null);
-        txtCorreo.setText(null);
-        fechaNa.setDate(null);
-        b_GroupClientes.setSelected(rbM.getModel(), false);
-        b_GroupClientes.setSelected(rbF.getModel(), false);
-    }
-
-    public void crearCli() {
-       try {
             PgConect conect = new PgConect();
             if (conect.usuario(txtCedula.getText())) {
                  if (!conect.pkCedCli(txtCedula.getText()).next()) {
@@ -634,6 +576,22 @@ public class RCliente extends javax.swing.JFrame {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    public void limpiar() {
+        txtCedula.setText(null);
+        txtNombres.setText(null);
+        txtApellidos.setText(null);
+        txtCelular.setText(null);
+        txtCorreo.setText(null);
+        fechaNa.setDate(null);
+        b_GroupClientes.setSelected(rbM.getModel(), false);
+        b_GroupClientes.setSelected(rbF.getModel(), false);
+    }
+
 
     //BUSCAR DATOS
     private void buscar(String cedula) {

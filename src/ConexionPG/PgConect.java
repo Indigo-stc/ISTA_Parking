@@ -54,7 +54,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            stat.close();
+           // stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -335,14 +335,14 @@ public class PgConect {
         return query(query);
     }
     
-    public ResultSet owner(String cedula, String placa) {
+  /*  public ResultSet owner(String cedula, String placa) {
         String query = "SELECT DISTINCT idpersona, clientes.idcliente, vehiculos.placa "
                 + "FROM clientes, propietarios, vehiculos "
                 + "WHERE idpersona = '"+ cedula +"' AND clientes.idcliente = propietarios.idcliente "
                 + "AND vehiculos.placa = '"+ placa +"' AND propietarios.placa = vehiculos.placa "
                 + "AND vehiculos.activo = TRUE; ";
         return query(query);
-    }
+    }*/
     
     public ResultSet DetR(String placa) throws SQLException {
         String query = "SELECT puestos.idpuesto, vehiculos.placa, tipos.denominacion "
@@ -420,14 +420,14 @@ public class PgConect {
         }
     }
     
-    public ResultSet cbxPuestos(String placa) {
+   /* public ResultSet cbxPuestos(String placa) {
         String sql = "SELECT DISTINCT puestos.idpuesto, puestos.idpuesto, ocupado "
                 + "FROM puestos, vehiculos, tipos "
                 + "WHERE vehiculos.placa = '"+ placa +"' AND puestos.idtipo = vehiculos.idtipo "
                 + "AND puestos.idtipo = tipos.idtipo AND tipos.idtipo = vehiculos.idtipo "
                 + "AND puestos.ocupado = FALSE;";
         return query(sql);
-    }
+    }*/
     
     public ResultSet owner(String cedula, String placa) {
         String query = "SELECT DISTINCT idpersona, clientes.idcliente, vehiculos.placa "
