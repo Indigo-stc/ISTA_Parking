@@ -297,8 +297,6 @@ public class VReserva extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-        
     }//GEN-LAST:event_btnAgregarPActionPerformed
 
     public void limpiar() {

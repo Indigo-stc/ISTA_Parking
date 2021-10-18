@@ -79,6 +79,8 @@ public class RCliente extends javax.swing.JFrame {
         tablaClientes = new javax.swing.JTable();
         fechaNa = new com.toedter.calendar.JDateChooser();
         btnSalir = new javax.swing.JButton();
+        lblclientesxd = new javax.swing.JLabel();
+        lblclientex2 = new javax.swing.JLabel();
         lblFondoCli = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -87,42 +89,50 @@ public class RCliente extends javax.swing.JFrame {
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cédula:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, -1, -1));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nombres:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, -1, -1));
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Apellidos:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Fecha N:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Celular:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 110, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, -1, -1));
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Correo:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 170, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 170, -1, -1));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
         jLabel8.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         jLabel8.setText("Busqueda");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 130, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 130, -1));
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
         jLabel10.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("¡Registro Clientes!");
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
 
@@ -136,21 +146,21 @@ public class RCliente extends javax.swing.JFrame {
                 txtCedulaKeyTyped(evt);
             }
         });
-        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 180, -1));
+        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 180, -1));
 
         txtNombres.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtNombresFocusLost(evt);
             }
         });
-        getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 180, -1));
+        getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 180, -1));
 
         txtApellidos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtApellidosFocusLost(evt);
             }
         });
-        getContentPane().add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 180, -1));
+        getContentPane().add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 180, -1));
 
         txtCelular.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -162,14 +172,14 @@ public class RCliente extends javax.swing.JFrame {
                 txtCelularKeyTyped(evt);
             }
         });
-        getContentPane().add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, 190, -1));
+        getContentPane().add(txtCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 110, 190, -1));
 
         txtCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCorreoFocusLost(evt);
             }
         });
-        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 170, 190, -1));
+        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 170, 190, -1));
 
         txt_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +191,7 @@ public class RCliente extends javax.swing.JFrame {
                 txt_buscarKeyReleased(evt);
             }
         });
-        getContentPane().add(txt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, 480, -1));
+        getContentPane().add(txt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, 480, -1));
 
         rbM.setBackground(new java.awt.Color(204, 204, 204));
         b_GroupClientes.add(rbM);
@@ -192,7 +202,7 @@ public class RCliente extends javax.swing.JFrame {
                 rbMMouseClicked(evt);
             }
         });
-        getContentPane().add(rbM, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 220, 60, -1));
+        getContentPane().add(rbM, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 220, 60, -1));
 
         rbF.setBackground(new java.awt.Color(204, 204, 204));
         b_GroupClientes.add(rbF);
@@ -203,47 +213,56 @@ public class RCliente extends javax.swing.JFrame {
                 rbFMouseClicked(evt);
             }
         });
-        getContentPane().add(rbF, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 220, 60, -1));
+        getContentPane().add(rbF, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 220, 60, -1));
 
         botonRegistrar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
         botonRegistrar.setText("REGISTRAR");
+        botonRegistrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonRegistrar.setBorderPainted(false);
         botonRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonRegistrarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 610, 170, 40));
+        getContentPane().add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 580, 170, 40));
 
         botonEliminar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoBorrar.png"))); // NOI18N
         botonEliminar.setText("ELIMINAR");
+        botonEliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonEliminar.setBorderPainted(false);
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 610, 170, 40));
+        getContentPane().add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 580, 170, 40));
 
         botonLimpiar.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
+        botonLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
         botonLimpiar.setText("CANCELAR");
+        botonLimpiar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonLimpiar.setBorderPainted(false);
         botonLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonLimpiarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 610, 170, 40));
+        getContentPane().add(botonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 580, 170, 40));
 
         botonSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit.png"))); // NOI18N
+        botonSalir.setForeground(new java.awt.Color(0, 0, 0));
+        botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/taskbar_start_menu.png"))); // NOI18N
         botonSalir.setText("Menú");
+        botonSalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        botonSalir.setBorderPainted(false);
         botonSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 110, 30));
+        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 110, 50));
 
         lblvrfCedula.setBackground(new java.awt.Color(255, 0, 0));
         lblvrfCedula.setForeground(new java.awt.Color(255, 0, 0));
@@ -252,15 +271,15 @@ public class RCliente extends javax.swing.JFrame {
                 lblvrfCedulaKeyTyped(evt);
             }
         });
-        getContentPane().add(lblvrfCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 190, 10));
+        getContentPane().add(lblvrfCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 190, 10));
 
         lblvrfNombre.setBackground(new java.awt.Color(255, 0, 0));
         lblvrfNombre.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblvrfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, 190, 10));
+        getContentPane().add(lblvrfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, 190, 10));
 
         lblvrfApellidos.setBackground(new java.awt.Color(255, 0, 0));
         lblvrfApellidos.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblvrfApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 190, 10));
+        getContentPane().add(lblvrfApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 190, 10));
 
         lblvrfCelular.setBackground(new java.awt.Color(255, 0, 0));
         lblvrfCelular.setForeground(new java.awt.Color(255, 0, 0));
@@ -269,16 +288,17 @@ public class RCliente extends javax.swing.JFrame {
                 lblvrfCelularKeyTyped(evt);
             }
         });
-        getContentPane().add(lblvrfCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 140, 190, 10));
+        getContentPane().add(lblvrfCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 140, 190, 10));
 
         lblvrfCorreo.setBackground(new java.awt.Color(255, 0, 0));
         lblvrfCorreo.setForeground(new java.awt.Color(255, 0, 0));
-        getContentPane().add(lblvrfCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, 190, 10));
+        getContentPane().add(lblvrfCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 200, 190, 10));
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
         jLabel9.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Género:");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 220, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 220, -1, -1));
 
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -300,18 +320,28 @@ public class RCliente extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaClientes);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 920, 190));
-        getContentPane().add(fechaNa, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 180, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 920, 190));
+        getContentPane().add(fechaNa, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, 180, -1));
 
-        btnSalir.setText("SALIR");
+        btnSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/close.png"))); // NOI18N
+        btnSalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnSalir.setBorderPainted(false);
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 90, 30));
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 10, 20, 20));
 
-        lblFondoCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoR.png"))); // NOI18N
+        lblclientesxd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/clients.png"))); // NOI18N
+        getContentPane().add(lblclientesxd, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 130, 140));
+
+        lblclientex2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/beos_menu.png"))); // NOI18N
+        getContentPane().add(lblclientex2, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 570, -1, -1));
+
+        lblFondoCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/35157-modernos.jpg"))); // NOI18N
         getContentPane().add(lblFondoCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
         pack();
@@ -788,6 +818,8 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFondoCli;
+    private javax.swing.JLabel lblclientesxd;
+    private javax.swing.JLabel lblclientex2;
     private javax.swing.JLabel lblvrfApellidos;
     private javax.swing.JLabel lblvrfCedula;
     private javax.swing.JLabel lblvrfCelular;
