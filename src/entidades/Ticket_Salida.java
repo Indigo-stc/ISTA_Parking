@@ -3,21 +3,22 @@ package entidades;
 import java.util.Date;
 import java.util.UUID;
 
-public class TicketSalida {
+public class Ticket_Salida {
     private Date fecha_salida;
     private String id_tsalida;
     private String id_tinicio;
-    private Double costo;
+    private short idTarifa;
 
-    public TicketSalida(Date fecha_salida, String id_tsalida, String id_tinicio, Double costo) {
+    public Ticket_Salida(Date fecha_salida, String id_tinicio, short idTarifa) {
         this.fecha_salida = fecha_salida;
-        this.id_tsalida = "TIS-" + UUID.randomUUID().toString().substring(0, 3);
+        this.id_tsalida = this.id_tsalida = "Tis-" + UUID.randomUUID().toString().substring(0, 12);
         this.id_tinicio = id_tinicio;
-        this.costo = costo;
+        this.idTarifa = idTarifa;
     }
 
-    public Date getFecha_salida() {
-        return fecha_salida;
+    public java.sql.Timestamp getFecha_salida() {
+        java.sql.Timestamp sqlTS = new java.sql.Timestamp(this.fecha_salida.getTime());
+        return sqlTS;
     }
 
     public void setFecha_salida(Date fecha_salida) {
@@ -28,10 +29,6 @@ public class TicketSalida {
         return id_tsalida;
     }
 
-    public void setId_tsalida(String id_tsalida) {
-        this.id_tsalida = id_tsalida;
-    }
-
     public String getId_tinicio() {
         return id_tinicio;
     }
@@ -40,12 +37,12 @@ public class TicketSalida {
         this.id_tinicio = id_tinicio;
     }
 
-    public Double getCosto() {
-        return costo;
+    public short getIdTarifa() {
+        return idTarifa;
     }
 
-    public void setCosto(Double costo) {
-        this.costo = costo;
+    public void setIdTarifa(short idTarifa) {
+        this.idTarifa = idTarifa;
     }
-    
+
 }

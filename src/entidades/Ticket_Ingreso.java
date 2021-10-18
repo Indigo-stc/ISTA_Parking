@@ -3,13 +3,13 @@ package entidades;
 import java.util.Date;
 import java.util.UUID;
 
-public class TicketIngreso {
+public class Ticket_Ingreso {
     
     private String idTicked, Placa;
     private short idPuesto;
     private Date  f_Ingreso;
 
-    public TicketIngreso(short idPuesto, String Placa, Date f_Ingreso) {
+    public Ticket_Ingreso(short idPuesto, String Placa, Date f_Ingreso) {
         this.idTicked = "N-"+UUID.randomUUID().toString().substring(0, 12);
         this.idPuesto = idPuesto;
         this.Placa = Placa;
@@ -40,10 +40,9 @@ public class TicketIngreso {
         this.Placa = Placa;
     }
 
-    public Date getF_Ingreso() {
-        long form = f_Ingreso.getTime();
-        java.sql.Date sqlfecha = new java.sql.Date(form);
-        return sqlfecha;
+    public java.sql.Timestamp getF_Ingreso() {
+        java.sql.Timestamp sqlTS = new java.sql.Timestamp(this.f_Ingreso.getTime());
+        return sqlTS;
     }
 
     public void setF_Ingreso(Date f_Ingreso) {

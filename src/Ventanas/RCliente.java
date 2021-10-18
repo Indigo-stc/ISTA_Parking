@@ -417,7 +417,6 @@ public class RCliente extends javax.swing.JFrame {
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char validar = evt.getKeyChar();
         if (Character.isLetter(validar)
-                || Val.isNumber(txtCedula.getText())
                 || Val.digVfy(txtCedula.getText())) {
             getToolkit();
             evt.consume();
@@ -503,13 +502,14 @@ public class RCliente extends javax.swing.JFrame {
         try {
             PgConect conect = new PgConect();
             if (conect.usuario(txtCedula.getText())) {
-                 if (conect.usuario(txtCedula.getText())) {
+                 if (!conect.pkCedCli(txtCedula.getText()).next()) {
                      conect.actualizarestadoCli(txtCedula.getText());
                      long form = fechaNa.getDate().getTime();
                      java.sql.Date time = new java.sql.Date(form);
                      conect.modificarPer(txtCedula.getText(), txtNombres.getText(),
                               txtApellidos.getText(), time, txtCelular.getText(),
                               txtCorreo.getText(), genero);
+                     limpiar();
                      buscar("");
                  } else {
                      JOptionPane.showMessageDialog(rootPane, "Registro existente"); 
@@ -548,7 +548,7 @@ public class RCliente extends javax.swing.JFrame {
                 if (JOptionPane.OK_OPTION == si) {
                     this.setVisible(false);
                 } else {
-
+                    
                 }
             }
         } catch (SQLException ex) {
