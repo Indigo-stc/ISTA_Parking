@@ -296,7 +296,7 @@ public class TicketSalida extends javax.swing.JFrame {
             contentStream.endText();
             contentStream.close();
 
-            doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\TicketSalida.pdf");
+            doc.save("C:\\Users\\erick\\OneDrive\\Escritorio\\PDF PROYECTO\\TicketSalida.pdf");
         } catch (IOException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

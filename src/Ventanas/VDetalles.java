@@ -29,8 +29,9 @@ public class VDetalles extends javax.swing.JFrame {
             Logger.getLogger(VDetalles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    private ArrayList <DetalleReserva> dt = new ArrayList();
     public VDetalles(String idalquiler, String cedula) {
+        
         try {
             initComponents();
             setLocationRelativeTo(null);
@@ -74,6 +75,8 @@ public class VDetalles extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblBuscarDR = new javax.swing.JLabel();
         txtBuscarDR = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablalista = new javax.swing.JTable();
         lblListaD = new javax.swing.JLabel();
         FondoDet = new javax.swing.JLabel();
 
@@ -147,15 +150,30 @@ public class VDetalles extends javax.swing.JFrame {
         lblBuscarDR.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         lblBuscarDR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         lblBuscarDR.setText("BUSCAR");
-        getContentPane().add(lblBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, -1, -1));
+        getContentPane().add(lblBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, -1, -1));
 
         txtBuscarDR.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarDRKeyReleased(evt);
             }
         });
-        getContentPane().add(txtBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, 380, 30));
-        getContentPane().add(lblListaD, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, 250, 320));
+        getContentPane().add(txtBuscarDR, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 380, 30));
+
+        tablalista.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "placa", "puesto"
+            }
+        ));
+        jScrollPane2.setViewportView(tablalista);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, 240, 330));
+        getContentPane().add(lblListaD, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 250, 320));
 
         FondoDet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoDR.png"))); // NOI18N
         getContentPane().add(FondoDet, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 600));
@@ -200,7 +218,7 @@ public class VDetalles extends javax.swing.JFrame {
     private void cbPuestoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbPuestoFocusGained
          cbxModel(txtPlaca.getText());
     }//GEN-LAST:event_cbPuestoFocusGained
-    ArrayList <DetalleReserva> dt = new ArrayList();
+
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         try {
             PgConect conect = new PgConect();
@@ -210,11 +228,7 @@ public class VDetalles extends javax.swing.JFrame {
                 DetalleReserva dr = new DetalleReserva(txtPlaca.getText(), pt.getIdpuesto(), tarifa.getShort("idtarifa"));
                 dt.add(dr);
                 limpiar();
-                for (int i = 0; i < dt.size(); i++) {
-                    String m = String.format("%s, %s, %s, %s, %n", dt.get(i).getIddetalle(), dt.get(i).getIdtarifa(), dt.get(i).getPlaca(), dt.get(i).getPuesto());
-                    lblListaD.setText(m);
-                    buscar("");
-                }
+                actualizarDatos();
             }
         } catch (SQLException ex) {
             Logger.getLogger(VDetalles.class.getName()).log(Level.SEVERE, null, ex);
@@ -307,6 +321,24 @@ public class VDetalles extends javax.swing.JFrame {
         txtPlaca.setText(null);
         cbPuesto.removeAll();
     }
+             public void actualizarDatos(){
+         String matriz[][] = new String[dt.size()][2];
+
+        for (int i = 0; i < dt.size(); i++) {
+            matriz[i][0] = dt.get(i).getPlaca();
+            matriz[i][1] = String.valueOf(dt.get(i).getPuesto());;
+
+      
+
+            tablalista.setModel(new javax.swing.table.DefaultTableModel(
+                    matriz,
+                    new String[]{
+                             "placa", "puesto"
+                    }
+            ));
+
+        }
+   }
     
     /**
      * @param args the command line arguments
@@ -353,11 +385,13 @@ public class VDetalles extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBuscarDR;
     private javax.swing.JLabel lblIDPuestoR;
     private javax.swing.JLabel lblListaD;
     private javax.swing.JLabel lblPlacaR;
     private javax.swing.JLabel lblVfyPlaca;
+    private javax.swing.JTable tablalista;
     private javax.swing.JTable tblDetReserva;
     private javax.swing.JTextField txtBuscarDR;
     private javax.swing.JTextField txtPlaca;
