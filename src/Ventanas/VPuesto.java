@@ -166,7 +166,6 @@ public class VPuesto extends javax.swing.JFrame {
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoLimpiar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 570, 150, 50));
-
         jPanel1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 270, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
@@ -232,8 +231,7 @@ public class VPuesto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     public void limpiar() {
-        cmbTipo.setSelectedIndex(0);
-        
+        cmbTipo.removeAllItems();
     }
     
     private void cbxModel() {
@@ -309,6 +307,7 @@ public class VPuesto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btn_Reegresar;

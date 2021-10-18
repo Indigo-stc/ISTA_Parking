@@ -3,6 +3,7 @@ package Ventanas;
 import ConexionPG.PgConect;
 import entidades.Empleado;
 import Validaciones.Val;
+import entidades.Rol;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.awt.event.KeyEvent;
@@ -12,60 +13,37 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 
 public class REmpleado extends javax.swing.JFrame {
 
     String genero = null;
-    DefaultTableModel dtm;
 
     public REmpleado() {
         initComponents();
         setLocationRelativeTo(null);
-        try {
-            buscar(" ", " ");
-        } catch (SQLException ex) {
-            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            tblModelo();
-        } catch (SQLException ex) {
-            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void tblModelo() throws SQLException {
-        DefaultTableModel modelo = new DefaultTableModel();
-        tblEmpleados.setModel(modelo);
-        PgConect con = new PgConect();
-        ResultSet empleados = con.mostrarEmp();
-        ResultSetMetaData rsmd = empleados.getMetaData();
-        int columns = rsmd.getColumnCount(); 
-        
-        modelo.addColumn("ID Empleado");
-        modelo.addColumn("Cedula");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Apellido");
-        modelo.addColumn("Rol");
-        modelo.addColumn("Usuario");
-        modelo.addColumn("Contraseña");
-        modelo.addColumn("F.Nacimiento");
-        modelo.addColumn("Correo");
-        modelo.addColumn("Celular");
-        modelo.addColumn("Genero");
-        
-        while(empleados.next()) {
-            Object[] filas = new Object[columns];
-            for (int i = 0; i < columns; i++) {
-                filas[i] = empleados.getObject(i+1);
-            }
-            modelo.addRow(filas);
-        }
+        buscar(" ");
+        cbxModel();
     }
     
     private void cbxModel() {
-        
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        PgConect con = new PgConect();
+        Rol rol = new Rol((short) 100, "Seleccionar");
+        model.addElement(rol.getRolnombre());
+        cbRol.setModel(model);
+        ResultSet roles = con.cbxRoles();
+        try {
+            while(roles.next()) {
+                model.addElement(new Rol(roles.getShort(1), roles.getString(2)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -331,14 +309,18 @@ public class REmpleado extends javax.swing.JFrame {
         });
         getContentPane().add(rbF, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 100, 50, -1));
 
-        fecha.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                fechaFocusLost(evt);
+        fecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fechaKeyReleased(evt);
             }
         });
         getContentPane().add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 150, 170, -1));
 
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Administrador", "Registrador", "Seguridad", "Limpieza", "Invitado" }));
+        cbRol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbRolItemStateChanged(evt);
+            }
+        });
         cbRol.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 cbRolFocusLost(evt);
@@ -424,51 +406,66 @@ public class REmpleado extends javax.swing.JFrame {
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
         PgConect conect = new PgConect();
-        
         try {
             if (conect.perEmpl(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Registro existente");
-            } else if (!Val.isNumber(txtCedula.getText())||
-                    Val.hollow(txtNombres.getText()) ||
-                    Val.hollow(txtApellidos.getText()) ||
-                    !Val.email(txtCorreo.getText()) ||
-                    !(rbM.isSelected() || rbF.isSelected()) ||
-                    !Val.isNumber(txtCelular.getText()) ||
-                    !Val.edad(fecha.getDate()) ||
-                    cbRol.getSelectedIndex() == 0 ) {
+                if (conect.trueEmp(txtCedula.getText()).next()) {
+                    JOptionPane.showMessageDialog(rootPane, "Registro existente");
+                } else {
+                    if (cbRol.getSelectedIndex() != 0) {
+                        Rol rol = (Rol) this.cbRol.getSelectedItem();
+                        conect.activarEmp(txtCedula.getText(), rol.getIdrol(),
+                                txtContra.getText(), txtUsuario.getText());
+                        long form = fecha.getDate().getTime();
+                        java.sql.Date time = new java.sql.Date(form);
+                        conect.modificarPer(txtCedula.getText(), txtNombres.getText(),
+                              txtApellidos.getText(), time, txtCelular.getText(),
+                              txtCorreo.getText(), genero);
+                        limpiar();
+                        buscar(" ");
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Seleccione un cargo");
+                    }
+                }
+            } else if (!Val.isNumber(txtCedula.getText())
+                    || Val.hollow(txtNombres.getText())
+                    || Val.hollow(txtApellidos.getText())
+                    || !Val.email(txtCorreo.getText())
+                    || !(rbM.isSelected() || rbF.isSelected())
+                    || !Val.isNumber(txtCelular.getText())
+                    || !Val.edad(fecha.getDate())
+                    || cbRol.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             } else {
+                Rol rol = (Rol) this.cbRol.getSelectedItem();
                 Empleado emp = new Empleado(txtCedula.getText(), txtNombres.getText(),
                         txtApellidos.getText(), txtUsuario.getText(), txtContra.getText(),
                         fecha.getDate(), txtCelular.getText(),
-                        txtCorreo.getText(), genero, cbRol.getSelectedItem().toString());
+                        txtCorreo.getText(), genero, rol.getIdrol());
                 if (conect.pkPerson(emp.getCedula())) {
                     System.out.println("solo empleado");
-                    ResultSet idRol = conect.rol(emp.getCargo());
-                    if (idRol.next()) {
-                        conect.insEmp(emp.getId_Emp(), idRol.getString("idrol"), emp.getCedula(),
-                                emp.getUsuario(), emp.getContraseña());
-                        JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
-                        tblModelo();
-                        limpiar();
-                    } 
+                    conect.insEmp(emp.getId_Emp(), emp.getIdrol(), emp.getCedula(),
+                            emp.getUsuario(), emp.getContraseña());
+                    JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
+                    buscar(" ");
+                    limpiar();
                 } else {
                     System.out.println("persona y empleado");
-                    ResultSet idRol = conect.rol(emp.getCargo());
-                    if (idRol.next()) {
-                        conect.insPer(emp.getCedula(), emp.getNombres(),
-                                emp.getApellidos(), emp.getFechaNacimiento(), emp.getCelular(),
-                                emp.getCorreo(), emp.getGenero());
-                        conect.insEmp(emp.getId_Emp(), idRol.getString("idrol"), emp.getCedula(),
-                                (emp.getUsuario() == null ? "   " : emp.getUsuario()), 
-                                (emp.getContraseña() == null ? "   " : emp.getContraseña()));
-                        JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
-                        tblModelo();
-                        limpiar();
-                    } 
+                    conect.insPer(emp.getCedula(), emp.getNombres(),
+                            emp.getApellidos(), emp.getFechaNacimiento(), emp.getCelular(),
+                            emp.getCorreo(), emp.getGenero());
+                    conect.insEmp(emp.getId_Emp(), emp.getIdrol(), emp.getCedula(),
+                            (emp.getUsuario() == null ? "" : emp.getUsuario()),
+                            (emp.getContraseña() == null ? "" : emp.getContraseña()));
+                    JOptionPane.showMessageDialog(rootPane, "Empleado guardado");
+                    buscar(" ");
+                    limpiar();
                 }
-                
             }
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Error por meter muchos datos en el campo de la tabla");
+            buscar(" ");
+        } catch (ClassCastException ex) {
+            System.out.println("Error por combobox");
         } catch (SQLException ex) {
             Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -483,14 +480,10 @@ public class REmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_rbFMouseClicked
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        try {
-            String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
-            PgConect con = new PgConect();
-            con.elimEmp(idEmp);
-            tblModelo();
-        } catch (SQLException ex) {
-            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
+        PgConect con = new PgConect();
+        con.elimEmp(idEmp);
+        buscar(" ");
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -592,14 +585,6 @@ public class REmpleado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtUsuarioFocusLost
 
-    private void cbRolFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbRolFocusLost
-        if (cbRol.getSelectedIndex() == 0) {
-            lblVfyRol.setText("Escoger un cargo");
-        } else {
-            lblVfyRol.setText(null);
-        }
-    }//GEN-LAST:event_cbRolFocusLost
-
     private void txtContraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtContraFocusLost
         if (!Val.contraseña(txtContra.getText())) {
             lblVfyContra.setText("Al menos 1 mayus, 1 num ,1 simb 8carateres");
@@ -608,48 +593,131 @@ public class REmpleado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtContraFocusLost
 
-    private void fechaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fechaFocusLost
-        if (!Val.edad(fecha.getDate())) {
-            lblVfyFecha.setText("Menor de edad");
-        } else {
-            lblVfyFecha.setText(null);
-        } 
-    }//GEN-LAST:event_fechaFocusLost
-
 
     private void tblEmpleadosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadosKeyReleased
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-              
-            String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
-            String cedula =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
-            String nombre =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
-            String apellido =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
-            String rol =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
-            String usuario = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5).toString();
-            String contraseña = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
-            Date fechanac =  (Date) tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7);
-            String correo =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
-            String celular =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 9).toString();
-            String genero =  tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
-            
-            PgConect con = new PgConect();
-            con.modificarPer(cedula, nombre, apellido, (java.sql.Date) fechanac, celular, correo, genero);
-            con.modificarEmp(idEmp, usuario, contraseña);
-            
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                String idEmp = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 0).toString();
+                String cedula = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 1).toString();
+                String nombre = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 2).toString();
+                String apellido = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 3).toString();
+                String rol = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 4).toString();
+                String usuario = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 5).toString();
+                String contraseña = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 6).toString();
+                String fechanac = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 7).toString();
+                DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date javaDate = simpleDateFormat.parse(fechanac);
+                long time = javaDate.getTime();
+                java.sql.Date sqlDate = new java.sql.Date(time);
+                String email = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 8).toString();
+                String celular = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 9).toString();
+                String genero = tblEmpleados.getValueAt(tblEmpleados.getSelectedRow(), 10).toString();
+                
+                if ("Administrador".equalsIgnoreCase(rol.trim()) || "Registrador".equalsIgnoreCase(rol.trim()) ||
+                        "Invitado".equals(rol)) {
+                    if (apellido != null && nombre != null
+                            && Val.email(email) && Val.isNumber(celular)
+                            && (genero.equalsIgnoreCase("m") || genero.equalsIgnoreCase("f"))
+                            && Val.edad(javaDate) && Val.usuario(usuario)
+                            && Val.contraseña(contraseña)) {
+                        PgConect con = new PgConect();
+                        ResultSet rolName = con.getIdRol(rol);
+                        if (rolName.next()) {
+                            con.modificarPer(cedula, nombre, apellido, sqlDate, celular, email, genero);
+                            con.modificarEmp(idEmp, usuario.trim(), contraseña.trim(), rolName.getShort("idrol"));
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Cargo no existente");
+                        }
+                        buscar(" ");
+                    } else {
+                        buscar(" ");
+                        JOptionPane.showMessageDialog(rootPane, """
+                                                                1. Celular: Solo 10 digitos
+                                                                2. Solo correos validos
+                                                                3. Genero: M o F
+                                                                4. Usuario: de 8 a 10 caracteres
+                                                                5. Contraseña: de 8 a 10 caractere 
+                                                                          almenos 1 mayuscula, numero y simbolo
+                                                                """);
+                    }
+                } else {
+                    if (usuario.trim().equals("") && contraseña.trim().equals("")) {
+                        if (apellido != null && nombre != null
+                            && Val.email(email) && Val.isNumber(celular)
+                            && (genero.equalsIgnoreCase("m") || genero.equalsIgnoreCase("f"))) {
+                            PgConect con = new PgConect();
+                            ResultSet rolName = con.getIdRol(rol);
+                            if (rolName.next()) {
+                                con.modificarPer(cedula, nombre, apellido, sqlDate, celular, email, genero);
+                                con.modificarEmp(idEmp, usuario.trim(), contraseña.trim(), rolName.getShort("idrol"));
+                            } else {
+                                JOptionPane.showMessageDialog(rootPane, "Cargo no existente");
+                            }
+                            buscar(" ");
+                        } else {
+                            buscar(" ");
+                            JOptionPane.showMessageDialog(rootPane, """
+                                                                    1. Celular: Solo 10 digitos
+                                                                    2. Solo correos validos
+                                                                    3. Genero: M o F
+                                                                    """);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, 
+                                "Solo Administrador, Registrador o Invitado pueden tener contraseña");
+                    }
+                }
+            } catch (ParseException ex) {
+                ex.getMessage();
+                JOptionPane.showMessageDialog(rootPane, "Fecha invalida");
+                buscar(" ");
+            } catch (SQLException ex) {
+                Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_tblEmpleadosKeyReleased
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        try {
-            buscar(txtBuscar.getText(), txtBuscar.getText());
-        } catch (SQLException ex) {
-            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        buscar(txtBuscar.getText());
     }//GEN-LAST:event_txtBuscarKeyReleased
+
 
     private void lbcerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lbcerrarActionPerformed
         this.dispose();
     }//GEN-LAST:event_lbcerrarActionPerformed
+
+    private void cbRolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbRolItemStateChanged
+        if (cbRol.getSelectedItem().toString().equals("Administrador")
+                || cbRol.getSelectedItem().toString().equals("Registrador")
+                || cbRol.getSelectedItem().toString().equals("Invitado")) {
+            txtUsuario.setEditable(true);
+            txtUsuario.setEnabled(true);
+            txtContra.setEditable(true);
+            txtContra.setEnabled(true);
+        } else {
+            txtUsuario.setEditable(false);
+            txtUsuario.setEnabled(false);
+            txtContra.setEditable(false);
+            txtContra.setEnabled(false);
+        }     
+    }//GEN-LAST:event_cbRolItemStateChanged
+
+    private void cbRolFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbRolFocusLost
+        if (cbRol.getSelectedIndex() == 0) {
+            lblVfyRol.setText("Escoger un cargo");
+        } else {
+            lblVfyRol.setText(null);
+        }
+    }//GEN-LAST:event_cbRolFocusLost
+
+    private void fechaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaKeyReleased
+        if (Val.edad(fecha.getDate())) {
+            lblVfyFecha.setText(null);
+        } else {
+            lblVfyFecha.setText("Menor de edad");
+        } 
+    }//GEN-LAST:event_fechaKeyReleased
+
 
     public void limpiar() {
         txtCedula.setText(null);
@@ -659,7 +727,9 @@ public class REmpleado extends javax.swing.JFrame {
         txtCorreo.setText(null);
         txtCelular.setText(null);
         b_GroupEmpleados.setSelected(rbM.getModel(), false);
+        rbM.setSelected(false);
         b_GroupEmpleados.setSelected(rbF.getModel(), false);
+        rbF.setSelected(false);
         txtUsuario.setText(null);
         txtContra.setText(null);
         cbRol.setSelectedIndex(0);
@@ -671,11 +741,22 @@ public class REmpleado extends javax.swing.JFrame {
         lblVfyUsu.setText(null);
         lblVfyContra.setText(null);
         lblVfyCorreo.setText(null); 
-        
+        txtUsuario.setEditable(true);
+        txtUsuario.setEnabled(true);
+        txtContra.setEditable(true);
+        txtContra.setEnabled(true);
     }
     
-    public void buscar(String nombre, String cedula) throws SQLException {
-        DefaultTableModel modelo = new DefaultTableModel();
+    private void buscar(String search) {
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 2 || column == 3 || column == 4 || column == 5
+                        || column == 6 || column == 7 || column == 8
+                        || column == 9 || column == 10;
+            }
+        };
+        
         PgConect conec = new PgConect();
         Connection conectar = conec.Conectar();
 
@@ -692,17 +773,21 @@ public class REmpleado extends javax.swing.JFrame {
         modelo.addColumn("Genero");
         tblEmpleados.setModel(modelo);
         String sql = " ";
-        if (nombre.equals(" ")) {
+        if (search.equals(" ")) {
             sql = " SELECT idempleado, empleados.cedula, nombre, apellido, "
                     + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
                     + " FROM empleados, personas, roles "
-                    + " WHERE personas.cedula = empleados.cedula AND empleados.idrol = roles.idrol;";
+                    + " WHERE personas.cedula = empleados.cedula AND empleados.idrol = roles.idrol AND activo = TRUE;";
         } else {
             sql = " SELECT idempleado, empleados.cedula, nombre, apellido, "
                     + "rolnombre, usuario, contraseña, fechanac, correo, celular, genero "
-                    + " FROM empleados, personas, roles "
-                    + " WHERE personas.cedula = empleados.cedula AND "
-                    + "empleados.idrol = roles.idrol AND nombre like '%" + nombre + "%';";
+                    + "FROM empleados, personas, roles "
+                    + "WHERE personas.cedula = empleados.cedula AND "
+                    + "empleados.idrol = roles.idrol AND (LOWER(nombre) like LOWER('%" + search + "%') OR "
+                    + "empleados.cedula like '%"+ search +"%' OR "
+                    + "LOWER(apellido) like LOWER('%" + search + "%') OR "
+                    + "correo like '%" + search + "%' OR "
+                    + "LOWER(rolnombre) like LOWER('%" + search + "%'));";
         }
         String Usuarios[] = new String[11];
         Statement set;
@@ -722,7 +807,6 @@ public class REmpleado extends javax.swing.JFrame {
                 Usuarios[9] = resul.getString(10);
                 Usuarios[10] = resul.getString(11);
                 modelo.addRow(Usuarios);
-
             }
             tblEmpleados.setModel(modelo);
         } catch (SQLException ex) {

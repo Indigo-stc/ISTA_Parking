@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.management.Query;
 
 public class PgConect {
 
@@ -55,7 +54,7 @@ public class PgConect {
         try {
             stat = conex.createStatement();
             ResultSet rs = stat.executeQuery(sql);
-            //stat.close();
+            stat.close();
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,6 +102,23 @@ public class PgConect {
             return false;
         }
     }
+    
+    public ResultSet trueEmp(String cedula) {
+        String query = "SELECT * FROM empleados "
+                + "WHERE cedula = '" + cedula + "' AND activo = TRUE";
+        return query(query);
+    }
+    
+    public void activarEmp(String cedula, short idrol, String usuario, String contraseña) {
+        String noquery = "UPDATE empleados "
+                + "SET idrol = '"+ idrol +"', activo = " + true + ", usuario = '"+ usuario +"',"
+                + "contraseña = '"+ contraseña +"' "
+                + "WHERE cedula = '" + cedula + "';";
+        if (noQuery(noquery) == null) {
+        } else {
+            System.out.println("ERROR");
+        }
+    }
 
     public ResultSet personas(String cedula) {
         String query = "SELECT * FROM personas "
@@ -118,7 +134,7 @@ public class PgConect {
         ResultSet vehiculos = query(query);
         return vehiculos;
     }
-    
+
     public ResultSet pkVehiculo(String placa) throws SQLException {
         String query = "SELECT placa "
                 + "FROM vehiculos "
@@ -130,7 +146,6 @@ public class PgConect {
         String query = "SELECT idalquiler "
                 + "FROM alquileres "
                 + "WHERE idalquiler = '" + idalquiler + "';";
-        
         if (query(query).next()){
             return true;
         }else{
@@ -199,7 +214,7 @@ public class PgConect {
         }
     }
 
-    public boolean insEmp(String id_Emp, String rol, String cedula, String usuario, String contraseña) {
+    public boolean insEmp(String id_Emp, short rol, String cedula, String usuario, String contraseña) {
         String nquery = "INSERT INTO empleados ("
                 + "idempleado, idrol, cedula, usuario, contraseña, activo) "
                 + "VALUES ('" + id_Emp + "', '" + rol + "', '" + cedula + "', '" + usuario + "', '" + contraseña + "', " + true + ");";
@@ -273,26 +288,27 @@ public class PgConect {
         }
     }
 
-    public ResultSet rol(String rolnombre) throws SQLException {
+    public ResultSet getIdRol(String rolnombre) {
         String query = "SELECT idrol"
                 + " FROM roles"
                 + " WHERE rolnombre IN ('" + rolnombre + "');";
-        ResultSet idRol = query(query);
-        if (idRol == null) {
-            System.out.println("no hay datos");
-            return null;
-        } else {
-            return idRol;
-        }
+        return query(query);
     }
 
     public ResultSet tipo() {
         String query = "SELECT * FROM tipos; ";
         return query(query);
     }
+    
+    public ResultSet cbxTipos() {
+        String query = "SELECT idtipo FROM tipos "
+                + "ORDER BY denominacion" ;
+        return query(query);
+    }
 
-    public ResultSet roles() {
-        String query = "SELECT * FROM roles";
+    public ResultSet cbxRoles() {
+        String query = "SELECT * FROM roles "
+                + "ORDER BY rolnombre ASC;";
         return query(query);
     }
 
@@ -316,6 +332,15 @@ public class PgConect {
                 + "WHERE cedula = '" + cedula + "' AND  cedula = idpersona AND clientes.idcliente = propietarios.idcliente "
                 + "AND propietarios.placa = '" + placa + "' AND propietarios.placa = vehiculos.placa "
                 + "AND vehiculos.activo = TRUE;";
+        return query(query);
+    }
+    
+    public ResultSet owner(String cedula, String placa) {
+        String query = "SELECT DISTINCT idpersona, clientes.idcliente, vehiculos.placa "
+                + "FROM clientes, propietarios, vehiculos "
+                + "WHERE idpersona = '"+ cedula +"' AND clientes.idcliente = propietarios.idcliente "
+                + "AND vehiculos.placa = '"+ placa +"' AND propietarios.placa = vehiculos.placa "
+                + "AND vehiculos.activo = TRUE; ";
         return query(query);
     }
     
@@ -414,9 +439,10 @@ public class PgConect {
     }
 
     public void modificarEmp(String idempleado, String usuario,
-            String contraseña) {
+            String contraseña, short idrol) {
         String noquery = "UPDATE empleados "
-                + "SET usuario = '" + usuario + "', contraseña = '" + contraseña + "'\n"
+                + "SET usuario = '" + usuario + "', contraseña = '" + contraseña + "',"
+                + "idrol = '"+ idrol +"'"
                 + "WHERE idempleado = '" + idempleado + "';";
         if (noQuery(noquery) == null) {
             System.out.println("Modificado exitosamente");
@@ -532,9 +558,6 @@ public class PgConect {
         }
     }
 
-//    public boolean insTicket(String idTicketI, String cedula, Date fechaI) {
-//        
-//    }
     public Connection Conectar() {
         Connection conect = null;
         try {
@@ -551,16 +574,104 @@ public class PgConect {
         return conect;
     }
 
-    public boolean actualizarestadoCli(boolean activo) {
+       
+    public boolean actualizarestadoCli(String cedula) {
         String noquery = "UPDATE clientes"
-                + "  SET  activo='" + true + "' ";
-
+                +"  SET  activo = TRUE "
+                + "WHERE idpersona = '"+ cedula +"'";  
         if (noQuery(noquery) == null) {
             return true;
         } else {
             System.out.println("ERROR UPDATE cliente");
             return false;
         }
+    }
+
+
+    public ResultSet cbxPuestos(String placa) {
+        String sql = "SELECT DISTINCT puestos.idpuesto, puestos.idpuesto, ocupado "
+                + "FROM puestos, vehiculos, tipos "
+                + "WHERE vehiculos.placa = '"+ placa +"' AND puestos.idtipo = vehiculos.idtipo "
+                + "AND puestos.idtipo = tipos.idtipo AND tipos.idtipo = vehiculos.idtipo "
+                + "AND puestos.ocupado = FALSE;";
+        return query(sql);
+    }
+    
+    public boolean insTIng(String idticketing, String idempleado, String idcliente,
+            String placa, short idpuesto, java.sql.Timestamp ingreso) {
+        String nquery = "INSERT INTO public.ticketsing("
+                + "idticketing, idempleado, idcliente, placa, idpuesto, fechaing) "
+                + "VALUES ('"+ idticketing +"', '"+ idempleado +"', '"+ idcliente +"',"
+                + " '"+ placa +"', '"+ idpuesto +"', '"+ ingreso +"');";
+        return noQuery(nquery) == null;
+    }
+    
+    public boolean insTSal(String idsalida, String idingreso, short tarifa,
+            java.sql.Timestamp f_salida) {
+        String nquery = "INSERT INTO public.ticketssal( "
+                + "idticketsal, idticketing, idtarifa, fechasal) "
+                + "VALUES ('"+ idsalida +"', '"+ idingreso +"', "+ tarifa +", '"+ f_salida +"');";
+        return noQuery(nquery) == null;
+    }
+    
+    public boolean ocupaPue(short idpuesto) {
+        String sql = "UPDATE puestos "
+                + "SET ocupado = FALSE "
+                + "WHERE idpuesto = '"+ idpuesto +"';";
+        return noQuery(sql) == null;
+    }
+    
+    public ResultSet buscarTicketsIng(String cadena) {
+        String sql;
+        if (cadena.trim().equals("")) {
+            sql = "SELECT idticketing, idpersona, placa, idpuesto, fechaing "
+                    + "FROM ticketsing, clientes "
+                    + "WHERE ticketsing.idcliente = clientes.idcliente;";
+        } else {
+            sql = "SELECT idticketing, idpersona, placa, idpuesto, fechaing "
+                    + "FROM ticketsing, clientes "
+                    + "WHERE (idpersona LIKE '%" + cadena + "%' OR placa LIKE '%" + cadena + "%') AND ticketsing.idcliente = clientes.idcliente "
+                    + "AND clientes.activo = TRUE";
+        }
+        return query(sql);
+    }
+    
+    public ResultSet pkTicketIng(String ticket) {
+        String sql = "SELECT * FROM ticketsing "
+                + "WHERE idticketing = '"+ ticket +"'";
+        return query(sql) ;
+    }
+    
+    public ResultSet ticketIdTarifa(String ticket) {
+        String sql = "SELECT idtarifa "
+                + "FROM tarifas, vehiculos, ticketsing "
+                + "WHERE idticketing = '"+ ticket +"' AND tarifas.idtipo = vehiculos.idtipo "
+                + "AND vehiculos.placa = ticketsing.placa;";
+        return query(sql) ;
+    }
+    
+    public boolean tixts(String ticket) {
+        String sql = "SELECT * FROM ticketssal "
+                + "WHERE idticketing = '"+ ticket +"'";
+        try {
+            return query(sql).next();
+        } catch (SQLException ex) {
+            Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public ResultSet buscarTicketsSal(String cadena) {
+        String sql;
+        if (cadena.trim().equals("")) {
+            sql = "";
+        } else {
+            sql = "SELECT idticketing, idpersona, placa, idpuesto, fechaing "
+                    + "FROM ticketsing, clientes "
+                    + "WHERE (idpersona LIKE '%" + cadena + "%' OR placa LIKE '%" + cadena + "%') AND ticketsing.idcliente = clientes.idcliente "
+                    + "AND clientes.activo = TRUE";
+        }
+        return query(sql);
     }
 
 }

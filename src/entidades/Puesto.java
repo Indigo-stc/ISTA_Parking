@@ -1,7 +1,5 @@
 package entidades;
 
-import java.util.UUID;
-
 public class Puesto {
 
     private short idpuesto;
@@ -42,4 +40,5 @@ public class Puesto {
     public String toString() {
         return String.valueOf(idpuesto);
     }
+  
 }

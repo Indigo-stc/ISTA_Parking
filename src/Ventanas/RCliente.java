@@ -13,35 +13,25 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class RCliente extends javax.swing.JFrame {
 
-    PgConect conec = new PgConect();
-    Connection conectar = conec.Conectar();
-
-    String genero = null;
+    String genero;
 
     public RCliente() {
         initComponents();
         setLocationRelativeTo(null);
-        try {
-            tblModelo();
-        } catch (SQLException ex) {
-            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        buscar(" ");
     }
 
     public RCliente(String cedula) {
         initComponents();
         setLocationRelativeTo(null);
         txtCedula.setText(cedula);
-        try {
-            tblModelo();
-        } catch (SQLException ex) {
-            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        buscar(" ");
     }
 
     @SuppressWarnings("unchecked")
@@ -348,7 +338,7 @@ public class RCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-        crearEmp();
+        crearCli();
     }//GEN-LAST:event_botonRegistrarActionPerformed
 
     private void rbMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbMMouseClicked
@@ -364,14 +354,10 @@ public class RCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        try {
-            String idCli = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
-            PgConect con = new PgConect();
-            con.elimCli(idCli);
-            tblModelo();
-        } catch (SQLException ex) {
-            Logger.getLogger(REmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String idCli = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
+        PgConect con = new PgConect();
+        con.elimCli(idCli);
+        buscar("");
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
@@ -470,7 +456,6 @@ public class RCliente extends javax.swing.JFrame {
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char validar = evt.getKeyChar();
         if (Character.isLetter(validar)
-                || Val.isNumber(txtCedula.getText())
                 || Val.digVfy(txtCedula.getText())) {
             getToolkit();
             evt.consume();
@@ -492,47 +477,49 @@ public class RCliente extends javax.swing.JFrame {
 
     private void tablaClientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaClientesKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String idcliente = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
-            String cedula = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
-            String nombre = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString();
-            String apellido = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 3).toString();
-            Date fechanac = (Date) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 4);
-            String email = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 5).toString();
-            String celular = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 6).toString();
-            String genero = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 7).toString();
-
-            if (!genero.equalsIgnoreCase("m") || !genero.equalsIgnoreCase("f")
-                    || !Val.isNumber(celular)
-                    || !Val.email(email)
-                    || nombre == null
-                    || apellido == null
-                    || email == null
-                    || celular == null) {
-                JOptionPane.showMessageDialog(rootPane, """
-                                                        1. Llenar todos los campos
-                                                        2. Celular: Solo 10 digitos
-                                                        3. Solo correos validos
-                                                        4. Genero: M o F
-                                                        """);
-                try {
-                    tblModelo();
-                } catch (SQLException ex) {
-                    Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                String idEmp = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString();
+                String cedula = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString();
+                String nombre = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString();
+                String apellido = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 3).toString();
+                String fechanac = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 4).toString();
+                DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date javaDate = simpleDateFormat.parse(fechanac);
+                long time = javaDate.getTime();
+                java.sql.Date sqlDate = new java.sql.Date(time);
+                String email = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 6).toString();
+                String celular = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 5).toString();
+                String genero = tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 7).toString();
+                
+                if (apellido != null && nombre != null
+                        && Val.email(email) && Val.isNumber(celular)
+                        && (genero.equalsIgnoreCase("m") || genero.equalsIgnoreCase("f"))
+                        && Val.edad(javaDate)) {
+                    PgConect con = new PgConect();
+                    con.modificarPer(cedula, nombre, apellido, sqlDate, celular, email, genero);
+                    buscar(" ");
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, """
+                                                                1. Celular: Solo 10 digitos
+                                                                2. Solo correos validos
+                                                                3. Genero: M o F
+                                                                """);
+                    buscar(" ");
                 }
-            } else {
-                PgConect con = new PgConect();
-                con.modificarPer(cedula, nombre, apellido, (java.sql.Date) fechanac, celular, email, genero);
-            }
 
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                System.out.println("Error por meter muchos datos en el campo de la tabla");
+                buscar(" ");
+            } catch (ParseException ex) {
+                ex.getMessage();
+                JOptionPane.showMessageDialog(rootPane, "Fecha invalida");
+            }
         }
+
     }//GEN-LAST:event_tablaClientesKeyReleased
 
     private void txt_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyReleased
-        try {
-            buscar(txt_buscar.getText(), txt_buscar.getText());
-        } catch (SQLException ex) {
-            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        buscar(txt_buscar.getText());
     }//GEN-LAST:event_txt_buscarKeyReleased
 
     private void txt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarActionPerformed
@@ -597,15 +584,22 @@ public class RCliente extends javax.swing.JFrame {
         b_GroupClientes.setSelected(rbF.getModel(), false);
     }
 
-    public void pasarVeh() {
-        try {
+    public void crearCli() {
+       try {
             PgConect conect = new PgConect();
             if (conect.usuario(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Registro existente");
-                if (conect.usuario(txtCedula.getText())) {
-                    conect.actualizarestadoCli(true);
-                    tblModelo();
-                }
+                 if (!conect.pkCedCli(txtCedula.getText()).next()) {
+                     conect.actualizarestadoCli(txtCedula.getText());
+                     long form = fechaNa.getDate().getTime();
+                     java.sql.Date time = new java.sql.Date(form);
+                     conect.modificarPer(txtCedula.getText(), txtNombres.getText(),
+                              txtApellidos.getText(), time, txtCelular.getText(),
+                              txtCorreo.getText(), genero);
+                     limpiar();
+                     buscar("");
+                 } else {
+                     JOptionPane.showMessageDialog(rootPane, "Registro existente"); 
+                 }
             } else if (!Val.isNumber(txtCedula.getText())
                     || Val.hollow(txtNombres.getText())
                     || Val.hollow(txtApellidos.getText())
@@ -627,98 +621,29 @@ public class RCliente extends javax.swing.JFrame {
                 } else {
                     System.out.println("Cliente y Persona");
                     conect.insPer(cli.getCedula(), cli.getNombres(),
-                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
-                            cli.getCorreo(), cli.getGenero());
+                    cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
+                    cli.getCorreo(), cli.getGenero());
                     conect.insCli(cli.getIdCli(), cli.getCedula(), true);
                 }
-                String idcliente = cli.getIdCli();
+                
                 JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
-                tblModelo();
-                limpiar();
-                RVehiculo rve = new RVehiculo(idcliente);
-                rve.setVisible(true);
-                this.setVisible(false);
+                buscar("");
                 
             }
         } catch (SQLException ex) {
             Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void pasarRe() {
-        try {
-            PgConect conect = new PgConect();
-            if (conect.usuario(txtCedula.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Registro existente");
-                if (conect.usuario(txtCedula.getText())) {
-                    conect.actualizarestadoCli(true);
-                    tblModelo();
-                }
-            } else if (!Val.isNumber(txtCedula.getText())
-                    || Val.hollow(txtNombres.getText())
-                    || Val.hollow(txtApellidos.getText())
-                    || !Val.email(txtCorreo.getText())
-                    || !(rbM.isSelected() || rbF.isSelected())
-                    || !Val.isNumber(txtCelular.getText())
-                    || !Val.edad(fechaNa.getDate())) {
-                JOptionPane.showMessageDialog(null, "Datos incorrctos");
-            } else {
-                long form = fechaNa.getDate().getTime();
-                java.sql.Date time = new java.sql.Date(form);
-                Cliente cli = new Cliente(txtCedula.getText(), txtNombres.getText(),
-                        txtApellidos.getText(), time, txtCelular.getText(),
-                        txtCorreo.getText(), genero);
-
-                if (conect.pkPerson(cli.getCedula())) {
-                    System.out.println("solo cliente");
-                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
-                } else {
-                    System.out.println("Cliente y Persona");
-                    conect.insPer(cli.getCedula(), cli.getNombres(),
-                            cli.getApellidos(), cli.getFechaNacimiento(), cli.getCelular(),
-                            cli.getCorreo(), cli.getGenero());
-                    conect.insCli(cli.getIdCli(), cli.getCedula(), true);
-                }
-                String idcliente = cli.getIdCli();
-                JOptionPane.showMessageDialog(rootPane, "Cliente exitosamente guardado");
-                tblModelo();
-                limpiar();
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(RCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void tblModelo() throws SQLException {
-        DefaultTableModel modelo = new DefaultTableModel();
-        tablaClientes.setModel(modelo);
-        PgConect con = new PgConect();
-        ResultSet clientes = con.mostrarCli();
-        ResultSetMetaData rsmd = clientes.getMetaData();
-        int columns = rsmd.getColumnCount();
-
-        modelo.addColumn("ID");
-        modelo.addColumn("Cedula");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Apellido");
-        modelo.addColumn("F.Nacimiento");
-        modelo.addColumn("Correo");
-        modelo.addColumn("Celular");
-        modelo.addColumn("Genero");
-
-        while (clientes.next()) {
-            Object[] filas = new Object[columns];
-            for (int i = 0; i < columns; i++) {
-                filas[i] = clientes.getObject(i + 1);
-            }
-            modelo.addRow(filas);
         }
     }
 
     //BUSCAR DATOS
-    public void buscar(String cedula, String nombre) throws SQLException {
-        DefaultTableModel modelo = new DefaultTableModel();
+    private void buscar(String cedula) {
+        DefaultTableModel modelo = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column==2||column==3||column==4||column==5||column==6||column==7||column==8||column==9||column==10;
+            }
+            
+        };
         PgConect conec = new PgConect();
         Connection conectar = conec.Conectar();
         modelo.addColumn("ID");
@@ -726,22 +651,21 @@ public class RCliente extends javax.swing.JFrame {
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido");
         modelo.addColumn("F.Nacimiento");
-        modelo.addColumn("Correo");
         modelo.addColumn("Celular");
+        modelo.addColumn("Correo");
         modelo.addColumn("Genero");
         tablaClientes.setModel(modelo);
         String sql = "";
-        if (cedula.equals("") && nombre.equals("")) {
-            sql = "SELECT clientes.idcliente,personas.cedula,personas.nombre,personas.apellido,personas.fechanac,"
-                    + "personas.celular,personas.correo,personas.genero"
+        if (cedula.equals(" ")) {
+            sql = "SELECT clientes.idcliente,personas.cedula,personas.nombre,personas.apellido,personas.fechanac,personas.celular,personas.correo,personas.genero"
                     + " FROM clientes,personas "
-                    + " WHERE clientes.idpersona = personas.cedula ";
+                    + " WHERE clientes.idpersona = personas.cedula AND activo = TRUE ";
         } else {
             sql = "SELECT clientes.idcliente,personas.cedula,personas.nombre,personas.apellido,personas.fechanac,"
                     + "personas.celular,personas.correo,personas.genero"
                     + " FROM clientes,personas "
-                    + " WHERE (clientes.idpersona = personas.cedula AND cedula  LIKE '%" + cedula + "%') OR  "
-                    + " clientes.idpersona = personas.cedula AND nombre LIKE  '%" + nombre + "%';";
+                    + " WHERE clientes.idpersona = personas.cedula AND (cedula LIKE '%" + cedula + "%' OR  "
+                    + " nombre LIKE '%"+ cedula +"%') AND activo = TRUE;";
         }
 
         String Usuarios[] = new String[8];
@@ -759,7 +683,6 @@ public class RCliente extends javax.swing.JFrame {
                 Usuarios[6] = resul.getString(7);
                 Usuarios[7] = resul.getString(8);
                 modelo.addRow(Usuarios);
-
             }
             tablaClientes.setModel(modelo);
         } catch (SQLException ex) {

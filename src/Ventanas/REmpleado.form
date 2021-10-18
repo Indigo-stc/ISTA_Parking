@@ -533,7 +533,7 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="fecha">
       <Events>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fechaFocusLost"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fechaKeyReleased"/>
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -544,17 +544,11 @@
     <Component class="javax.swing.JComboBox" name="cbRol">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="Seleccione"/>
-            <StringItem index="1" value="Administrador"/>
-            <StringItem index="2" value="Registrador"/>
-            <StringItem index="3" value="Seguridad"/>
-            <StringItem index="4" value="Limpieza"/>
-            <StringItem index="5" value="Invitado"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbRolItemStateChanged"/>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cbRolFocusLost"/>
       </Events>
       <AuxValues>
