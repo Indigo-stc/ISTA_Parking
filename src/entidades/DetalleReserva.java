@@ -15,13 +15,13 @@ public class DetalleReserva {
     private final String iddetalle;
     private String placa;
     private short puesto;
-    private int costo;
+    private int idtarifa;
 
-    public DetalleReserva(String placa, short puesto, int costo) {
+    public DetalleReserva(String placa, short puesto, int idtarifa) {
         this.iddetalle = "FAC-" +UUID.randomUUID().toString().substring(0, 8);
         this.placa = placa;
         this.puesto = puesto;
-        this.costo = costo;
+        this.idtarifa = idtarifa;
     }
 
     public String getIddetalle() {
@@ -44,11 +44,11 @@ public class DetalleReserva {
         this.puesto = puesto;
     }
 
-    public int getCosto() {
-        return costo;
+    public int getIdtarifa() {
+        return idtarifa;
     }
 
-    public void setCosto(int costo) {
-        this.costo = costo;
+    public void setIdtarifa(int idtarifa) {
+        this.idtarifa = idtarifa;
     }
 }
