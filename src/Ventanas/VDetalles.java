@@ -249,12 +249,7 @@ public class VDetalles extends javax.swing.JFrame {
                     dt.get(i).getPuesto(), dt.get(i).getIdtarifa())) {
                 buscar("");
             }
-            System.out.println(idalquiler);
-            System.out.println(idalquiler);
-            System.out.println(idalquiler);
-            System.out.println(idalquiler);
         }
-        
         int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...", JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
         if (JOptionPane.OK_OPTION == si) {
@@ -402,16 +397,21 @@ public class VDetalles extends javax.swing.JFrame {
             float startY = mediabox.getUpperRightY() - margin;
             PgConect con = new PgConect();
             ResultSet prueba = con.buscarDetXAlquiler(idalquiler);
-            String text = "";
+            ResultSet total = con.totatl(idalquiler);
+            String text = "                         -- RECIVO --                                                       ID ALQUILER: " + idalquiler + "                                        ";
+  
             while (prueba.next()) {
 //                text = "                         -- DETALLE RESERVA --                       ID DETALLE: " + prueba.getString("iddetalle") + "                               ID ALQUILER: " + prueba.getString("idalquiler") + "                                        "
 //                        + "       PLACA: " + prueba.getString("placa")
 //                        + "                                                    ID PUESTO: " + prueba.getString("idpuesto") + "                                                          COSTO: " + prueba.getString("idtarifa");
-                text = text + "                         -- DETALLE RESERVA --                       ID DETALLE: " + prueba.getString(1) + "                               ID ALQUILER: " + prueba.getString(2) + "                                        "
-                        + "       PLACA: " + prueba.getString(3)
+                text = text + "ID DETALLE: " + prueba.getString(1)  
+                        + "                                          PLACA: " + prueba.getString(3)
                         + "                                                    COSTO_HORA: " + prueba.getString(4) + "                                                          PUESTO: " + prueba.getString(5) + "                                         "
                         + "                                                    F. INGRESO: " + prueba.getDate(6) + "                                                          F. SALIDA: " + prueba.getDate(7) + "                                         "
                         + "                                                    DIAS: " + prueba.getDouble(8) + "                                                          SUBTOTAL: " + prueba.getString(9);
+            }
+            if (total.next()) {
+                text = text + "COSTO TOTAL:" + total.getDouble(1);
             }
             List<String> lines = new ArrayList<String>();
             int lastSpace = -1;

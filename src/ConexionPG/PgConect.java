@@ -761,4 +761,12 @@ public class PgConect {
         }
         return false;
     }
+    
+    public ResultSet totatl(String cadena) {
+        String sql = "SELECT sum((fechasal - fechaing)*(costo_hora*24)) "
+                + "FROM alquileres, detallesalquiler, tarifas "
+                + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler  "
+                + "AND tarifas.idtarifa = detallesalquiler.idtarifa AND detallesalquiler.idalquiler = '"+ cadena +"';";
+        return query(sql);
+    }
 }
