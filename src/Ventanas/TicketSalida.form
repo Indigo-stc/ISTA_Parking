@@ -185,7 +185,7 @@
     <Component class="javax.swing.JLabel" name="lblfondo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/Imagenes/FONDOCOLOR8.png"/>
+          <Image iconType="3" name="/Imagenes/FONDOCOLOR14.jpg"/>
         </Property>
       </Properties>
       <Constraints>

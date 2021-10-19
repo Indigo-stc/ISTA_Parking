@@ -122,7 +122,7 @@ public class VDetalles extends javax.swing.JFrame {
                 btnGeneraActionPerformed(evt);
             }
         });
-        getContentPane().add(btnGenera, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 520, 160, 50));
+        getContentPane().add(btnGenera, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 530, 160, 50));
 
         btnAgregar.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/edit_add.png"))); // NOI18N

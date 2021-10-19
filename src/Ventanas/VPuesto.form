@@ -107,7 +107,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="320" width="910" height="210"/>
+              <AbsoluteConstraints x="50" y="330" width="910" height="210"/>
             </Constraint>
           </Constraints>
 
@@ -238,7 +238,7 @@
         <Component class="javax.swing.JLabel" name="fondopuesto">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Imagenes/FondoP.png"/>
+              <Image iconType="3" name="/Imagenes/FONDOCOLOR15.png"/>
             </Property>
           </Properties>
           <Constraints>

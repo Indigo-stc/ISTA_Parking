@@ -133,7 +133,7 @@ public class VPuesto extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblPuesto);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 910, 210));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 910, 210));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -176,7 +176,7 @@ public class VPuesto extends javax.swing.JFrame {
         lblpuestox2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/places.png"))); // NOI18N
         jPanel1.add(lblpuestox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 110, 120));
 
-        fondopuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FondoP.png"))); // NOI18N
+        fondopuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR15.png"))); // NOI18N
         jPanel1.add(fondopuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 700));

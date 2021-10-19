@@ -68,8 +68,8 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setText("SAAK");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 500, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLOR13.jpg"))); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 750));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/FONDOCOLORMENU.jpg"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 750));
 
         jMenuBar1.setBackground(new java.awt.Color(45, 54, 73));
         jMenuBar1.setForeground(new java.awt.Color(0, 153, 204));
