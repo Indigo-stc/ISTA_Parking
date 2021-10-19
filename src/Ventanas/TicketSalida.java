@@ -34,7 +34,7 @@ public class TicketSalida extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
-        txtTicketSalida = new javax.swing.JTextField();
+        txtTicketIngreso = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnGenerar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -55,12 +55,12 @@ public class TicketSalida extends javax.swing.JFrame {
         jLabel5.setText("¡TICKET SALIDA!");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
-        txtTicketSalida.addActionListener(new java.awt.event.ActionListener() {
+        txtTicketIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTicketSalidaActionPerformed(evt);
+                txtTicketIngresoActionPerformed(evt);
             }
         });
-        getContentPane().add(txtTicketSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 360, -1));
+        getContentPane().add(txtTicketIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 360, -1));
 
         jLabel1.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -122,14 +122,14 @@ public class TicketSalida extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTicketSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTicketSalidaActionPerformed
+    private void txtTicketIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTicketIngresoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTicketSalidaActionPerformed
+    }//GEN-LAST:event_txtTicketIngresoActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         try {
             PgConect con = new PgConect();
-            ResultSet idingreso = con.pkTicketIng(txtTicketSalida.getText());
+            ResultSet idingreso = con.pkTicketIng(txtTicketIngreso.getText());
 
             if (idingreso.next()) {
                 int si = JOptionPane.showConfirmDialog(null, "Confirmar accion",
@@ -144,8 +144,8 @@ public class TicketSalida extends javax.swing.JFrame {
                                     idTarifa.getShort("idtarifa"));
                             con.insTSal(tick.getId_tsalida(), tick.getId_tinicio(),
                                     tick.getIdTarifa(), tick.getFecha_salida());
-                            
-                            
+                            con.desOcupaPue(idingreso.getShort("idpuesto"));
+                            buscar("");
                         } else {
                             JOptionPane.showMessageDialog(rootPane, "A un T. Salida le corresponde un solo T. Ingreso");
                         }
@@ -154,13 +154,10 @@ public class TicketSalida extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Ticket no existente");
             }
-            int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...",JOptionPane.YES_NO_CANCEL_OPTION,
+            int si = JOptionPane.showConfirmDialog(rootPane, " ¿Generar PDF?", "CREANDO PDF...",JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE);
             if(JOptionPane.OK_OPTION == si){
                 crearPDF();
-                
-            }else{
-            
             }
             
         } catch (SQLException ex) {
@@ -239,11 +236,23 @@ public class TicketSalida extends javax.swing.JFrame {
             float startX = mediabox.getLowerLeftX() + margin;
             float startY = mediabox.getUpperRightY() - margin;
             PgConect con = new PgConect();
-            ResultSet prueba = con.buscarTicketsSal(txtTicketSalida.getText());
-            String text = null;
+            ResultSet prueba = con.buscarTicketsSal(txtTicketIngreso.getText());
+            String text = "";
             if (prueba.next()) {
-                text = "                          --TICKET SALIDA--                  TICKET INGRESO: " + prueba.getString("idticketing") + "                  TICKET SALIDA: " + prueba.getString("idticketsal") 
-                        + "                       COSTO : " + prueba.getString("costo_hora");
+                text = "TICKET SALIDA --> " + prueba.getString(1) + "                  "
+                        + "TICKET INGRESO: " + prueba.getString(2) + "                         "
+                        + "Cedula: " + prueba.getString(3) + "                                      "
+                        + "Costo_Hora: " + prueba.getString(4) + "                                                            "
+                        + "F. Ingreso: " + prueba.getString(5) + "                                                            "
+                        + "F. Salida: " + prueba.getString(6) + "                                                             "
+                        + "Tiempo: " + prueba.getString(7) + "min                                                             "
+                        + "Precio final: " + prueba.getString(8) + "$";
+//                text = String.format(" %s %s%n %s %s%n %s %s%n %s %s%n %s %s%n %s %s%n %s %f%n %s %f%n", 
+//                        "TICKET SALIDA -->", prueba.getString(1),
+//                        "ID ingreso:", prueba.getString(2), "Cedula:", prueba.getString(3),
+//                        "Costo_Hora:", prueba.getString(4), "F. Ingreso:", prueba.getString(5),
+//                        "F. Salida:", prueba.getString(6), "Tiempo:", prueba.getDouble(7),
+//                        "Precio final:", prueba.getDouble(8));
             }
 
             List<String> lines = new ArrayList<String>();
@@ -299,7 +308,7 @@ public class TicketSalida extends javax.swing.JFrame {
             contentStream.endText();
             contentStream.close();
 
-            doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\TicketSalida.pdf");
+            doc.save("C:\\Users\\ANDRES\\Documents\\Proyecto\\PDFS\\Salida.pdf");
         } catch (IOException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -314,8 +323,7 @@ public class TicketSalida extends javax.swing.JFrame {
             }
         }
     }
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGenerar;
@@ -326,7 +334,7 @@ public class TicketSalida extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblfondo;
     private javax.swing.JTable tblTisalida;
-    private javax.swing.JTextField txtTicketSalida;
+    private javax.swing.JTextField txtTicketIngreso;
     private javax.swing.JTextField txtbuscar;
     private javax.swing.JLabel xdxdxdxd;
     // End of variables declaration//GEN-END:variables

@@ -228,7 +228,7 @@ public class PgConect {
     
     public boolean insDetR(String iddetalle, String idalquiler, String placa, short idpuesto, int costo) {
         String nquery = "INSERT INTO detallesalquiler ("
-                + "iddetalle, idalquiler, placa, idpuesto, costo) "
+                + "iddetalle, idalquiler, placa, idpuesto, idtarifa) "
                 + "VALUES ('" + iddetalle + "', '" + idalquiler + "', '" + placa + "', '" + idpuesto + "', " + costo + ");";
         if (noQuery(nquery) == null) {
             return true;
@@ -616,8 +616,15 @@ public class PgConect {
     
     public boolean ocupaPue(short idpuesto) {
         String sql = "UPDATE puestos "
+                + "SET ocupado = TRUE "
+                + "WHERE idpuesto = "+ idpuesto +";";
+        return noQuery(sql) == null;
+    }
+    
+    public boolean desOcupaPue(short idpuesto) {
+        String sql = "UPDATE puestos "
                 + "SET ocupado = FALSE "
-                + "WHERE idpuesto = '"+ idpuesto +"';";
+                + "WHERE idpuesto = "+ idpuesto +";";
         return noQuery(sql) == null;
     }
     
@@ -670,18 +677,24 @@ public class PgConect {
     }
     
     
-    public ResultSet buscarTicketsSal(String cedula) {
-        String sql;
-        if (cedula.trim().equals("")) {
-            sql = "SELECT ticketsing.idticketing,ticketssal.idticketsal,tarifas.costo_hora "
-                    + " FROM ticketssal,ticketsing,tarifas "
-                    + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa;";
-        } else {
-            sql = " SELECT ticketsing.idticketing, ticketssal.idticketsal, tarifas.costo_hora, clientes.idcliente "
-                    + "  FROM ticketssal, ticketsing, tarifas, clientes "
-                    + " WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
-                    + "   AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing LIKE '" + cedula + "%';";
-        }
+    public ResultSet buscarTicketsSal(String cadena) {
+        String sql = "SELECT ticketssal.idticketsal, ticketsing.idticketing, clientes.idpersona, tarifas.costo_hora,  "
+                + "fechaing::time, fechasal::time, "
+                + "extract(min from (fechasal - fechaing)) as Tiempo, "
+                + "extract(min from (fechasal - fechaing))*(costo_hora/60) as CostoTolatal "
+                + "FROM ticketssal, ticketsing, tarifas, clientes "
+                + "WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
+                + "AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing = '"+ cadena +"';";
+        return query(sql);
+    }
+    
+    public ResultSet buscarDetXAlquiler(String alquiler) {
+        String sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, costo_hora, "
+                + "detallesalquiler.idpuesto, fechaing, fechasal, (fechasal - fechaing), "
+                + "(fechasal - fechaing)*(costo_hora*24) "
+                + "FROM alquileres, detallesalquiler, tarifas "
+                + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                + "AND tarifas.idtarifa = detallesalquiler.idtarifa AND detallesalquiler.idalquiler = '"+ alquiler +"';";
         return query(sql);
     }
        
@@ -729,5 +742,23 @@ public class PgConect {
         }
         return query(sql);
     }
-
+    
+    public boolean elimAlquilerSinUsar(String idalquiler) {
+        String sql = "DELETE FROM alquileres "
+                + "WHERE idalquiler = '"+ idalquiler +"'";
+        return noQuery(sql) == null;
+    }
+    
+    public boolean alquilerXdetalle(String alquiler) {
+        String sql = "SELECT * FROM detallesalquiler "
+                + "WHERE idalquiler = '"+ alquiler +"'";
+        try {
+            if (query(sql).next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

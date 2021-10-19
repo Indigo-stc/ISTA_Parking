@@ -104,7 +104,7 @@ public class Ingreso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUsuarioMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioMActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtUsuarioMActionPerformed
 
     private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
@@ -126,7 +126,6 @@ public class Ingreso extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInicioActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 

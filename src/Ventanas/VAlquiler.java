@@ -12,29 +12,22 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class VReserva extends javax.swing.JFrame {
+public class VAlquiler extends javax.swing.JFrame {
 
     String idempleado;
 
-    public VReserva(String idempleado) {
+    public VAlquiler(String idempleado) {
         initComponents();
         setLocationRelativeTo(null);
         this.idempleado = idempleado;
-        try {
             buscar("");
-        } catch (SQLException ex) {
-            Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
-    public VReserva() {
-        try {
-            initComponents();
-            setLocationRelativeTo(null);
-            buscar("");
-        } catch (SQLException ex) {
-            Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public VAlquiler() {
+        initComponents();
+        setLocationRelativeTo(null);
+        buscar("");
+
     }
 
     @SuppressWarnings("unchecked")
@@ -215,11 +208,7 @@ public class VReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void txtBuscarAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarAKeyReleased
-        try {
-            buscar(txtBuscarA.getText());
-        } catch (SQLException ex) {
-            Logger.getLogger(VReserva.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        buscar(txtBuscarA.getText());
     }//GEN-LAST:event_txtBuscarAKeyReleased
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -241,15 +230,11 @@ public class VReserva extends javax.swing.JFrame {
         fechaSalida.setDate(null);
     }
 
-    private void buscar(String idpersona) throws SQLException {
+    private void buscar(String idpersona) {
         DefaultTableModel modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column == 3 || column == 4) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return column == 3 || column == 4;
             }
         };
         PgConect conec = new PgConect();
@@ -262,7 +247,7 @@ public class VReserva extends javax.swing.JFrame {
         modelo.addColumn("F.Salida");
 
         tblReserva.setModel(modelo);
-        String sql = " ";
+        String sql = "";
         if (idpersona.trim().equals("")) {
             sql = "SELECT idalquiler, clientes.idpersona, empleados.idempleado, fechaing, fechasal "
                     + "FROM alquileres, clientes, empleados "
@@ -287,7 +272,6 @@ public class VReserva extends javax.swing.JFrame {
                 Usuarios[3] = resul.getString(4);
                 Usuarios[4] = resul.getString(5);
                 modelo.addRow(Usuarios);
-
             }
             tblReserva.setModel(modelo);
         } catch (SQLException ex) {
@@ -295,7 +279,38 @@ public class VReserva extends javax.swing.JFrame {
         }
 
     }
+    
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(VAlquiler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(VAlquiler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(VAlquiler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(VAlquiler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new VAlquiler().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpiar;

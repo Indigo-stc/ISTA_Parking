@@ -419,7 +419,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
             contentStream.endText();
             contentStream.close();
 
-            doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\TICKETINGRESO.pdf");
+            doc.save("C:\\Users\\ANDRES\\Documents\\Proyecto\\PDFS\\Ingreso.pdf");
         } catch (IOException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -434,8 +434,7 @@ public class CTicketIngreso extends javax.swing.JFrame {
             }
         }
     }
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGenerar;
