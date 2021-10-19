@@ -245,18 +245,23 @@ public class VDetalles extends javax.swing.JFrame {
     private void btnGeneraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneraActionPerformed
         PgConect con = new PgConect();
         for (int i = 0; i < dt.size(); i++) {
-            if (con.insDetR(dt.get(i).getIddetalle(), idalquiler, dt.get(i).getPlaca(), 
+            if (con.insDetR(dt.get(i).getIddetalle(), idalquiler, dt.get(i).getPlaca(),
                     dt.get(i).getPuesto(), dt.get(i).getIdtarifa())) {
                 buscar("");
-                int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...", JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE);
-                if (JOptionPane.OK_OPTION == si) {
-                    crearPDF(idalquiler);
-                }
-                JOptionPane.showMessageDialog(rootPane, "Abrir la ventana Alquiler para nuevo registro");
-                this.dispose();
             }
+            System.out.println(idalquiler);
+            System.out.println(idalquiler);
+            System.out.println(idalquiler);
+            System.out.println(idalquiler);
         }
+        
+        int si = JOptionPane.showConfirmDialog(rootPane, "¿Generar PDF?", "CREANDO PDF...", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        if (JOptionPane.OK_OPTION == si) {
+            crearPDF(idalquiler);
+        }
+        JOptionPane.showMessageDialog(rootPane, "Abrir la ventana Alquiler para nuevo registro");
+        this.dispose();
 
     }//GEN-LAST:event_btnGeneraActionPerformed
 
@@ -295,9 +300,6 @@ public class VDetalles extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int index = tblAgregar.getSelectedRow();
-        System.out.println(index);
-        System.out.println(index);
-        System.out.println(index);
         dt.remove(index);
         updateTable();
         PgConect con = new PgConect();
@@ -323,13 +325,13 @@ public class VDetalles extends javax.swing.JFrame {
         modelo.addColumn("ID Tarifa");
 
         tblDetReserva.setModel(modelo);
-        String sql = " ";
-        if (placa.trim().equals(" ")) {
-            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
+        String sql = "";
+        if (placa.trim().equals("")) {
+            sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, tarifas.idtarifa "
                     + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
                     + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
                     + "AND vehiculos.placa = detallesalquiler.placa AND puestos.idpuesto = detallesalquiler.idpuesto "
-                    + "AND tarifas.idtarifa = detallesalquiler.costo;";
+                    + "AND tarifas.idtarifa = detallesalquiler.idtarifa;";
         } else {
             sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, detallesalquiler.idpuesto, idtarifa "
                     + "FROM alquileres, detallesalquiler, tarifas, vehiculos, puestos "
@@ -379,7 +381,6 @@ public class VDetalles extends javax.swing.JFrame {
         ));
 
     }
-    
 
     public void crearPDF(String placa) {
 
@@ -400,12 +401,17 @@ public class VDetalles extends javax.swing.JFrame {
             float startX = mediabox.getLowerLeftX() + margin;
             float startY = mediabox.getUpperRightY() - margin;
             PgConect con = new PgConect();
-            ResultSet prueba = con.buscarDetalle(txtPlaca.getText());
-            String text = null;
-            if (prueba.next()) {
-                text = "                         -- DETALLE RESERVA --                       ID DETALLE: " + prueba.getString("iddetalle") + "                               ID ALQUILER: " + prueba.getString("idalquiler") + "                                        "
-                        + "       PLACA: " + prueba.getString("placa")
-                        + "                                                    ID PUESTO: " + prueba.getString("idpuesto") + "                                                          COSTO: " + prueba.getString("idtarifa");
+            ResultSet prueba = con.buscarDetXAlquiler(idalquiler);
+            String text = "";
+            while (prueba.next()) {
+//                text = "                         -- DETALLE RESERVA --                       ID DETALLE: " + prueba.getString("iddetalle") + "                               ID ALQUILER: " + prueba.getString("idalquiler") + "                                        "
+//                        + "       PLACA: " + prueba.getString("placa")
+//                        + "                                                    ID PUESTO: " + prueba.getString("idpuesto") + "                                                          COSTO: " + prueba.getString("idtarifa");
+                text = text + "                         -- DETALLE RESERVA --                       ID DETALLE: " + prueba.getString(1) + "                               ID ALQUILER: " + prueba.getString(2) + "                                        "
+                        + "       PLACA: " + prueba.getString(3)
+                        + "                                                    COSTO_HORA: " + prueba.getString(4) + "                                                          PUESTO: " + prueba.getString(5) + "                                         "
+                        + "                                                    F. INGRESO: " + prueba.getDate(6) + "                                                          F. SALIDA: " + prueba.getDate(7) + "                                         "
+                        + "                                                    DIAS: " + prueba.getDouble(8) + "                                                          SUBTOTAL: " + prueba.getString(9);
             }
             List<String> lines = new ArrayList<String>();
             int lastSpace = -1;
@@ -460,7 +466,7 @@ public class VDetalles extends javax.swing.JFrame {
             contentStream.endText();
             contentStream.close();
 
-            doc.save("C:\\SEGUNDO CICLO\\POO\\PDF\\DETALLE.pdf");
+            doc.save("C:\\Users\\ANDRES\\Documents\\Proyecto\\PDFS\\ALQUILER.pdf");
         } catch (IOException ex) {
             Logger.getLogger(CTicketIngreso.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -507,7 +513,7 @@ public class VDetalles extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel FondoDet;
     private javax.swing.JButton btnAgregar;

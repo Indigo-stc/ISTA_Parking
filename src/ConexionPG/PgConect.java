@@ -228,7 +228,7 @@ public class PgConect {
     
     public boolean insDetR(String iddetalle, String idalquiler, String placa, short idpuesto, int costo) {
         String nquery = "INSERT INTO detallesalquiler ("
-                + "iddetalle, idalquiler, placa, idpuesto, costo) "
+                + "iddetalle, idalquiler, placa, idpuesto, idtarifa) "
                 + "VALUES ('" + iddetalle + "', '" + idalquiler + "', '" + placa + "', '" + idpuesto + "', " + costo + ");";
         if (noQuery(nquery) == null) {
             return true;
@@ -685,6 +685,16 @@ public class PgConect {
                 + "FROM ticketssal, ticketsing, tarifas, clientes "
                 + "WHERE ticketssal.idticketing = ticketsing.idticketing AND ticketssal.idtarifa = tarifas.idtarifa "
                 + "AND clientes.idcliente = ticketsing.idcliente AND ticketsing.idticketing = '"+ cadena +"';";
+        return query(sql);
+    }
+    
+    public ResultSet buscarDetXAlquiler(String alquiler) {
+        String sql = "SELECT iddetalle, detallesalquiler.idalquiler, detallesalquiler.placa, costo_hora, "
+                + "detallesalquiler.idpuesto, fechaing, fechasal, (fechasal - fechaing), "
+                + "(fechasal - fechaing)*(costo_hora*24) "
+                + "FROM alquileres, detallesalquiler, tarifas "
+                + "WHERE alquileres.idalquiler = detallesalquiler.idalquiler "
+                + "AND tarifas.idtarifa = detallesalquiler.idtarifa AND detallesalquiler.idalquiler = '"+ alquiler +"';";
         return query(sql);
     }
        
