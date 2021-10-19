@@ -76,7 +76,6 @@ public class REmpleado extends javax.swing.JFrame {
         lblVfyContra = new javax.swing.JLabel();
         lblVfyFecha = new javax.swing.JLabel();
         lblVfyRol = new javax.swing.JLabel();
-        botonSalir = new javax.swing.JButton();
         rbM = new javax.swing.JRadioButton();
         rbF = new javax.swing.JRadioButton();
         fecha = new com.toedter.calendar.JDateChooser();
@@ -275,17 +274,6 @@ public class REmpleado extends javax.swing.JFrame {
         getContentPane().add(lblVfyContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 340, 170, 10));
         getContentPane().add(lblVfyFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 180, 170, 10));
         getContentPane().add(lblVfyRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 230, 170, 10));
-
-        botonSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/taskbar_start_menu.png"))); // NOI18N
-        botonSalir.setText("Menú");
-        botonSalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        botonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonSalirActionPerformed(evt);
-            }
-        });
-        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 100, 50));
 
         b_GroupEmpleados.add(rbM);
         rbM.setFont(new java.awt.Font("Cascadia Code", 1, 14)); // NOI18N
@@ -553,12 +541,6 @@ public class REmpleado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCorreoFocusLost
 
-    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
-        Menu me = new Menu();
-        me.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_botonSalirActionPerformed
-
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char validar = evt.getKeyChar();
         if (Character.isLetter(validar) 
@@ -822,7 +804,6 @@ public class REmpleado extends javax.swing.JFrame {
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonLimpiar;
     private javax.swing.JButton botonRegistrar;
-    private javax.swing.JButton botonSalir;
     private javax.swing.JComboBox<String> cbRol;
     private com.toedter.calendar.JDateChooser fecha;
     private javax.swing.JLabel jLabel1;

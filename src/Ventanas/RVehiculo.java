@@ -66,7 +66,6 @@ public class RVehiculo extends javax.swing.JFrame {
         txt_IDCli = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        btnSalir = new javax.swing.JButton();
         btn_Insert = new javax.swing.JButton();
         vrfPlaca = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -99,7 +98,6 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 580, 170, 40));
 
         jLabel2.setFont(new java.awt.Font("Cascadia Code", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("¡REGISTRO VEHÍCULO!");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
@@ -112,12 +110,10 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(txt_Model, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 130, 300, -1));
 
         jLabel5.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Modelo");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 90, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Tipo");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, -1, -1));
 
@@ -126,25 +122,12 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(txt_IDCli, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 270, -1));
 
         jLabel4.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("ID Cliente");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Cascadia Code", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Placa");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, -1, -1));
-
-        btnSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/taskbar_start_menu.png"))); // NOI18N
-        btnSalir.setText("Menú");
-        btnSalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 50));
 
         btn_Insert.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
         btn_Insert.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoGuardar.png"))); // NOI18N
@@ -178,7 +161,6 @@ public class RVehiculo extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 920, 200));
 
         lblBusqueda.setFont(new java.awt.Font("Cascadia Code", 0, 18)); // NOI18N
-        lblBusqueda.setForeground(new java.awt.Color(0, 0, 0));
         lblBusqueda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/find.png"))); // NOI18N
         lblBusqueda.setText("Busqueda");
         jPanel1.add(lblBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 120, -1));
@@ -254,12 +236,6 @@ public class RVehiculo extends javax.swing.JFrame {
             Logger.getLogger(RVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_InsertActionPerformed
-
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        Menu me = new Menu();
-        me.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txt_PlacaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_PlacaFocusLost
         if (!Val.placa(txt_Placa.getText())) {
@@ -395,7 +371,6 @@ public class RVehiculo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btn_Insert;
     private javax.swing.JComboBox<String> cb_Tipo;
     private javax.swing.JLabel fondo;

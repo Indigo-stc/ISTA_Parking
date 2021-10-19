@@ -58,7 +58,6 @@ public class RCliente extends javax.swing.JFrame {
         botonRegistrar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
         botonLimpiar = new javax.swing.JButton();
-        botonSalir = new javax.swing.JButton();
         lblvrfCedula = new javax.swing.JLabel();
         lblvrfNombre = new javax.swing.JLabel();
         lblvrfApellidos = new javax.swing.JLabel();
@@ -241,19 +240,6 @@ public class RCliente extends javax.swing.JFrame {
         });
         getContentPane().add(botonLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 580, 170, 40));
 
-        botonSalir.setFont(new java.awt.Font("Cascadia Code", 1, 12)); // NOI18N
-        botonSalir.setForeground(new java.awt.Color(0, 0, 0));
-        botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/taskbar_start_menu.png"))); // NOI18N
-        botonSalir.setText("Menú");
-        botonSalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        botonSalir.setBorderPainted(false);
-        botonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonSalirActionPerformed(evt);
-            }
-        });
-        getContentPane().add(botonSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 110, 50));
-
         lblvrfCedula.setBackground(new java.awt.Color(255, 0, 0));
         lblvrfCedula.setForeground(new java.awt.Color(255, 0, 0));
         lblvrfCedula.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -292,12 +278,22 @@ public class RCliente extends javax.swing.JFrame {
 
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Cédula", "Nombres", "Apellidos", "Fecha N.", "Celular", "Correo", "Género", "activo"
+                "ID", "Cédula", "Nombres", "Apellidos", "Fecha N.", "Celular", "Correo", "Género"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaClientesMouseClicked(evt);
@@ -446,12 +442,6 @@ public class RCliente extends javax.swing.JFrame {
             lblvrfCorreo.setText(null);
         }
     }//GEN-LAST:event_txtCorreoFocusLost
-
-    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
-        Menu me = new Menu();
-        me.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_botonSalirActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char validar = evt.getKeyChar();
@@ -653,7 +643,6 @@ public class RCliente extends javax.swing.JFrame {
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonLimpiar;
     private javax.swing.JButton botonRegistrar;
-    private javax.swing.JButton botonSalir;
     private javax.swing.JButton btnSalir;
     private com.toedter.calendar.JDateChooser fechaNa;
     private javax.swing.JLabel jLabel10;
