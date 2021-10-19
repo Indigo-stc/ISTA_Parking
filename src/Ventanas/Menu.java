@@ -50,6 +50,7 @@ public class Menu extends javax.swing.JFrame {
         mniCliente = new javax.swing.JMenuItem();
         mniEmpleado = new javax.swing.JMenuItem();
         mniReserva = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         mniPuesto = new javax.swing.JMenuItem();
         mniVehiculo = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -101,13 +102,22 @@ public class Menu extends javax.swing.JFrame {
         jMenu1.add(mniEmpleado);
 
         mniReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
-        mniReserva.setText("Reserva");
+        mniReserva.setText("Alquiler");
         mniReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniReservaActionPerformed(evt);
             }
         });
         jMenu1.add(mniReserva);
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
+        jMenuItem3.setText("Detalle Alquiler");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
 
         mniPuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bullet_white_alt.png"))); // NOI18N
         mniPuesto.setText("Puesto");
@@ -177,21 +187,11 @@ public class Menu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jMenu2MouseClicked
 
-    private void mniClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniClienteMouseClicked
-        
-    }//GEN-LAST:event_mniClienteMouseClicked
-
     private void mniEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEmpleadoActionPerformed
         REmpleado re = new REmpleado();
         re.setVisible(true);
        
     }//GEN-LAST:event_mniEmpleadoActionPerformed
-
-    private void mniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClienteActionPerformed
-        RCliente rc = new RCliente();
-        rc.setVisible(true);
-       
-    }//GEN-LAST:event_mniClienteActionPerformed
 
     private void mniVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniVehiculoActionPerformed
         RVehiculo ve= new RVehiculo();
@@ -206,13 +206,11 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_mniPuestoActionPerformed
 
     private void mniReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniReservaActionPerformed
-        VReserva rsv = new VReserva(idempleado);
+        VAlquiler rsv = new VAlquiler(idempleado);
         rsv.setVisible(true);
- 
     }//GEN-LAST:event_mniReservaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
         CTicketIngreso t =new CTicketIngreso(idempleado);
         t.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -222,6 +220,52 @@ public class Menu extends javax.swing.JFrame {
         tks.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void mniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClienteActionPerformed
+        RCliente rc = new RCliente();
+        rc.setVisible(true);
+
+    }//GEN-LAST:event_mniClienteActionPerformed
+
+    private void mniClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mniClienteMouseClicked
+
+    }//GEN-LAST:event_mniClienteMouseClicked
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        VDetalles det = new VDetalles();
+        det.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Menu().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -231,6 +275,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem mniCliente;
     private javax.swing.JMenuItem mniEmpleado;

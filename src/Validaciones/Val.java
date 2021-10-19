@@ -40,16 +40,8 @@ public class Val {
         return (id.length() != 7);
     }
     
-    public static boolean Precio(double precio){
-        if(String.valueOf(precio).matches("[0-9]*{5}")){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
     public static boolean Fecha(Date fechaingreso, Date fechaSalida){
-        return fechaingreso.getTime()>fechaSalida.getTime();
+        return fechaingreso.getTime() < fechaSalida.getTime();
     }
     
     public static boolean digVfy(String cedula) {
@@ -78,7 +70,7 @@ public class Val {
             if ((sum - (sum % 10) + 10 - sum) == digits[9])
                 return true;
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         return false;
     }

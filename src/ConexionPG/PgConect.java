@@ -617,14 +617,14 @@ public class PgConect {
     public boolean ocupaPue(short idpuesto) {
         String sql = "UPDATE puestos "
                 + "SET ocupado = TRUE "
-                + "WHERE idpuesto = '"+ idpuesto +"';";
+                + "WHERE idpuesto = "+ idpuesto +";";
         return noQuery(sql) == null;
     }
     
     public boolean desOcupaPue(short idpuesto) {
         String sql = "UPDATE puestos "
                 + "SET ocupado = FALSE "
-                + "WHERE idpuesto = '"+ idpuesto +"';";
+                + "WHERE idpuesto = "+ idpuesto +";";
         return noQuery(sql) == null;
     }
     
@@ -732,5 +732,23 @@ public class PgConect {
         }
         return query(sql);
     }
-
+    
+    public boolean elimAlquilerSinUsar(String idalquiler) {
+        String sql = "DELETE FROM alquileres "
+                + "WHERE idalquiler = '"+ idalquiler +"'";
+        return noQuery(sql) == null;
+    }
+    
+    public boolean alquilerXdetalle(String alquiler) {
+        String sql = "SELECT * FROM detallesalquiler "
+                + "WHERE idalquiler = '"+ alquiler +"'";
+        try {
+            if (query(sql).next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PgConect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }
